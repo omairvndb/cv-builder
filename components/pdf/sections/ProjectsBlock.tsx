@@ -2,9 +2,9 @@ import { View, Text, Link } from "@react-pdf/renderer";
 import type { Section, ProjectsData } from "@/lib/schemas";
 import { styles } from "../styles";
 import { stripProtocol } from "@/lib/utils";
-import SectionTitle from "../SectionTitle";
-import Entry from "../Entry";
-import Description from "../Description";
+import SectionTitle from "../shared/SectionTitle";
+import Entry from "../shared/Entry";
+import Description from "../shared/Description";
 
 export default function ProjectsBlock({ section, first }: { section: Section; first: boolean }) {
   return (

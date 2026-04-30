@@ -1,6 +1,6 @@
 import { View, Text } from "@react-pdf/renderer";
 import type { ReactNode } from "react";
-import { styles } from "./styles";
+import { styles } from "../styles";
 
 interface EntryProps {
   title: string;

@@ -1,9 +1,9 @@
 import { View, Text } from "@react-pdf/renderer";
 import type { Section, ExperienceData } from "@/lib/schemas";
 import { styles } from "../styles";
-import SectionTitle from "../SectionTitle";
-import Entry from "../Entry";
-import Description from "../Description";
+import SectionTitle from "../shared/SectionTitle";
+import Entry from "../shared/Entry";
+import Description from "../shared/Description";
 
 export default function ExperienceBlock({ section, first }: { section: Section; first: boolean }) {
   return (

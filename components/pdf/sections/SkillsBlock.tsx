@@ -1,7 +1,7 @@
 import { View, Text } from "@react-pdf/renderer";
 import type { Section, SkillsData } from "@/lib/schemas";
 import { styles } from "../styles";
-import SectionTitle from "../SectionTitle";
+import SectionTitle from "../shared/SectionTitle";
 
 export default function SkillsBlock({ section }: { section: Section }) {
   return (

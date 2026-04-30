@@ -2,7 +2,7 @@ import { View, Text, Link } from "@react-pdf/renderer";
 import type { CV } from "@/lib/schemas";
 import { styles } from "../styles";
 import { stripProtocol } from "@/lib/utils";
-import SectionTitle from "../SectionTitle";
+import SectionTitle from "../shared/SectionTitle";
 
 export default function PersonalInfoBlock({ cv }: { cv: CV }) {
   return (

@@ -1,5 +1,5 @@
 import { View, Text } from "@react-pdf/renderer";
-import { styles } from "./styles";
+import { styles } from "../styles";
 
 export default function Description({ text }: { text: string }) {
   const lines = text.split("\n").filter((l) => l !== "");

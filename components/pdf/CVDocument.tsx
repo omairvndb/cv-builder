@@ -1,7 +1,7 @@
 import { Document, Page, View, Text } from "@react-pdf/renderer";
 import type { CV } from "@/lib/schemas";
 import { styles } from "./styles";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "./shared/SectionTitle";
 import PersonalInfoBlock from "./sections/PersonalInfoBlock";
 import SkillsBlock from "./sections/SkillsBlock";
 import CustomBlock from "./sections/CustomBlock";
