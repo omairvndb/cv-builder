@@ -2,6 +2,7 @@ import type { CV, Section, EducationData } from "@/lib/schemas";
 import { addSectionItem, removeSectionItem, updateSectionItem } from "@/lib/cv-helpers";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { PlusIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
@@ -66,7 +67,7 @@ export default function EducationSection({ cv, section, onUpdate }: Props) {
         );
       })}
       <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
-        Add education
+        <PlusIcon />Add education
       </Button>
     </div>
   );
