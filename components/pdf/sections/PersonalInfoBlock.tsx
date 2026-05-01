@@ -21,6 +21,11 @@ export default function PersonalInfoBlock({ cv }: { cv: CV }) {
           {stripProtocol(cv.github)}
         </Link>
       )}
+      {cv.website && (
+        <Link src={cv.website} style={styles.sbLink}>
+          {stripProtocol(cv.website)}
+        </Link>
+      )}
       {cv.driverLicense && <Text style={styles.sbText}>Rijbewijs: {cv.driverLicense}</Text>}
       {cv.dateOfBirth && <Text style={styles.sbText}>{cv.dateOfBirth}</Text>}
     </View>
