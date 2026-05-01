@@ -2,9 +2,9 @@ import type { CV, Section, ExperienceData } from "@/lib/schemas";
 import { addSectionItem, removeSectionItem, updateSectionItem } from "@/lib/cv-helpers";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import ItemBlock from "../shared/ItemBlock";
+import FormField from "../shared/FormField";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
 
@@ -41,35 +41,29 @@ export default function ExperienceSection({ cv, section, onUpdate }: Props) {
             onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
           >
             <div className="grid grid-cols-2 gap-3">
-              <div className="col-span-2 flex flex-col gap-1.5">
-                <Label>Role</Label>
+              <FormField label="Role" className="col-span-2">
                 <Input value={data.role} onChange={set("role")} />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label>Company</Label>
+              </FormField>
+              <FormField label="Company">
                 <Input value={data.company} onChange={set("company")} />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label>Location</Label>
+              </FormField>
+              <FormField label="Location">
                 <Input
                   value={data.location ?? ""}
                   onChange={set("location")}
                   placeholder="e.g. Antwerpen"
                 />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label>Start Date</Label>
+              </FormField>
+              <FormField label="Start Date">
                 <Input value={data.startDate} onChange={set("startDate")} placeholder="Jan 2023" />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label>End Date</Label>
+              </FormField>
+              <FormField label="End Date">
                 <Input value={data.endDate} onChange={set("endDate")} placeholder="Present" />
-              </div>
+              </FormField>
             </div>
-            <div className="flex flex-col gap-1.5">
-              <Label>Description</Label>
+            <FormField label="Description">
               <Textarea value={data.description} onChange={set("description")} rows={3} />
-            </div>
+            </FormField>
           </ItemBlock>
         );
       })}

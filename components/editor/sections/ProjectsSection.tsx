@@ -5,9 +5,9 @@ import type { CV, Section, SectionItem, ProjectsData } from "@/lib/schemas";
 import { addSectionItem, removeSectionItem, updateSectionItem } from "@/lib/cv-helpers";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import ItemBlock from "../shared/ItemBlock";
+import FormField from "../shared/FormField";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
 
@@ -34,16 +34,13 @@ function ProjectItem({
 
   return (
     <ItemBlock onRemove={onRemove}>
-      <div className="flex flex-col gap-1.5">
-        <Label>Title</Label>
+      <FormField label="Title">
         <Input value={data.title} onChange={set("title")} />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <Label>Description</Label>
+      </FormField>
+      <FormField label="Description">
         <Textarea value={data.description} onChange={set("description")} rows={3} />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <Label>Tech Stack</Label>
+      </FormField>
+      <FormField label="Tech Stack">
         <Input
           value={rawTechStack}
           placeholder="React, TypeScript, Prisma"
@@ -58,15 +55,14 @@ function ProjectItem({
             });
           }}
         />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <Label>Link</Label>
+      </FormField>
+      <FormField label="Link">
         <Input
           value={data.link ?? ""}
           onChange={set("link")}
           placeholder="https://github.com/..."
         />
-      </div>
+      </FormField>
     </ItemBlock>
   );
 }

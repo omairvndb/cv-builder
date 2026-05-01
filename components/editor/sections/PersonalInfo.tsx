@@ -1,18 +1,9 @@
 import type { CV } from "@/lib/schemas";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import FormField from "../shared/FormField";
 
 type Props = { cv: CV; onUpdate: (cv: CV) => void };
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <Label>{label}</Label>
-      {children}
-    </div>
-  );
-}
 
 export default function PersonalInfo({ cv, onUpdate }: Props) {
   const set =
@@ -24,45 +15,45 @@ export default function PersonalInfo({ cv, onUpdate }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <Field label="Name">
+      <FormField label="Name">
         <Input value={cv.name} onChange={set("name")} />
-      </Field>
-      <Field label="Job Title">
+      </FormField>
+      <FormField label="Job Title">
         <Input
           value={cv.title ?? ""}
           onChange={set("title", true)}
           placeholder="e.g. Software Developer"
         />
-      </Field>
+      </FormField>
       <div className="grid grid-cols-2 gap-3">
-        <Field label="Email">
+        <FormField label="Email">
           <Input value={cv.email} onChange={set("email")} />
-        </Field>
-        <Field label="Phone">
+        </FormField>
+        <FormField label="Phone">
           <Input value={cv.phone} onChange={set("phone")} />
-        </Field>
-        <Field label="Location">
+        </FormField>
+        <FormField label="Location">
           <Input value={cv.location} onChange={set("location")} />
-        </Field>
-        <Field label="Website">
+        </FormField>
+        <FormField label="Website">
           <Input value={cv.website ?? ""} onChange={set("website", true)} />
-        </Field>
-        <Field label="LinkedIn">
+        </FormField>
+        <FormField label="LinkedIn">
           <Input value={cv.linkedin ?? ""} onChange={set("linkedin", true)} />
-        </Field>
-        <Field label="GitHub">
+        </FormField>
+        <FormField label="GitHub">
           <Input value={cv.github ?? ""} onChange={set("github", true)} />
-        </Field>
-        <Field label="Driver's License">
+        </FormField>
+        <FormField label="Driver's License">
           <Input value={cv.driverLicense ?? ""} onChange={set("driverLicense", true)} />
-        </Field>
-        <Field label="Date of Birth">
+        </FormField>
+        <FormField label="Date of Birth">
           <Input value={cv.dateOfBirth ?? ""} onChange={set("dateOfBirth", true)} />
-        </Field>
+        </FormField>
       </div>
-      <Field label="Summary">
+      <FormField label="Summary">
         <Textarea value={cv.summary ?? ""} onChange={set("summary", true)} rows={4} />
-      </Field>
+      </FormField>
     </div>
   );
 }

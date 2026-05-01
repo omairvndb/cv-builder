@@ -4,9 +4,9 @@ import { useState } from "react";
 import type { CV, Section, SectionItem, SkillsData } from "@/lib/schemas";
 import { addSectionItem, removeSectionItem, updateSectionItem } from "@/lib/cv-helpers";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import ItemBlock from "../shared/ItemBlock";
+import FormField from "../shared/FormField";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
 
@@ -26,15 +26,13 @@ function SkillsItem({
 
   return (
     <ItemBlock onRemove={onRemove}>
-      <div className="flex flex-col gap-1.5">
-        <Label>Category</Label>
+      <FormField label="Category">
         <Input
           value={data.category}
           onChange={(e) => onUpdate({ ...data, category: e.target.value })}
         />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <Label>Skills</Label>
+      </FormField>
+      <FormField label="Skills">
         <Input
           value={rawItems}
           placeholder="React, TypeScript, Node.js"
@@ -49,7 +47,7 @@ function SkillsItem({
             });
           }}
         />
-      </div>
+      </FormField>
     </ItemBlock>
   );
 }
