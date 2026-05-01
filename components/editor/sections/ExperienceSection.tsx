@@ -46,13 +46,21 @@ export default function ExperienceSection({ cv, section, onUpdate }: Props) {
               <XIcon />
             </Button>
             <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1.5">
+              <div className="col-span-2 flex flex-col gap-1.5">
                 <Label>Role</Label>
                 <Input value={data.role} onChange={set("role")} />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label>Company</Label>
                 <Input value={data.company} onChange={set("company")} />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>Location</Label>
+                <Input
+                  value={data.location ?? ""}
+                  onChange={set("location")}
+                  placeholder="e.g. Antwerpen"
+                />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label>Start Date</Label>

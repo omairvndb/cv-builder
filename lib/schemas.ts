@@ -11,6 +11,7 @@ export type SectionType = z.infer<typeof SectionTypeSchema>;
 
 export const ExperienceDataSchema = z.object({
   company: z.string(),
+  location: z.string().optional(),
   role: z.string(),
   startDate: z.string(),
   endDate: z.string(),
@@ -19,6 +20,7 @@ export const ExperienceDataSchema = z.object({
 
 export const EducationDataSchema = z.object({
   institution: z.string(),
+  location: z.string().optional(),
   degree: z.string(),
   startDate: z.string(),
   endDate: z.string(),

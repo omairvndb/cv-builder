@@ -15,7 +15,7 @@ export default function ExperienceBlock({ section, first }: { section: Section; 
           <Entry
             key={item.id}
             title={data.role}
-            subtitle={data.company}
+            subtitle={data.location ? `${data.company} – ${data.location}` : data.company}
             right={
               <Text style={styles.entryDate}>
                 {data.startDate} – {data.endDate}

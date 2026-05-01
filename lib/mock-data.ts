@@ -27,7 +27,8 @@ export const mockCV: CV = {
           order: 0,
           data: {
             degree: "Graduaat Programmeren",
-            institution: "Thomas More Hogeschool, Antwerpen",
+            institution: "Thomas More Hogeschool",
+            location: "Antwerpen",
             startDate: "2024",
             endDate: "2026 (verwacht)",
           },
@@ -38,7 +39,8 @@ export const mockCV: CV = {
           order: 1,
           data: {
             degree: "Bachelor Industriële Wetenschappen",
-            institution: "Vrije Universiteit Brussel, Brussel",
+            institution: "Vrije Universiteit Brussel",
+            location: "Brussel",
             startDate: "2021",
             endDate: "2023",
             description:
@@ -51,7 +53,8 @@ export const mockCV: CV = {
           order: 2,
           data: {
             degree: "Economie-Wiskunde",
-            institution: "Atheneum Willebroek, Willebroek",
+            institution: "Atheneum Willebroek",
+            location: "Willebroek",
             startDate: "2016",
             endDate: "2020",
             description: "Secundair diploma behaald",
@@ -73,7 +76,8 @@ export const mockCV: CV = {
           order: 0,
           data: {
             role: "Software Developer (Stage)",
-            company: "Brightest, Kontich",
+            company: "Brightest",
+            location: "Kontich",
             startDate: "November 2025",
             endDate: "Juni 2026",
             description:
@@ -86,7 +90,8 @@ export const mockCV: CV = {
           order: 1,
           data: {
             role: "Klantendienstmedewerker (Studentenjob)",
-            company: "Landmeters- en Studiebureau Van Opstal, Puurs",
+            company: "Landmeters- en Studiebureau Van Opstal",
+            location: "Puurs",
             startDate: "Juli 2024",
             endDate: "September 2024",
             description:
@@ -99,7 +104,8 @@ export const mockCV: CV = {
           order: 2,
           data: {
             role: "Medewerker Compliance (Studentenjob)",
-            company: "Nu Skin, Brussel",
+            company: "Nu Skin",
+            location: "Brussel",
             startDate: "Juli 2022",
             endDate: "Augustus 2022",
             description:

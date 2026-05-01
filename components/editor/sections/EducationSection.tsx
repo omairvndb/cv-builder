@@ -44,13 +44,21 @@ export default function EducationSection({ cv, section, onUpdate }: Props) {
               <XIcon />
             </Button>
             <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1.5">
+              <div className="col-span-2 flex flex-col gap-1.5">
                 <Label>Degree</Label>
                 <Input value={data.degree} onChange={set("degree")} />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label>Institution</Label>
                 <Input value={data.institution} onChange={set("institution")} />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>Location</Label>
+                <Input
+                  value={data.location ?? ""}
+                  onChange={set("location")}
+                  placeholder="e.g. Antwerpen"
+                />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label>Start Date</Label>

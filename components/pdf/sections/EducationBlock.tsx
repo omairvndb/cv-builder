@@ -16,7 +16,7 @@ export default function EducationBlock({ section, first }: { section: Section; f
           <Entry
             key={item.id}
             title={data.degree}
-            subtitle={data.institution}
+            subtitle={data.location ? `${data.institution} – ${data.location}` : data.institution}
             right={
               <Text style={styles.entryDate}>
                 {data.startDate} – {data.endDate}
