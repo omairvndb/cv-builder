@@ -1,5 +1,6 @@
 import { Document, Page, View, Text } from "@react-pdf/renderer";
 import type { CV } from "@/lib/schemas";
+import { sortByOrder } from "@/lib/cv-helpers";
 import { styles } from "./styles";
 import SectionTitle from "./shared/SectionTitle";
 import PersonalInfoBlock from "./sections/PersonalInfoBlock";
@@ -10,16 +11,16 @@ import ExperienceBlock from "./sections/ExperienceBlock";
 import ProjectsBlock from "./sections/ProjectsBlock";
 
 export default function CVDocument({ cv }: { cv: CV }) {
-  const sidebarSections = cv.sections
-    .filter((s) => s.visible && (s.type === "SKILLS" || s.type === "CUSTOM"))
-    .sort((a, b) => a.order - b.order);
+  const sidebarSections = sortByOrder(
+    cv.sections.filter((s) => s.visible && (s.type === "SKILLS" || s.type === "CUSTOM"))
+  );
 
-  const mainSections = cv.sections
-    .filter(
+  const mainSections = sortByOrder(
+    cv.sections.filter(
       (s) =>
         s.visible && (s.type === "EDUCATION" || s.type === "EXPERIENCE" || s.type === "PROJECTS")
     )
-    .sort((a, b) => a.order - b.order);
+  );
 
   return (
     <Document>

@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import type { CV, Section, SectionItem, SkillsData } from "@/lib/schemas";
-import { addSectionItem, removeSectionItem, updateSectionItem } from "@/lib/cv-helpers";
+import {
+  addSectionItem,
+  removeSectionItem,
+  sortByOrder,
+  updateSectionItem,
+} from "@/lib/cv-helpers";
 import { Input } from "@/components/ui/input";
 import { PlusIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
@@ -54,7 +59,7 @@ function SkillsItem({
 }
 
 export default function SkillsSection({ cv, section, onUpdate }: Props) {
-  const items = [...section.items].sort((a, b) => a.order - b.order);
+  const items = sortByOrder(section.items);
 
   return (
     <div className="flex flex-col gap-3">

@@ -1,5 +1,9 @@
 import type { CV, Section, SectionItemData } from "@/lib/schemas";
 
+export function sortByOrder<T extends { order: number }>(xs: T[]): T[] {
+  return [...xs].sort((a, b) => a.order - b.order);
+}
+
 export function updateSection(cv: CV, sectionId: string, updater: (s: Section) => Section): CV {
   return { ...cv, sections: cv.sections.map((s) => (s.id === sectionId ? updater(s) : s)) };
 }

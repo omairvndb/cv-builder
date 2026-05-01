@@ -1,6 +1,7 @@
 "use client";
 
 import type { CV } from "@/lib/schemas";
+import { sortByOrder } from "@/lib/cv-helpers";
 import {
   Accordion,
   AccordionContent,
@@ -15,7 +16,7 @@ import ProjectsSection from "./sections/ProjectsSection";
 import CustomSection from "./sections/CustomSection";
 
 export default function EditorPanel({ cv, onUpdate }: { cv: CV; onUpdate: (cv: CV) => void }) {
-  const sortedSections = [...cv.sections].sort((a, b) => a.order - b.order);
+  const sortedSections = sortByOrder(cv.sections);
 
   return (
     <div className="w-105 shrink-0 border-r overflow-y-auto p-4">
