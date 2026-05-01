@@ -47,17 +47,19 @@ export const styles = StyleSheet.create({
   },
   sectionTitleFirst: { marginTop: 0 },
   sectionTitleSidebar: { borderBottomColor: SIDEBAR_BORDER },
+  sbRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    columnGap: 3,
+    marginBottom: 3,
+  },
   sbText: {
     fontSize: 8.5,
     color: TEXT,
-    lineHeight: 1.4,
-    marginBottom: 3,
   },
   sbLink: {
     fontSize: 8,
     color: TEXT,
-    lineHeight: 1.3,
-    marginBottom: 3,
     textDecoration: "none",
   },
   skillCat: {
