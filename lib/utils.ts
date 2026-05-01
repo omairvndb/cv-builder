@@ -8,3 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function stripProtocol(url: string) {
   return url.replace(/^https?:\/\/(www\.)?/, "");
 }
+
+export function ensureProtocol(url: string) {
+  return url.startsWith("http") ? url : `https://${url}`;
+}

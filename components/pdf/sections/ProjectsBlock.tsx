@@ -1,7 +1,7 @@
 import { View, Text, Link } from "@react-pdf/renderer";
 import type { Section, ProjectsData } from "@/lib/schemas";
 import { styles } from "../styles";
-import { stripProtocol } from "@/lib/utils";
+import { ensureProtocol, stripProtocol } from "@/lib/utils";
 import SectionTitle from "../shared/SectionTitle";
 import Entry from "../shared/Entry";
 import Description from "../shared/Description";
@@ -18,10 +18,7 @@ export default function ProjectsBlock({ section, first }: { section: Section; fi
             title={data.title}
             right={
               data.link ? (
-                <Link
-                  src={data.link.startsWith("http") ? data.link : `https://${data.link}`}
-                  style={styles.entryDate}
-                >
+                <Link src={ensureProtocol(data.link)} style={styles.entryDate}>
                   {stripProtocol(data.link)}
                 </Link>
               ) : undefined
