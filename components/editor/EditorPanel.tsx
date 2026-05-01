@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import PersonalInfo from "./sections/PersonalInfo";
+import PersonalInfoSection from "./sections/PersonalInfoSection";
 import ExperienceSection from "./sections/ExperienceSection";
 import EducationSection from "./sections/EducationSection";
 import SkillsSection from "./sections/SkillsSection";
@@ -24,7 +24,7 @@ export default function EditorPanel({ cv, onUpdate }: { cv: CV; onUpdate: (cv: C
         <AccordionItem value="personal-info">
           <AccordionTrigger>Personal Info</AccordionTrigger>
           <AccordionContent>
-            <PersonalInfo key={cv.presetId} cv={cv} onUpdate={onUpdate} />
+            <PersonalInfoSection key={cv.presetId} cv={cv} onUpdate={onUpdate} />
           </AccordionContent>
         </AccordionItem>
 

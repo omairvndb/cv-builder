@@ -1,4 +1,4 @@
-import type { CV, Section, EducationData } from "@/lib/schemas";
+import { emptyEducation, type CV, type Section, type EducationData } from "@/lib/schemas";
 import {
   addSectionItem,
   removeSectionItem,
@@ -13,8 +13,6 @@ import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
-
-const empty: EducationData = { institution: "", degree: "", startDate: "", endDate: "" };
 
 export default function EducationSection({ cv, section, onUpdate }: Props) {
   const items = sortByOrder(section.items);
@@ -71,7 +69,10 @@ export default function EducationSection({ cv, section, onUpdate }: Props) {
           </ItemBlock>
         );
       })}
-      <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
+      <Button
+        className="w-full"
+        onClick={() => onUpdate(addSectionItem(cv, section.id, emptyEducation))}
+      >
         <PlusIcon />
         Add education
       </Button>

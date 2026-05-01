@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import type { CV, Section, SectionItem, SkillsData } from "@/lib/schemas";
+import {
+  emptySkills,
+  type CV,
+  type Section,
+  type SectionItem,
+  type SkillsData,
+} from "@/lib/schemas";
 import {
   addSectionItem,
   removeSectionItem,
@@ -15,8 +21,6 @@ import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
-
-const empty: SkillsData = { category: "", items: [] };
 
 function SkillsItem({
   item,
@@ -71,7 +75,10 @@ export default function SkillsSection({ cv, section, onUpdate }: Props) {
           onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
         />
       ))}
-      <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
+      <Button
+        className="w-full"
+        onClick={() => onUpdate(addSectionItem(cv, section.id, emptySkills))}
+      >
         <PlusIcon />
         Add category
       </Button>

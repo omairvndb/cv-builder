@@ -1,4 +1,4 @@
-import type { CV, Section, CustomData } from "@/lib/schemas";
+import { emptyCustom, type CV, type Section, type CustomData } from "@/lib/schemas";
 import {
   addSectionItem,
   removeSectionItem,
@@ -12,8 +12,6 @@ import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
-
-const empty: CustomData = { content: "" };
 
 export default function CustomSection({ cv, section, onUpdate }: Props) {
   const items = sortByOrder(section.items);
@@ -39,7 +37,10 @@ export default function CustomSection({ cv, section, onUpdate }: Props) {
           </ItemBlock>
         );
       })}
-      <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
+      <Button
+        className="w-full"
+        onClick={() => onUpdate(addSectionItem(cv, section.id, emptyCustom))}
+      >
         <PlusIcon />
         Add entry
       </Button>

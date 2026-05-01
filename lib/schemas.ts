@@ -104,3 +104,29 @@ export type SectionItem = z.infer<typeof SectionItemSchema>;
 export type Section = z.infer<typeof SectionSchema>;
 export type CV = z.infer<typeof CVSchema>;
 export type Preset = z.infer<typeof PresetSchema>;
+
+export const emptyExperience: ExperienceData = {
+  company: "",
+  role: "",
+  startDate: "",
+  endDate: "",
+  description: "",
+};
+
+export const emptyEducation: EducationData = {
+  institution: "",
+  degree: "",
+  startDate: "",
+  endDate: "",
+};
+
+export const emptySkills: SkillsData = { category: "", items: [] };
+
+export const emptyProjects: ProjectsData = {
+  title: "",
+  description: "",
+  techStack: [],
+  link: undefined,
+};
+
+export const emptyCustom: CustomData = { content: "" };

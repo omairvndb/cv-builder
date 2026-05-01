@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import type { CV, Section, SectionItem, ProjectsData } from "@/lib/schemas";
+import {
+  emptyProjects,
+  type CV,
+  type Section,
+  type SectionItem,
+  type ProjectsData,
+} from "@/lib/schemas";
 import {
   addSectionItem,
   removeSectionItem,
@@ -16,8 +22,6 @@ import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
-
-const empty: ProjectsData = { title: "", description: "", techStack: [], link: undefined };
 
 function ProjectItem({
   item,
@@ -86,7 +90,10 @@ export default function ProjectsSection({ cv, section, onUpdate }: Props) {
           onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
         />
       ))}
-      <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
+      <Button
+        className="w-full"
+        onClick={() => onUpdate(addSectionItem(cv, section.id, emptyProjects))}
+      >
         <PlusIcon />
         Add project
       </Button>
