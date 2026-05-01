@@ -6,70 +6,45 @@ import SectionTitle from "../shared/SectionTitle";
 import { PdfIcon } from "../shared/PdfIcon";
 import { PDF_ICONS } from "../../../lib/pdfIcons";
 
+type InfoRow = {
+  icon: string;
+  label: string;
+  href?: string;
+};
+
+function buildRows(cv: CV): InfoRow[] {
+  return [
+    { icon: PDF_ICONS.envelope, label: cv.email },
+    cv.phone && { icon: PDF_ICONS.phone, label: cv.phone },
+    cv.location && { icon: PDF_ICONS.mapPin, label: cv.location },
+    cv.linkedin && {
+      icon: PDF_ICONS.linkedin,
+      label: stripProtocol(cv.linkedin),
+      href: cv.linkedin,
+    },
+    cv.github && { icon: PDF_ICONS.github, label: stripProtocol(cv.github), href: cv.github },
+    cv.website && { icon: PDF_ICONS.globe, label: stripProtocol(cv.website), href: cv.website },
+    cv.driverLicense && { icon: PDF_ICONS.car, label: `Rijbewijs: ${cv.driverLicense}` },
+    cv.dateOfBirth && { icon: PDF_ICONS.calendar, label: cv.dateOfBirth },
+  ].filter(Boolean) as InfoRow[];
+}
+
 export default function PersonalInfoBlock({ cv }: { cv: CV }) {
   return (
     <View>
       <SectionTitle title="Persoonlijke Info" sidebar first />
-
-      <View style={styles.sbRow}>
-        <PdfIcon d={PDF_ICONS.envelope} />
-        <Text style={styles.sbText}>{cv.email}</Text>
-      </View>
-
-      {cv.phone && (
-        <View style={styles.sbRow}>
-          <PdfIcon d={PDF_ICONS.phone} />
-          <Text style={styles.sbText}>{cv.phone}</Text>
+      {buildRows(cv).map((row, i) => (
+        <View key={i} style={styles.sbRow}>
+          <PdfIcon d={row.icon} />
+          {row.href ? (
+            <Link src={row.href} style={styles.sbText}>
+              {row.label}
+            </Link>
+          ) : (
+            <Text style={styles.sbText}>{row.label}</Text>
+          )}
         </View>
-      )}
-
-      {cv.location && (
-        <View style={styles.sbRow}>
-          <PdfIcon d={PDF_ICONS.mapPin} />
-          <Text style={styles.sbText}>{cv.location}</Text>
-        </View>
-      )}
-
-      {cv.linkedin && (
-        <View style={styles.sbRow}>
-          <PdfIcon d={PDF_ICONS.linkedin} />
-          <Link src={cv.linkedin} style={styles.sbLink}>
-            {stripProtocol(cv.linkedin)}
-          </Link>
-        </View>
-      )}
-
-      {cv.github && (
-        <View style={styles.sbRow}>
-          <PdfIcon d={PDF_ICONS.github} />
-          <Link src={cv.github} style={styles.sbLink}>
-            {stripProtocol(cv.github)}
-          </Link>
-        </View>
-      )}
-
-      {cv.website && (
-        <View style={styles.sbRow}>
-          <PdfIcon d={PDF_ICONS.globe} />
-          <Link src={cv.website} style={styles.sbLink}>
-            {stripProtocol(cv.website)}
-          </Link>
-        </View>
-      )}
-
-      {cv.driverLicense && (
-        <View style={styles.sbRow}>
-          <PdfIcon d={PDF_ICONS.car} />
-          <Text style={styles.sbText}>Rijbewijs: {cv.driverLicense}</Text>
-        </View>
-      )}
-
-      {cv.dateOfBirth && (
-        <View style={styles.sbRow}>
-          <PdfIcon d={PDF_ICONS.calendar} />
-          <Text style={styles.sbText}>{cv.dateOfBirth}</Text>
-        </View>
-      )}
+      ))}
     </View>
   );
 }
