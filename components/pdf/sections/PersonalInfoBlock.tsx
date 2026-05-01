@@ -4,7 +4,7 @@ import { styles } from "../styles";
 import { stripProtocol } from "@/lib/utils";
 import SectionTitle from "../shared/SectionTitle";
 import { PdfIcon } from "../shared/PdfIcon";
-import { PDF_ICONS } from "../../../lib/pdfIcons";
+import { PDF_ICONS } from "@/lib/pdf-icons";
 
 type InfoRow = {
   icon: string;
