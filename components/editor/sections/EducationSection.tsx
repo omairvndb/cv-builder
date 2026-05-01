@@ -67,7 +67,8 @@ export default function EducationSection({ cv, section, onUpdate }: Props) {
         );
       })}
       <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
-        <PlusIcon />Add education
+        <PlusIcon />
+        Add education
       </Button>
     </div>
   );

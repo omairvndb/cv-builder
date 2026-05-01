@@ -67,7 +67,8 @@ export default function SkillsSection({ cv, section, onUpdate }: Props) {
         />
       ))}
       <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
-        <PlusIcon />Add category
+        <PlusIcon />
+        Add category
       </Button>
     </div>
   );

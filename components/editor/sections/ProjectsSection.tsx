@@ -82,7 +82,8 @@ export default function ProjectsSection({ cv, section, onUpdate }: Props) {
         />
       ))}
       <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
-        <PlusIcon />Add project
+        <PlusIcon />
+        Add project
       </Button>
     </div>
   );

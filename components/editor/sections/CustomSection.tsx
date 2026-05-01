@@ -35,7 +35,8 @@ export default function CustomSection({ cv, section, onUpdate }: Props) {
         );
       })}
       <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
-        <PlusIcon />Add entry
+        <PlusIcon />
+        Add entry
       </Button>
     </div>
   );

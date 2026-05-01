@@ -69,7 +69,8 @@ export default function ExperienceSection({ cv, section, onUpdate }: Props) {
         );
       })}
       <Button className="w-full" onClick={() => onUpdate(addSectionItem(cv, section.id, empty))}>
-        <PlusIcon />Add experience
+        <PlusIcon />
+        Add experience
       </Button>
     </div>
   );
