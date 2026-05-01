@@ -56,10 +56,6 @@ export const styles = StyleSheet.create({
   sbText: {
     fontSize: 8.5,
     color: TEXT,
-  },
-  sbLink: {
-    fontSize: 8,
-    color: TEXT,
     textDecoration: "none",
   },
   skillCat: {
