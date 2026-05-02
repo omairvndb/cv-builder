@@ -1,5 +1,6 @@
 import { XIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent, CardAction } from "@/components/ui/card";
 import ConfirmDialog from "./ConfirmDialog";
 
 export default function ItemBlock({
@@ -10,17 +11,21 @@ export default function ItemBlock({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex flex-col gap-3 border py-5 px-3">
-      <ConfirmDialog
-        trigger={
-          <Button size="icon-xs" className="absolute top-1.5 right-1.5">
-            <XIcon />
-          </Button>
-        }
-        onConfirm={onRemove}
-        description="This action cannot be undone."
-      />
-      {children}
-    </div>
+    <Card size="sm" className="border ring-0">
+      <CardHeader>
+        <CardAction>
+          <ConfirmDialog
+            trigger={
+              <Button size="icon-xs">
+                <XIcon />
+              </Button>
+            }
+            onConfirm={onRemove}
+            description="This action cannot be undone."
+          />
+        </CardAction>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-3">{children}</CardContent>
+    </Card>
   );
 }
