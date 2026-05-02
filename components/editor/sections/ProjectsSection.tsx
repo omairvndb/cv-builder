@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   emptyProjects,
   type CV,
@@ -21,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
 import BulletListEditor from "../shared/BulletListEditor";
+import TagInput from "../shared/TagInput";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
 
@@ -34,7 +34,6 @@ function ProjectItem({
   onRemove: () => void;
 }) {
   const data = item.data as ProjectsData;
-  const [rawTechStack, setRawTechStack] = useState(() => data.techStack.join(", "));
 
   const set =
     (field: keyof ProjectsData) =>
@@ -53,22 +52,12 @@ function ProjectItem({
       <FormField label="Description">
         <Textarea value={data.description} onChange={set("description")} rows={3} />
       </FormField>
-      <FormField label="Tech Stack">
-        <Input
-          value={rawTechStack}
-          placeholder="React, TypeScript, Prisma"
-          onChange={(e) => {
-            setRawTechStack(e.target.value);
-            onUpdate({
-              ...data,
-              techStack: e.target.value
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean),
-            });
-          }}
-        />
-      </FormField>
+      <TagInput
+        label="Tech Stack"
+        items={data.techStack}
+        placeholder="Add a technology..."
+        onChange={(techStack) => onUpdate({ ...data, techStack })}
+      />
       <BulletListEditor
         bullets={bullets}
         onChange={(next) => onUpdate({ ...data, bullets: next })}
