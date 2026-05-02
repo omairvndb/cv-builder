@@ -16,6 +16,7 @@ export const ExperienceDataSchema = z.object({
   startDate: z.string(),
   endDate: z.string(),
   description: z.string(),
+  bullets: z.array(z.string()).optional(),
 });
 
 export const EducationDataSchema = z.object({
@@ -25,6 +26,7 @@ export const EducationDataSchema = z.object({
   startDate: z.string(),
   endDate: z.string(),
   description: z.string().optional(),
+  bullets: z.array(z.string()).optional(),
 });
 
 export const SkillsDataSchema = z.object({
@@ -37,6 +39,7 @@ export const ProjectsDataSchema = z.object({
   description: z.string(),
   techStack: z.array(z.string()),
   link: z.string().optional(),
+  bullets: z.array(z.string()).optional(),
 });
 
 export const CustomDataSchema = z.object({
@@ -111,6 +114,7 @@ export const emptyExperience: ExperienceData = {
   startDate: "",
   endDate: "",
   description: "",
+  bullets: [],
 };
 
 export const emptyEducation: EducationData = {
@@ -127,6 +131,7 @@ export const emptyProjects: ProjectsData = {
   description: "",
   techStack: [],
   link: undefined,
+  bullets: [],
 };
 
 export const emptyCustom: CustomData = { content: "" };

@@ -43,8 +43,11 @@ export const mockCV: CV = {
             location: "Brussel",
             startDate: "2021",
             endDate: "2023",
-            description:
-              "Niet afgerond:\n• Succesvol behaalde vakken: Informatica, Basiswiskunde, Toegepaste analyse\n• Programmeerervaring opgedaan in C",
+            description: "Niet afgerond",
+            bullets: [
+              "Succesvol behaalde vakken: Informatica, Basiswiskunde, Toegepaste analyse",
+              "Programmeerervaring opgedaan in C",
+            ],
           },
         },
         {
@@ -183,8 +186,13 @@ export const mockCV: CV = {
           order: 0,
           data: {
             title: "NextSet",
-            description:
-              "Full-stack fitness app om workouts te loggen en voortgang bij te houden\n\nType-safe client-server communicatie via ORPC\n\nPostgreSQL database met Drizzle ORM (Neon serverless)\n\nAuthenticatie met email/wachtwoord en Google OAuth (better-auth)\n\nDeployment via Vercel",
+            description: "Full-stack fitness app om workouts te loggen en voortgang bij te houden",
+            bullets: [
+              "Type-safe client-server communicatie via ORPC",
+              "PostgreSQL database met Drizzle ORM (Neon serverless)",
+              "Authenticatie met email/wachtwoord en Google OAuth (better-auth)",
+              "Deployment via Vercel",
+            ],
             techStack: [
               "Next.js",
               "TypeScript",

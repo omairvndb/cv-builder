@@ -5,6 +5,7 @@ import { ensureProtocol, stripProtocol } from "@/lib/utils";
 import SectionTitle from "../shared/SectionTitle";
 import Entry from "../shared/Entry";
 import Description from "../shared/Description";
+import Bullets from "../shared/Bullets";
 
 export default function ProjectsBlock({ section, first }: { section: Section; first: boolean }) {
   return (
@@ -24,7 +25,8 @@ export default function ProjectsBlock({ section, first }: { section: Section; fi
               ) : undefined
             }
           >
-            <Description text={data.description} />
+            {data.description && <Description text={data.description} />}
+            <Bullets bullets={data.bullets ?? []} />
             {data.techStack.length > 0 && (
               <Text style={styles.techText}>Technologieën: {data.techStack.join(", ")}</Text>
             )}

@@ -4,6 +4,7 @@ import { styles } from "../styles";
 import SectionTitle from "../shared/SectionTitle";
 import Entry from "../shared/Entry";
 import Description from "../shared/Description";
+import Bullets from "../shared/Bullets";
 
 export default function ExperienceBlock({ section, first }: { section: Section; first: boolean }) {
   return (
@@ -22,7 +23,8 @@ export default function ExperienceBlock({ section, first }: { section: Section; 
               </Text>
             }
           >
-            <Description text={data.description} />
+            {data.description && <Description text={data.description} />}
+            <Bullets bullets={data.bullets ?? []} />
           </Entry>
         );
       })}

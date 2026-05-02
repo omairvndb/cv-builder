@@ -11,6 +11,7 @@ import { PlusIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
+import BulletListEditor from "../shared/BulletListEditor";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
 
@@ -23,9 +24,14 @@ export default function EducationSection({ cv, section, onUpdate }: Props) {
     onUpdate(
       updateSectionItem(cv, section.id, id, {
         ...data,
-        [field]: field === "description" ? value || undefined : value,
+        [field]: field === "description" || field === "location" ? value || undefined : value,
       })
     );
+  };
+
+  const updateBullets = (id: string, bullets: string[]) => {
+    const item = section.items.find((i) => i.id === id)!;
+    onUpdate(updateSectionItem(cv, section.id, id, { ...(item.data as EducationData), bullets }));
   };
 
   return (
@@ -36,6 +42,7 @@ export default function EducationSection({ cv, section, onUpdate }: Props) {
           (field: keyof EducationData) =>
           (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
             update(item.id, field, e.target.value);
+        const bullets = data.bullets ?? [];
 
         return (
           <ItemBlock
@@ -66,6 +73,7 @@ export default function EducationSection({ cv, section, onUpdate }: Props) {
             <FormField label="Description">
               <Textarea value={data.description ?? ""} onChange={set("description")} rows={2} />
             </FormField>
+            <BulletListEditor bullets={bullets} onChange={(next) => updateBullets(item.id, next)} />
           </ItemBlock>
         );
       })}

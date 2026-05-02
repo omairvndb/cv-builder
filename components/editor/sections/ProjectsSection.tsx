@@ -20,6 +20,7 @@ import { PlusIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
+import BulletListEditor from "../shared/BulletListEditor";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
 
@@ -41,6 +42,8 @@ function ProjectItem({
       const value = e.target.value;
       onUpdate({ ...data, [field]: field === "link" ? value || undefined : value });
     };
+
+  const bullets = data.bullets ?? [];
 
   return (
     <ItemBlock onRemove={onRemove}>
@@ -66,6 +69,10 @@ function ProjectItem({
           }}
         />
       </FormField>
+      <BulletListEditor
+        bullets={bullets}
+        onChange={(next) => onUpdate({ ...data, bullets: next })}
+      />
       <FormField label="Link">
         <Input
           value={data.link ?? ""}

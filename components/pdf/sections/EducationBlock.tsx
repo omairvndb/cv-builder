@@ -4,6 +4,7 @@ import { styles } from "../styles";
 import SectionTitle from "../shared/SectionTitle";
 import Entry from "../shared/Entry";
 import Description from "../shared/Description";
+import Bullets from "../shared/Bullets";
 
 export default function EducationBlock({ section, first }: { section: Section; first: boolean }) {
   return (
@@ -24,6 +25,7 @@ export default function EducationBlock({ section, first }: { section: Section; f
             }
           >
             {data.description && <Description text={data.description} />}
+            <Bullets bullets={data.bullets ?? []} />
           </Entry>
         );
       })}
