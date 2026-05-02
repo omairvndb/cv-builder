@@ -84,7 +84,8 @@ export const mockCV: CV = {
             startDate: "November 2025",
             endDate: "Juni 2026",
             description:
-              "Interface gebouwd die automatisch Playwright selectors en Page Object Model (POM) klassen genereert uit geselecteerde webpagina-elementen, waardoor testautomatisatie sneller en toegankelijker wordt\n\nTechnologieën: Electron, React, TypeScript, Playwright",
+              "Interface gebouwd die automatisch Playwright selectors en Page Object Model (POM) klassen genereert uit geselecteerde webpagina-elementen, waardoor testautomatisatie sneller en toegankelijker wordt",
+            techStack: ["Electron", "React", "TypeScript", "Playwright"],
           },
         },
         {

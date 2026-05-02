@@ -25,6 +25,9 @@ export default function ExperienceBlock({ section, first }: { section: Section; 
           >
             {data.description && <Description text={data.description} />}
             <Bullets bullets={data.bullets ?? []} />
+            {data.techStack && data.techStack.length > 0 && (
+              <Text style={styles.techText}>Technologieën: {data.techStack.join(", ")}</Text>
+            )}
           </Entry>
         );
       })}

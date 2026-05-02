@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
 import BulletListEditor from "../shared/BulletListEditor";
+import TagInput from "../shared/TagInput";
 
 type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
 
@@ -28,6 +29,13 @@ export default function ExperienceSection({ cv, section, onUpdate }: Props) {
   const updateBullets = (id: string, bullets: string[]) => {
     const item = section.items.find((i) => i.id === id)!;
     onUpdate(updateSectionItem(cv, section.id, id, { ...(item.data as ExperienceData), bullets }));
+  };
+
+  const updateTechStack = (id: string, techStack: string[]) => {
+    const item = section.items.find((i) => i.id === id)!;
+    onUpdate(
+      updateSectionItem(cv, section.id, id, { ...(item.data as ExperienceData), techStack })
+    );
   };
 
   return (
@@ -70,6 +78,12 @@ export default function ExperienceSection({ cv, section, onUpdate }: Props) {
               <Textarea value={data.description} onChange={set("description")} rows={3} />
             </FormField>
             <BulletListEditor bullets={bullets} onChange={(next) => updateBullets(item.id, next)} />
+            <TagInput
+              label="Tech Stack"
+              items={data.techStack ?? []}
+              placeholder="Add a technology..."
+              onChange={(techStack) => updateTechStack(item.id, techStack)}
+            />
           </ItemBlock>
         );
       })}

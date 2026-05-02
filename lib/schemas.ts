@@ -17,6 +17,7 @@ export const ExperienceDataSchema = z.object({
   endDate: z.string(),
   description: z.string(),
   bullets: z.array(z.string()).optional(),
+  techStack: z.array(z.string()).optional(),
 });
 
 export const EducationDataSchema = z.object({
