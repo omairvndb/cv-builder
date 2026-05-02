@@ -13,7 +13,7 @@ export default function ItemBlock({
     <div className="relative flex flex-col gap-3 border py-5 px-3">
       <ConfirmDialog
         trigger={
-          <Button variant="outline" size="icon-xs" className="absolute top-1.5 right-1.5">
+          <Button size="icon-xs" className="absolute top-1.5 right-1.5">
             <XIcon />
           </Button>
         }
