@@ -24,7 +24,7 @@ export default function BulletListEditor({ bullets, onChange }: Props) {
             </Button>
           </div>
         ))}
-        <Button variant="outline" type="button" className="w-full" onClick={add}>
+        <Button variant="outline" size="xs" type="button" className="w-full" onClick={add}>
           <PlusIcon /> Add bullet
         </Button>
       </div>
