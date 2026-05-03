@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { usePDF } from "@react-pdf/renderer";
-import { Document, Page, pdfjs } from "react-pdf";
-import type { CV } from "@/lib/schemas";
 import CVDocument from "@/components/pdf/CVDocument";
 import { Button } from "@/components/ui/button";
-import { MinusIcon, PlusIcon } from "@phosphor-icons/react";
+import type { CV } from "@/lib/schemas";
+import { DownloadSimpleIcon, MinusIcon, PlusIcon } from "@phosphor-icons/react";
+import { usePDF } from "@react-pdf/renderer";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
 
 // PDF.js default worker config (must be set in the same module where you use React-PDF components)
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -123,6 +123,17 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
     setScale(nextScale);
   }
 
+  function handleDownload() {
+    if (!instance.url) return;
+
+    const link = document.createElement("a");
+    link.href = instance.url;
+    link.download = "cv.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   function handleZoomOut() {
     updateScale(Math.max(MIN_SCALE, Number((scale - SCALE_STEP).toFixed(2))));
   }
@@ -137,37 +148,49 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
-      {/* Header with zoom controls */}
-      <div className="flex items-center justify-end gap-2 border-b p-3">
+      {/* Header with download + zoom controls */}
+      <div className="flex items-center justify-between gap-2 border-b p-3">
         <Button
           type="button"
-          variant="outline"
           size="icon"
-          onClick={handleZoomOut}
-          disabled={scale <= MIN_SCALE}
-          aria-label="Zoom out preview"
+          className="cursor-pointer"
+          onClick={handleDownload}
+          disabled={!instance.url}
+          aria-label="Download PDF"
         >
-          <MinusIcon />
+          <DownloadSimpleIcon />
         </Button>
-        <div className="min-w-12 text-center text-xs">{Math.round(scale * 100)}%</div>
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={handleZoomIn}
-          disabled={scale >= MAX_SCALE}
-          aria-label="Zoom in preview"
-        >
-          <PlusIcon />
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleZoomReset}
-          aria-label="Reset preview zoom"
-        >
-          Reset
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            onClick={handleZoomOut}
+            disabled={scale <= MIN_SCALE}
+            aria-label="Zoom out preview"
+          >
+            <MinusIcon />
+          </Button>
+          <div className="min-w-12 text-center text-xs">{Math.round(scale * 100)}%</div>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            onClick={handleZoomIn}
+            disabled={scale >= MAX_SCALE}
+            aria-label="Zoom in preview"
+          >
+            <PlusIcon />
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleZoomReset}
+            aria-label="Reset preview zoom"
+          >
+            Reset
+          </Button>
+        </div>
       </div>
 
       {/* PDF container */}
