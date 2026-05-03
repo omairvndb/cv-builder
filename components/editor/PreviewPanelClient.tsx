@@ -95,8 +95,8 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
     renderedPagesRef.current = 0;
   }, []);
 
-  // Runs on first mount, when scrolling happens, when zoom changes or when the cv data updates.
-  // It remembers where the user is, resets the render progress and triggers the PDF regeneration.
+  // Runs on mount and when cv data changes.
+  // Captures the current scroll anchor, resets render progress, and triggers PDF regeneration.
   useEffect(() => {
     captureAnchor();
     resetRenderProgress();
