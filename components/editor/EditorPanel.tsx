@@ -24,7 +24,7 @@ export default function EditorPanel({ cv, onUpdate }: { cv: CV; onUpdate: (cv: C
         <AccordionItem value="personal-info">
           <AccordionTrigger>Personal Info</AccordionTrigger>
           <AccordionContent>
-            <PersonalInfoSection key={cv.presetId} cv={cv} onUpdate={onUpdate} />
+            <PersonalInfoSection cv={cv} onUpdate={onUpdate} />
           </AccordionContent>
         </AccordionItem>
 

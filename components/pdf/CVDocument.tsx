@@ -1,14 +1,14 @@
-import { Document, Page, View, Text } from "@react-pdf/renderer";
-import type { CV } from "@/lib/schemas";
 import { sortByOrder } from "@/lib/cv-helpers";
-import { styles } from "./styles";
-import SectionTitle from "./shared/SectionTitle";
-import PersonalInfoBlock from "./sections/PersonalInfoBlock";
-import SkillsBlock from "./sections/SkillsBlock";
+import type { CV } from "@/lib/schemas";
+import { Document, Page, Text, View } from "@react-pdf/renderer";
 import CustomBlock from "./sections/CustomBlock";
 import EducationBlock from "./sections/EducationBlock";
 import ExperienceBlock from "./sections/ExperienceBlock";
+import PersonalInfoBlock from "./sections/PersonalInfoBlock";
 import ProjectsBlock from "./sections/ProjectsBlock";
+import SkillsBlock from "./sections/SkillsBlock";
+import SectionTitle from "./shared/SectionTitle";
+import { styles } from "./styles";
 
 export default function CVDocument({ cv }: { cv: CV }) {
   const sidebarSections = sortByOrder(
