@@ -205,8 +205,13 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
 
         {/* PDF (pages) */}
         {instance.url ? (
-          <div className="mx-auto flex w-fit flex-col gap-3 py-6">
-            <Document file={instance.url} onLoadSuccess={handleDocumentLoad} loading={null}>
+          <div className="mx-auto w-fit py-6">
+            <Document
+              file={instance.url}
+              onLoadSuccess={handleDocumentLoad}
+              loading={null}
+              className="flex flex-col gap-6"
+            >
               {Array.from({ length: numPages }, (_, index) => (
                 <div
                   key={`page-${index + 1}`}

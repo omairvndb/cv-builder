@@ -37,7 +37,6 @@ const mutedLabel = {
 export const styles = StyleSheet.create({
   // Page
   page: {
-    flexDirection: "row",
     fontFamily: "Helvetica",
     fontSize: FONT_SIZE,
     color: TEXT,
@@ -57,13 +56,23 @@ export const styles = StyleSheet.create({
   sectionTitleFirst: { marginTop: 0 },
 
   // Sidebar
-  sidebar: {
+  sidebarBackground: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: SIDEBAR_WIDTH,
+    backgroundColor: SIDEBAR_BG,
+  },
+  sidebarContent: {
+    position: "absolute",
+    left: 0,
+    top: 0,
     width: SIDEBAR_WIDTH,
     paddingTop: 24,
     paddingBottom: 24,
     paddingLeft: 14,
     paddingRight: 12,
-    backgroundColor: SIDEBAR_BG,
   },
   sbRow: {
     flexDirection: "row",
@@ -96,7 +105,7 @@ export const styles = StyleSheet.create({
   sectionTitleSidebar: { borderBottomColor: SIDEBAR_BORDER },
 
   // Main
-  main: { flex: 1 },
+  main: { marginLeft: SIDEBAR_WIDTH },
   nameHeader: {
     paddingTop: 22,
     paddingBottom: 18,

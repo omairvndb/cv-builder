@@ -25,8 +25,11 @@ export default function CVDocument({ cv }: { cv: CV }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        {/* Sidebar background (repeats on every overflow page) */}
+        <View fixed style={styles.sidebarBackground} />
+
         {/* Sidebar content */}
-        <View style={styles.sidebar}>
+        <View style={styles.sidebarContent}>
           <PersonalInfoBlock cv={cv} />
           {sidebarSections.map((section) => {
             if (section.type === "SKILLS")
