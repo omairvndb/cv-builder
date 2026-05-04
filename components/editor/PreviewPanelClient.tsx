@@ -150,16 +150,6 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Header with download + zoom controls */}
       <div className="flex items-center justify-between gap-2 border-b p-3">
-        <Button
-          type="button"
-          size="icon"
-          className="cursor-pointer"
-          onClick={handleDownload}
-          disabled={!instance.url}
-          aria-label="Download PDF"
-        >
-          <DownloadSimpleIcon />
-        </Button>
         <div className="flex items-center gap-2">
           <Button
             type="button"
@@ -191,6 +181,17 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
             Reset
           </Button>
         </div>
+
+        <Button
+          type="button"
+          size="icon"
+          className="cursor-pointer"
+          onClick={handleDownload}
+          disabled={!instance.url}
+          aria-label="Download PDF"
+        >
+          <DownloadSimpleIcon />
+        </Button>
       </div>
 
       {/* PDF container */}
