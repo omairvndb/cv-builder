@@ -177,6 +177,7 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
             type="button"
             variant="outline"
             onClick={handleZoomReset}
+            disabled={scale === 1}
             aria-label="Reset preview zoom"
           >
             Reset
