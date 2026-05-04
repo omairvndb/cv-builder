@@ -7,6 +7,7 @@ import { DownloadSimpleIcon, MinusIcon, PlusIcon } from "@phosphor-icons/react";
 import { usePDF } from "@react-pdf/renderer";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { Spinner } from "../ui/spinner";
 
 // PDF.js default worker config (must be set in the same module where you use React-PDF components)
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -235,7 +236,7 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
         {/* Loading state (covers both initial load and updates) */}
         {instance.loading ? (
           <div className="absolute inset-0 flex items-center justify-center bg-background/60 text-xs text-muted-foreground">
-            Updating preview...
+            <Spinner /> Updating preview...
           </div>
         ) : null}
       </div>
