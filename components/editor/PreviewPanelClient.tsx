@@ -20,6 +20,50 @@ const MIN_SCALE = 0.6;
 const MAX_SCALE = 1.6;
 const SCALE_STEP = 0.1;
 
+type ZoomControlsProps = {
+  scale: number;
+  onZoomOut: () => void;
+  onZoomIn: () => void;
+  onZoomReset: () => void;
+};
+
+function ZoomControls({ scale, onZoomOut, onZoomIn, onZoomReset }: ZoomControlsProps) {
+  return (
+    <div className="flex items-center gap-2">
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        onClick={onZoomOut}
+        disabled={scale <= MIN_SCALE}
+        aria-label="Zoom out preview"
+      >
+        <MinusIcon />
+      </Button>
+      <div className="min-w-12 text-center text-xs">{Math.round(scale * 100)}%</div>
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        onClick={onZoomIn}
+        disabled={scale >= MAX_SCALE}
+        aria-label="Zoom in preview"
+      >
+        <PlusIcon />
+      </Button>
+      <Button
+        type="button"
+        variant="outline"
+        onClick={onZoomReset}
+        disabled={scale === 1}
+        aria-label="Reset preview zoom"
+      >
+        Reset
+      </Button>
+    </div>
+  );
+}
+
 type ScrollAnchor = {
   pageIndex: number;
   offset: number;
@@ -118,12 +162,6 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
     }
   }
 
-  function updateScale(nextScale: number) {
-    captureAnchor();
-    resetRenderProgress();
-    setScale(nextScale);
-  }
-
   function handleDownload() {
     if (!instance.url) return;
 
@@ -133,6 +171,12 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  function updateScale(nextScale: number) {
+    captureAnchor();
+    resetRenderProgress();
+    setScale(nextScale);
   }
 
   function handleZoomOut() {
@@ -151,38 +195,12 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Header with download + zoom controls */}
       <div className="flex items-center justify-between gap-2 border-b p-3">
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={handleZoomOut}
-            disabled={scale <= MIN_SCALE}
-            aria-label="Zoom out preview"
-          >
-            <MinusIcon />
-          </Button>
-          <div className="min-w-12 text-center text-xs">{Math.round(scale * 100)}%</div>
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={handleZoomIn}
-            disabled={scale >= MAX_SCALE}
-            aria-label="Zoom in preview"
-          >
-            <PlusIcon />
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleZoomReset}
-            disabled={scale === 1}
-            aria-label="Reset preview zoom"
-          >
-            Reset
-          </Button>
-        </div>
+        <ZoomControls
+          scale={scale}
+          onZoomOut={handleZoomOut}
+          onZoomIn={handleZoomIn}
+          onZoomReset={handleZoomReset}
+        />
 
         <Button
           type="button"
