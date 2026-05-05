@@ -1,8 +1,9 @@
 "use client";
 
 import CVDocument from "@/components/pdf/CVDocument";
+import PresetControls from "@/components/editor/presets/PresetControls";
 import { Button } from "@/components/ui/button";
-import type { CV } from "@/lib/schemas";
+import type { CV, Preset } from "@/lib/schemas";
 import { DownloadSimpleIcon, MinusIcon, PlusIcon } from "@phosphor-icons/react";
 import { usePDF } from "@react-pdf/renderer";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -70,7 +71,19 @@ type ScrollAnchor = {
   scrollTop: number;
 };
 
-export default function PreviewPanelClient({ cv }: { cv: CV }) {
+type PreviewPanelClientProps = {
+  cv: CV;
+  presets: Preset[];
+  activePresetId: string;
+  onSwitchPreset: (presetId: string) => void;
+};
+
+export default function PreviewPanelClient({
+  cv,
+  presets,
+  activePresetId,
+  onSwitchPreset,
+}: PreviewPanelClientProps) {
   // These states rerender the cv preview when they change
   const [scale, setScale] = useState(1);
   const [numPages, setNumPages] = useState(0);
@@ -193,8 +206,8 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
-      {/* Header with download + zoom controls */}
-      <div className="flex items-center justify-between gap-2 border-b p-3">
+      {/* Header: zoom (left) | preset controls (center) | download (right) */}
+      <div className="grid grid-cols-3 items-center gap-2 border-b p-3">
         <ZoomControls
           scale={scale}
           onZoomOut={handleZoomOut}
@@ -202,16 +215,26 @@ export default function PreviewPanelClient({ cv }: { cv: CV }) {
           onZoomReset={handleZoomReset}
         />
 
-        <Button
-          type="button"
-          size="icon"
-          className="cursor-pointer"
-          onClick={handleDownload}
-          disabled={!instance.url}
-          aria-label="Download PDF"
-        >
-          <DownloadSimpleIcon />
-        </Button>
+        <div className="flex items-center justify-center">
+          <PresetControls
+            presets={presets}
+            activePresetId={activePresetId}
+            onSwitch={onSwitchPreset}
+          />
+        </div>
+
+        <div className="flex items-center justify-end">
+          <Button
+            type="button"
+            size="icon"
+            className="cursor-pointer"
+            onClick={handleDownload}
+            disabled={!instance.url}
+            aria-label="Download PDF"
+          >
+            <DownloadSimpleIcon />
+          </Button>
+        </div>
       </div>
 
       {/* PDF container */}

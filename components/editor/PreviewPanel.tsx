@@ -1,10 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { CV } from "@/lib/schemas";
+import type { CV, Preset } from "@/lib/schemas";
 
 type PreviewPanelClientProps = {
   cv: CV;
+  presets: Preset[];
+  activePresetId: string;
+  onSwitchPreset: (presetId: string) => void;
 };
 
 // making sure to skip SSR for React-PDF module as noted in React-PDF documentation
@@ -16,6 +19,6 @@ const PreviewPanelClient = dynamic<PreviewPanelClientProps>(
   }
 );
 
-export default function PreviewPanel({ cv }: { cv: CV }) {
-  return <PreviewPanelClient cv={cv} />;
+export default function PreviewPanel(props: PreviewPanelClientProps) {
+  return <PreviewPanelClient {...props} />;
 }

@@ -1,3 +1,4 @@
+import { duplicateCV } from "@/lib/cv-helpers";
 import type { CV, Preset } from "@/lib/schemas";
 
 export const mockCV: CV = {
@@ -247,4 +248,22 @@ export const mockPreset: Preset = {
   cv: mockCV,
 };
 
-export const mockPresets: Preset[] = [mockPreset];
+const brightestPreset: Preset = {
+  id: "preset-2",
+  name: "Brightest",
+  isDefault: false,
+  createdAt: new Date("2025-02-01"),
+  updatedAt: new Date("2025-02-01"),
+  cv: { ...duplicateCV(mockCV, "preset-2"), title: "Software Developer (Stage)" },
+};
+
+const frontendPreset: Preset = {
+  id: "preset-3",
+  name: "Frontend Developer",
+  isDefault: false,
+  createdAt: new Date("2025-03-01"),
+  updatedAt: new Date("2025-03-01"),
+  cv: { ...duplicateCV(mockCV, "preset-3"), title: "Frontend Developer" },
+};
+
+export const mockPresets: Preset[] = [mockPreset, brightestPreset, frontendPreset];
