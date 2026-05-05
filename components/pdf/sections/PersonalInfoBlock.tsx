@@ -34,14 +34,14 @@ export default function PersonalInfoBlock({ cv }: { cv: CV }) {
     <View>
       <SectionTitle title="Persoonlijke Info" sidebar first />
       {buildRows(cv).map((row, i) => (
-        <View key={i} style={styles.sbRow}>
+        <View key={i} style={styles.infoRow}>
           <PdfIcon d={row.icon} />
           {row.href ? (
-            <Link src={row.href} style={styles.sbText}>
+            <Link src={row.href} style={styles.infoText}>
               {row.label}
             </Link>
           ) : (
-            <Text style={styles.sbText}>{row.label}</Text>
+            <Text style={styles.infoText}>{row.label}</Text>
           )}
         </View>
       ))}

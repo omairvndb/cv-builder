@@ -5,11 +5,10 @@ export const HEADER_BG = "#2d2d2d";
 export const SIDEBAR_BG = "#e8e8e8";
 
 // Text colors
-export const WHITE = "#ffffff";
-export const HEADING = "#1a1a1a";
 export const TEXT = "#333333";
+export const HEADING = "#1a1a1a";
+export const WHITE = "#ffffff";
 export const MUTED = "#666666";
-export const HEADER_SUBTITLE = "#bbbbbb";
 
 // Border colors
 export const BORDER = "#d8d8d8";
@@ -20,17 +19,17 @@ export const SIDEBAR_WIDTH = 160;
 export const H_PAD = 22;
 
 // Typography tokens
+export const FONT_SIZE_SECTION_TITLE = 9;
 export const FONT_SIZE = 8.5;
-export const LINE_HEIGHT = 1.5;
+export const FONT_SIZE_SMALL = 8;
 
 // Reusable style fragments
-const bulletBase = {
+const entryBase = {
   fontSize: FONT_SIZE,
   color: TEXT,
-  lineHeight: 1.4,
 };
 const mutedLabel = {
-  fontSize: 8,
+  fontSize: FONT_SIZE_SMALL,
   color: MUTED,
 };
 
@@ -38,22 +37,22 @@ export const styles = StyleSheet.create({
   // Page
   page: {
     fontFamily: "Helvetica",
-    fontSize: FONT_SIZE,
     color: TEXT,
   },
 
-  // Shared
+  // Sections
   sectionTitle: {
     marginTop: 16,
-    marginBottom: 8,
+    marginBottom: 9,
     paddingBottom: 3,
     borderBottomWidth: 0.5,
     borderBottomColor: BORDER,
     fontFamily: "Helvetica-Bold",
-    fontSize: 9,
+    fontSize: FONT_SIZE_SECTION_TITLE,
     color: HEADING,
   },
   sectionTitleFirst: { marginTop: 0 },
+  sectionTitleSidebar: { borderBottomColor: SIDEBAR_BORDER },
 
   // Sidebar
   sidebarBackground: {
@@ -71,37 +70,41 @@ export const styles = StyleSheet.create({
     width: SIDEBAR_WIDTH,
     paddingTop: 24,
     paddingBottom: 24,
-    paddingLeft: 14,
+    paddingLeft: 12,
     paddingRight: 12,
   },
-  sbRow: {
+
+  // Sidebar - Personal Info
+  infoRow: {
     flexDirection: "row",
     alignItems: "center",
-    columnGap: 3,
+    columnGap: 4,
     marginBottom: 3,
   },
-  sbText: {
+  infoText: {
     fontSize: FONT_SIZE,
     color: TEXT,
     textDecoration: "none",
   },
+
+  // Sidebar - Skills
   skillCat: {
-    marginTop: 6,
     marginBottom: 2,
     fontFamily: "Helvetica-Bold",
-    fontSize: 8,
-    color: HEADING,
+    fontSize: FONT_SIZE,
   },
   skillVal: {
     fontSize: FONT_SIZE,
-    lineHeight: LINE_HEIGHT,
     color: TEXT,
+    marginBottom: 5,
   },
+
+  // Sidebar - Languages
   langRow: {
-    marginTop: 6,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 3,
   },
   langName: {
     fontFamily: "Helvetica-Bold",
@@ -109,8 +112,8 @@ export const styles = StyleSheet.create({
   },
   langProf: {
     fontSize: FONT_SIZE,
+    color: TEXT,
   },
-  sectionTitleSidebar: { borderBottomColor: SIDEBAR_BORDER },
 
   // Main
   main: { marginLeft: SIDEBAR_WIDTH },
@@ -128,8 +131,8 @@ export const styles = StyleSheet.create({
   },
   jobTitleText: {
     marginTop: 4,
-    fontSize: 10,
-    color: HEADER_SUBTITLE,
+    fontSize: 12,
+    color: "#bbbbbb",
   },
   content: {
     paddingTop: 10,
@@ -152,13 +155,13 @@ export const styles = StyleSheet.create({
     fontSize: FONT_SIZE,
     color: HEADING,
   },
-  entryDate: { fontSize: 7.5, color: MUTED },
+  entryDate: mutedLabel,
   entrySubtitle: { ...mutedLabel, marginTop: 1, marginBottom: 2 },
 
   // Entry variants
-  bodyText: { ...bulletBase, marginTop: 2 },
+  bodyText: { ...entryBase, marginTop: 2 },
   bulletRow: { flexDirection: "row", marginTop: 2 },
-  bulletDot: { ...bulletBase, marginRight: 4 },
-  bulletText: { ...bulletBase, flex: 1 },
+  bulletDot: { ...entryBase, marginRight: 4 },
+  bulletText: { ...entryBase, flex: 1 },
   techText: { ...mutedLabel, marginTop: 3, fontFamily: "Helvetica-Oblique" },
 });
