@@ -13,7 +13,7 @@ import ExperienceSection from "./sections/ExperienceSection";
 import EducationSection from "./sections/EducationSection";
 import SkillsSection from "./sections/SkillsSection";
 import ProjectsSection from "./sections/ProjectsSection";
-import CustomSection from "./sections/CustomSection";
+import LanguagesSection from "./sections/LanguagesSection";
 
 export default function EditorPanel({ cv, onUpdate }: { cv: CV; onUpdate: (cv: CV) => void }) {
   const sortedSections = sortByOrder(cv.sections);
@@ -44,8 +44,8 @@ export default function EditorPanel({ cv, onUpdate }: { cv: CV; onUpdate: (cv: C
               {section.type === "PROJECTS" && (
                 <ProjectsSection key={section.id} cv={cv} section={section} onUpdate={onUpdate} />
               )}
-              {section.type === "CUSTOM" && (
-                <CustomSection cv={cv} section={section} onUpdate={onUpdate} />
+              {section.type === "LANGUAGES" && (
+                <LanguagesSection cv={cv} section={section} onUpdate={onUpdate} />
               )}
             </AccordionContent>
           </AccordionItem>

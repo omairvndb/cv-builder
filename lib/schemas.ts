@@ -5,7 +5,7 @@ export const SectionTypeSchema = z.enum([
   "EDUCATION",
   "SKILLS",
   "PROJECTS",
-  "CUSTOM",
+  "LANGUAGES",
 ]);
 export type SectionType = z.infer<typeof SectionTypeSchema>;
 
@@ -43,8 +43,9 @@ export const ProjectsDataSchema = z.object({
   bullets: z.array(z.string()).optional(),
 });
 
-export const CustomDataSchema = z.object({
-  content: z.string(),
+export const LanguagesDataSchema = z.object({
+  language: z.string(),
+  proficiency: z.string(),
 });
 
 export const SectionItemDataSchema = z.union([
@@ -52,7 +53,7 @@ export const SectionItemDataSchema = z.union([
   EducationDataSchema,
   SkillsDataSchema,
   ProjectsDataSchema,
-  CustomDataSchema,
+  LanguagesDataSchema,
 ]);
 
 export const SectionItemSchema = z.object({
@@ -102,7 +103,7 @@ export type ExperienceData = z.infer<typeof ExperienceDataSchema>;
 export type EducationData = z.infer<typeof EducationDataSchema>;
 export type SkillsData = z.infer<typeof SkillsDataSchema>;
 export type ProjectsData = z.infer<typeof ProjectsDataSchema>;
-export type CustomData = z.infer<typeof CustomDataSchema>;
+export type LanguagesData = z.infer<typeof LanguagesDataSchema>;
 export type SectionItemData = z.infer<typeof SectionItemDataSchema>;
 export type SectionItem = z.infer<typeof SectionItemSchema>;
 export type Section = z.infer<typeof SectionSchema>;
@@ -135,4 +136,4 @@ export const emptyProjects: ProjectsData = {
   bullets: [],
 };
 
-export const emptyCustom: CustomData = { content: "" };
+export const emptyLanguage: LanguagesData = { language: "", proficiency: "" };

@@ -210,7 +210,7 @@ export const mockCV: CV = {
     {
       id: "section-languages",
       cvId: "cv-1",
-      type: "CUSTOM",
+      type: "LANGUAGES",
       title: "Talenkennis",
       order: 4,
       visible: true,
@@ -219,9 +219,19 @@ export const mockCV: CV = {
           id: "lang-1",
           sectionId: "section-languages",
           order: 0,
-          data: {
-            content: "Nederlands: moedertaal\nEngels: moedertaal\nFrans: basiskennis",
-          },
+          data: { language: "Nederlands", proficiency: "Moedertaal" },
+        },
+        {
+          id: "lang-2",
+          sectionId: "section-languages",
+          order: 1,
+          data: { language: "Engels", proficiency: "Moedertaal" },
+        },
+        {
+          id: "lang-3",
+          sectionId: "section-languages",
+          order: 2,
+          data: { language: "Frans", proficiency: "Basiskennis" },
         },
       ],
     },

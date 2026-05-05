@@ -97,10 +97,18 @@ export const styles = StyleSheet.create({
     lineHeight: LINE_HEIGHT,
     color: TEXT,
   },
-  customContent: {
+  langRow: {
+    marginTop: 6,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  langName: {
+    fontFamily: "Helvetica-Bold",
     fontSize: FONT_SIZE,
-    lineHeight: LINE_HEIGHT,
-    color: TEXT,
+  },
+  langProf: {
+    fontSize: FONT_SIZE,
   },
   sectionTitleSidebar: { borderBottomColor: SIDEBAR_BORDER },
 

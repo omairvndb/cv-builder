@@ -1,7 +1,7 @@
 import { sortByOrder } from "@/lib/cv-helpers";
 import type { CV } from "@/lib/schemas";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
-import CustomBlock from "./sections/CustomBlock";
+import LanguagesBlock from "./sections/LanguagesBlock";
 import EducationBlock from "./sections/EducationBlock";
 import ExperienceBlock from "./sections/ExperienceBlock";
 import PersonalInfoBlock from "./sections/PersonalInfoBlock";
@@ -12,7 +12,7 @@ import { styles } from "./styles";
 
 export default function CVDocument({ cv }: { cv: CV }) {
   const sidebarSections = sortByOrder(
-    cv.sections.filter((s) => s.visible && (s.type === "SKILLS" || s.type === "CUSTOM"))
+    cv.sections.filter((s) => s.visible && (s.type === "SKILLS" || s.type === "LANGUAGES"))
   );
 
   const mainSections = sortByOrder(
@@ -34,8 +34,8 @@ export default function CVDocument({ cv }: { cv: CV }) {
           {sidebarSections.map((section) => {
             if (section.type === "SKILLS")
               return <SkillsBlock key={section.id} section={section} />;
-            if (section.type === "CUSTOM")
-              return <CustomBlock key={section.id} section={section} />;
+            if (section.type === "LANGUAGES")
+              return <LanguagesBlock key={section.id} section={section} />;
             return null;
           })}
         </View>
