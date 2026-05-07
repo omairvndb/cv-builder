@@ -1,12 +1,8 @@
 import { getSectionLayout, sortByOrder } from "@/lib/cv-helpers";
 import type { CV } from "@/lib/schemas";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
-import LanguagesBlock from "./sections/LanguagesBlock";
-import EducationBlock from "./sections/EducationBlock";
-import ExperienceBlock from "./sections/ExperienceBlock";
 import PersonalInfoBlock from "./sections/PersonalInfoBlock";
-import ProjectsBlock from "./sections/ProjectsBlock";
-import SkillsBlock from "./sections/SkillsBlock";
+import SectionBlock from "./sections/SectionBlock";
 import SectionTitle from "./shared/SectionTitle";
 import { styles } from "./styles";
 
@@ -28,13 +24,9 @@ export default function CVDocument({ cv }: { cv: CV }) {
         {/* Sidebar content */}
         <View style={styles.sidebarContent}>
           <PersonalInfoBlock cv={cv} />
-          {sidebarSections.map((section) => {
-            if (section.type === "SKILLS")
-              return <SkillsBlock key={section.id} section={section} />;
-            if (section.type === "LANGUAGES")
-              return <LanguagesBlock key={section.id} section={section} />;
-            return null;
-          })}
+          {sidebarSections.map((section) => (
+            <SectionBlock key={section.id} section={section} />
+          ))}
         </View>
 
         {/* Main content */}
@@ -55,16 +47,9 @@ export default function CVDocument({ cv }: { cv: CV }) {
             )}
 
             {/* Main sections: education, experience, projects */}
-            {mainSections.map((section, idx) => {
-              const first = idx === 0 && !cv.summary;
-              if (section.type === "EDUCATION")
-                return <EducationBlock key={section.id} section={section} first={first} />;
-              if (section.type === "EXPERIENCE")
-                return <ExperienceBlock key={section.id} section={section} first={first} />;
-              if (section.type === "PROJECTS")
-                return <ProjectsBlock key={section.id} section={section} first={first} />;
-              return null;
-            })}
+            {mainSections.map((section, idx) => (
+              <SectionBlock key={section.id} section={section} first={idx === 0 && !cv.summary} />
+            ))}
           </View>
         </View>
       </Page>

@@ -9,11 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import PersonalInfoSection from "./sections/PersonalInfoSection";
-import ExperienceSection from "./sections/ExperienceSection";
-import EducationSection from "./sections/EducationSection";
-import SkillsSection from "./sections/SkillsSection";
-import ProjectsSection from "./sections/ProjectsSection";
-import LanguagesSection from "./sections/LanguagesSection";
+import SectionEditor from "./sections/SectionEditor";
 
 export default function EditorPanel({ cv, onUpdate }: { cv: CV; onUpdate: (cv: CV) => void }) {
   const sortedSections = sortByOrder(cv.sections);
@@ -56,21 +52,7 @@ function SectionGroup({
           <AccordionItem key={section.id} value={section.id}>
             <AccordionTrigger>{section.title}</AccordionTrigger>
             <AccordionContent>
-              {section.type === "EXPERIENCE" && (
-                <ExperienceSection cv={cv} section={section} onUpdate={onUpdate} />
-              )}
-              {section.type === "EDUCATION" && (
-                <EducationSection cv={cv} section={section} onUpdate={onUpdate} />
-              )}
-              {section.type === "SKILLS" && (
-                <SkillsSection cv={cv} section={section} onUpdate={onUpdate} />
-              )}
-              {section.type === "PROJECTS" && (
-                <ProjectsSection cv={cv} section={section} onUpdate={onUpdate} />
-              )}
-              {section.type === "LANGUAGES" && (
-                <LanguagesSection cv={cv} section={section} onUpdate={onUpdate} />
-              )}
+              <SectionEditor cv={cv} section={section} onUpdate={onUpdate} />
             </AccordionContent>
           </AccordionItem>
         ))}
