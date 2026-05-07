@@ -47,16 +47,17 @@ export function createBlankCV(presetId: string): CV {
 }
 
 export function duplicateCV(cv: CV, newPresetId: string): CV {
+  const newCvId = crypto.randomUUID();
   return {
     ...cv,
-    id: crypto.randomUUID(),
+    id: newCvId,
     presetId: newPresetId,
     sections: cv.sections.map((section) => {
       const newSectionId = crypto.randomUUID();
       return {
         ...section,
         id: newSectionId,
-        cvId: newPresetId,
+        cvId: newCvId,
         items: section.items.map((item) => ({
           ...item,
           id: crypto.randomUUID(),

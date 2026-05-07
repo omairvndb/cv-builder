@@ -72,7 +72,7 @@ type ScrollAnchor = {
   scrollTop: number;
 };
 
-type PreviewPanelClientProps = {
+export type PreviewPanelClientProps = {
   cv: CV;
   presets: Preset[];
   activePresetId: string;
