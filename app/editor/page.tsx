@@ -6,6 +6,7 @@ import { mockPresets } from "@/lib/mock-data";
 import { createPreset } from "@/lib/cv-helpers";
 import type { CV, Preset } from "@/lib/schemas";
 import EditorPanel from "@/components/editor/EditorPanel";
+import NoPresetsState from "@/components/editor/presets/NoPresetsState";
 import PreviewPanel from "@/components/editor/PreviewPanel";
 
 const PREVIEW_DEBOUNCE_MS = 800;
@@ -81,11 +82,7 @@ export default function EditorPage() {
   }
 
   if (!activeCV || !previewCV || !activePresetId) {
-    return (
-      <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-        No preset selected.
-      </div>
-    );
+    return <NoPresetsState onCreate={handleCreatePreset} />;
   }
 
   return (
