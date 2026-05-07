@@ -110,33 +110,35 @@ function NewPresetForm({ presets, currentPresetId, onCreate }: NewPresetFormProp
         />
       </div>
 
-      <FieldSet>
-        <FieldLegend variant="label">Source</FieldLegend>
-        <RadioGroup
-          value={source}
-          onValueChange={(value) => setSource(value as Source)}
-          className="grid-cols-2"
-        >
-          <FieldLabel htmlFor="source-blank">
-            <Field orientation="horizontal">
-              <FieldContent>
-                <FieldTitle>Blank</FieldTitle>
-                <FieldDescription>Start with an empty CV</FieldDescription>
-              </FieldContent>
-              <RadioGroupItem value="blank" id="source-blank" />
-            </Field>
-          </FieldLabel>
-          <FieldLabel htmlFor="source-duplicate">
-            <Field orientation="horizontal">
-              <FieldContent>
-                <FieldTitle>Duplicate</FieldTitle>
-                <FieldDescription>Copy from an existing preset</FieldDescription>
-              </FieldContent>
-              <RadioGroupItem value="duplicate" id="source-duplicate" />
-            </Field>
-          </FieldLabel>
-        </RadioGroup>
-      </FieldSet>
+      {presets.length > 0 && (
+        <FieldSet>
+          <FieldLegend variant="label">Source</FieldLegend>
+          <RadioGroup
+            value={source}
+            onValueChange={(value) => setSource(value as Source)}
+            className="grid-cols-2"
+          >
+            <FieldLabel htmlFor="source-blank">
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>Blank</FieldTitle>
+                  <FieldDescription>Start with an empty CV</FieldDescription>
+                </FieldContent>
+                <RadioGroupItem value="blank" id="source-blank" />
+              </Field>
+            </FieldLabel>
+            <FieldLabel htmlFor="source-duplicate">
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>Duplicate</FieldTitle>
+                  <FieldDescription>Copy from an existing preset</FieldDescription>
+                </FieldContent>
+                <RadioGroupItem value="duplicate" id="source-duplicate" />
+              </Field>
+            </FieldLabel>
+          </RadioGroup>
+        </FieldSet>
+      )}
 
       {source === "duplicate" && (
         <div className="grid gap-2">
