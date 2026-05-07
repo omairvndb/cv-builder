@@ -115,10 +115,7 @@ export default function PresetSwitcher({
           <DropdownMenuSeparator />
 
           <DropdownMenuGroup>
-            <DropdownMenuItem
-              onSelect={() => setDeleteDialogOpen(true)}
-              className="text-destructive focus:text-destructive"
-            >
+            <DropdownMenuItem variant="destructive" onSelect={() => setDeleteDialogOpen(true)}>
               Delete
             </DropdownMenuItem>
           </DropdownMenuGroup>
