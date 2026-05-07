@@ -12,6 +12,9 @@ type PresetControlsProps = {
   activePresetId: string;
   onSwitch: (presetId: string) => void;
   onCreate: (args: NewPresetCreateArgs) => void;
+  onRename: (name: string) => void;
+  onToggleDefault: () => void;
+  onDelete: () => void;
 };
 
 export default function PresetControls({
@@ -19,12 +22,22 @@ export default function PresetControls({
   activePresetId,
   onSwitch,
   onCreate,
+  onRename,
+  onToggleDefault,
+  onDelete,
 }: PresetControlsProps) {
   const [newDialogOpen, setNewDialogOpen] = useState(false);
 
   return (
     <div className="flex items-center gap-2">
-      <PresetSwitcher presets={presets} activePresetId={activePresetId} onSwitch={onSwitch} />
+      <PresetSwitcher
+        presets={presets}
+        activePresetId={activePresetId}
+        onSwitch={onSwitch}
+        onRename={onRename}
+        onToggleDefault={onToggleDefault}
+        onDelete={onDelete}
+      />
 
       <Button
         type="button"

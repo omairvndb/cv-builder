@@ -10,30 +10,28 @@ import PreviewPanel from "@/components/editor/PreviewPanel";
 
 const PREVIEW_DEBOUNCE_MS = 800;
 
-function pickInitialPresetId(presets: Preset[]): string {
-  return (presets.find((p) => p.isDefault) ?? presets[0]).id;
+function pickInitialPresetId(presets: Preset[]): string | null {
+  return presets.find((p) => p.isDefault)?.id ?? presets[0]?.id ?? null;
 }
 
 export default function EditorPage() {
   const [presets, setPresets] = useState<Preset[]>(mockPresets);
-  const [activePresetId, setActivePresetId] = useState<string>(() =>
+  const [activePresetId, setActivePresetId] = useState<string | null>(() =>
     pickInitialPresetId(mockPresets)
   );
 
-  const activeCV = presets.find((p) => p.id === activePresetId)!.cv!;
-  const [previewCV, setPreviewCV] = useState<CV>(activeCV);
+  const activePreset = presets.find((p) => p.id === activePresetId) ?? null;
+  const activeCV = activePreset?.cv ?? null;
+  const [previewCV, setPreviewCV] = useState<CV | null>(activeCV);
 
   useEffect(() => {
-    if (previewCV === activeCV) return;
-
-    const timeoutId = window.setTimeout(() => {
-      setPreviewCV(activeCV);
-    }, PREVIEW_DEBOUNCE_MS);
-
+    if (previewCV === activeCV || !activeCV) return;
+    const timeoutId = window.setTimeout(() => setPreviewCV(activeCV), PREVIEW_DEBOUNCE_MS);
     return () => window.clearTimeout(timeoutId);
   }, [activeCV, previewCV]);
 
   function handleUpdateCV(cv: CV) {
+    if (!activePresetId) return;
     setPresets((prev) =>
       prev.map((p) => (p.id === activePresetId ? { ...p, cv, updatedAt: new Date() } : p))
     );
@@ -55,6 +53,41 @@ export default function EditorPage() {
     setPreviewCV(preset.cv!);
   }
 
+  function handleRenamePreset(name: string) {
+    if (!activePresetId) return;
+    setPresets((prev) =>
+      prev.map((p) => (p.id === activePresetId ? { ...p, name, updatedAt: new Date() } : p))
+    );
+  }
+
+  function handleToggleDefaultPreset() {
+    if (!activePresetId) return;
+    const isCurrentlyDefault = activePreset?.isDefault ?? false;
+    setPresets((prev) =>
+      prev.map((p) => ({
+        ...p,
+        isDefault: isCurrentlyDefault ? false : p.id === activePresetId,
+      }))
+    );
+  }
+
+  function handleDeletePreset() {
+    if (!activePresetId) return;
+    const remaining = presets.filter((p) => p.id !== activePresetId);
+    setPresets(remaining);
+    const next = remaining.find((p) => p.isDefault) ?? remaining[0] ?? null;
+    setActivePresetId(next?.id ?? null);
+    setPreviewCV(next?.cv ?? null);
+  }
+
+  if (!activeCV || !previewCV || !activePresetId) {
+    return (
+      <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+        No preset selected.
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-1 overflow-hidden">
       <EditorPanel cv={activeCV} onUpdate={handleUpdateCV} />
@@ -64,6 +97,9 @@ export default function EditorPage() {
         activePresetId={activePresetId}
         onSwitchPreset={handleSwitchPreset}
         onCreatePreset={handleCreatePreset}
+        onRenamePreset={handleRenamePreset}
+        onToggleDefaultPreset={handleToggleDefaultPreset}
+        onDeletePreset={handleDeletePreset}
       />
     </div>
   );

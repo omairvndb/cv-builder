@@ -10,6 +10,9 @@ type PreviewPanelClientProps = {
   activePresetId: string;
   onSwitchPreset: (presetId: string) => void;
   onCreatePreset: (args: NewPresetCreateArgs) => void;
+  onRenamePreset: (name: string) => void;
+  onToggleDefaultPreset: () => void;
+  onDeletePreset: () => void;
 };
 
 // making sure to skip SSR for React-PDF module as noted in React-PDF documentation

@@ -78,6 +78,9 @@ type PreviewPanelClientProps = {
   activePresetId: string;
   onSwitchPreset: (presetId: string) => void;
   onCreatePreset: (args: NewPresetCreateArgs) => void;
+  onRenamePreset: (name: string) => void;
+  onToggleDefaultPreset: () => void;
+  onDeletePreset: () => void;
 };
 
 export default function PreviewPanelClient({
@@ -86,6 +89,9 @@ export default function PreviewPanelClient({
   activePresetId,
   onSwitchPreset,
   onCreatePreset,
+  onRenamePreset,
+  onToggleDefaultPreset,
+  onDeletePreset,
 }: PreviewPanelClientProps) {
   // These states rerender the cv preview when they change
   const [scale, setScale] = useState(1);
@@ -224,6 +230,9 @@ export default function PreviewPanelClient({
             activePresetId={activePresetId}
             onSwitch={onSwitchPreset}
             onCreate={onCreatePreset}
+            onRename={onRenamePreset}
+            onToggleDefault={onToggleDefaultPreset}
+            onDelete={onDeletePreset}
           />
         </div>
 
