@@ -1,9 +1,7 @@
 "use client";
 
-import NewPresetDialog, {
-  type NewPresetCreateArgs,
-} from "@/components/editor/presets/NewPresetDialog";
-import { Button } from "@/components/ui/button";
+import NewPresetButton from "@/components/editor/presets/NewPresetButton";
+import type { ComponentProps } from "react";
 import {
   Empty,
   EmptyContent,
@@ -12,16 +10,13 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { IdentificationCardIcon, PlusIcon } from "@phosphor-icons/react";
-import { useState } from "react";
+import { IdentificationCardIcon } from "@phosphor-icons/react";
 
 type NoPresetsStateProps = {
-  onCreate: (args: NewPresetCreateArgs) => void;
+  onCreate: ComponentProps<typeof NewPresetButton>["onCreate"];
 };
 
 export default function NoPresetsState({ onCreate }: NoPresetsStateProps) {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       <Empty>
@@ -33,20 +28,9 @@ export default function NoPresetsState({ onCreate }: NoPresetsStateProps) {
           <EmptyDescription>Create your first preset to start building your CV.</EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
-          <Button variant="outline" onClick={() => setDialogOpen(true)}>
-            <PlusIcon />
-            Create preset
-          </Button>
+          <NewPresetButton presets={[]} onCreate={onCreate} />
         </EmptyContent>
       </Empty>
-
-      <NewPresetDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        presets={[]}
-        currentPresetId=""
-        onCreate={onCreate}
-      />
     </div>
   );
 }

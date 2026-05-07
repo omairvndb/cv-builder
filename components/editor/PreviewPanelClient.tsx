@@ -1,7 +1,7 @@
 "use client";
 
 import CVDocument from "@/components/pdf/CVDocument";
-import type { NewPresetCreateArgs } from "@/components/editor/presets/NewPresetDialog";
+import type { NewPresetCreateArgs } from "@/lib/schemas";
 import PresetControls from "@/components/editor/presets/PresetControls";
 import { Button } from "@/components/ui/button";
 import type { CV, Preset } from "@/lib/schemas";

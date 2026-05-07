@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { NewPresetCreateArgs } from "@/components/editor/presets/NewPresetDialog";
+import type { NewPresetCreateArgs } from "@/lib/schemas";
 import { mockPresets } from "@/lib/mock-data";
 import { createPreset } from "@/lib/cv-helpers";
 import type { CV, Preset } from "@/lib/schemas";

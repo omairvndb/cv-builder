@@ -10,6 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Field,
@@ -30,29 +31,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Preset } from "@/lib/schemas";
+import { PlusIcon } from "@phosphor-icons/react";
+import type { NewPresetCreateArgs, Preset } from "@/lib/schemas";
 
-export type NewPresetCreateArgs =
-  | { source: "blank"; name: string }
-  | { source: "duplicate"; name: string; fromPresetId: string };
-
-type NewPresetDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+type NewPresetButtonProps = {
   presets: Preset[];
-  currentPresetId: string;
+  currentPresetId?: string;
   onCreate: (args: NewPresetCreateArgs) => void;
 };
 
-export default function NewPresetDialog({
-  open,
-  onOpenChange,
+export default function NewPresetButton({
   presets,
-  currentPresetId,
+  currentPresetId = "",
   onCreate,
-}: NewPresetDialogProps) {
+}: NewPresetButtonProps) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button type="button" variant="outline" size="icon" aria-label="New preset">
+          <PlusIcon />
+        </Button>
+      </DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>New preset</DialogTitle>
@@ -66,7 +68,7 @@ export default function NewPresetDialog({
           currentPresetId={currentPresetId}
           onCreate={(args) => {
             onCreate(args);
-            onOpenChange(false);
+            setOpen(false);
           }}
         />
       </DialogContent>

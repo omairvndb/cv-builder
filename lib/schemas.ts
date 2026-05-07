@@ -137,3 +137,7 @@ export const emptyProjects: ProjectsData = {
 };
 
 export const emptyLanguage: LanguagesData = { language: "", proficiency: "" };
+
+export type NewPresetCreateArgs =
+  | { source: "blank"; name: string }
+  | { source: "duplicate"; name: string; fromPresetId: string };

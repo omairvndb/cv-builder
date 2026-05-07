@@ -1,17 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import type { ComponentProps } from "react";
 import type { Preset } from "@/lib/schemas";
-import { PlusIcon } from "@phosphor-icons/react";
-import NewPresetDialog, { type NewPresetCreateArgs } from "./NewPresetDialog";
+import NewPresetButton from "./NewPresetButton";
 import PresetSwitcher from "./PresetSwitcher";
 
 type PresetControlsProps = {
   presets: Preset[];
   activePresetId: string;
   onSwitch: (presetId: string) => void;
-  onCreate: (args: NewPresetCreateArgs) => void;
+  onCreate: ComponentProps<typeof NewPresetButton>["onCreate"];
   onRename: (name: string) => void;
   onToggleDefault: () => void;
   onDelete: () => void;
@@ -26,8 +24,6 @@ export default function PresetControls({
   onToggleDefault,
   onDelete,
 }: PresetControlsProps) {
-  const [newDialogOpen, setNewDialogOpen] = useState(false);
-
   return (
     <div className="flex items-center gap-2">
       <PresetSwitcher
@@ -39,23 +35,7 @@ export default function PresetControls({
         onDelete={onDelete}
       />
 
-      <Button
-        type="button"
-        variant="outline"
-        size="icon"
-        onClick={() => setNewDialogOpen(true)}
-        aria-label="New preset"
-      >
-        <PlusIcon />
-      </Button>
-
-      <NewPresetDialog
-        open={newDialogOpen}
-        onOpenChange={setNewDialogOpen}
-        presets={presets}
-        currentPresetId={activePresetId}
-        onCreate={onCreate}
-      />
+      <NewPresetButton presets={presets} currentPresetId={activePresetId} onCreate={onCreate} />
     </div>
   );
 }
