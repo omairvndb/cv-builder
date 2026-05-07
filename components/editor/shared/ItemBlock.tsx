@@ -20,7 +20,9 @@ export default function ItemBlock({
                 <XIcon />
               </Button>
             }
+            title="Remove item?"
             onConfirm={onRemove}
+            confirmLabel="Remove"
             description="This action cannot be undone."
           />
         </CardAction>
