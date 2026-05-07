@@ -2,6 +2,7 @@
 
 import type { ComponentProps } from "react";
 import type { Preset } from "@/lib/schemas";
+import { ButtonGroup } from "@/components/ui/button-group";
 import NewPresetButton from "./NewPresetButton";
 import PresetSwitcher from "./PresetSwitcher";
 
@@ -25,7 +26,7 @@ export default function PresetControls({
   onDelete,
 }: PresetControlsProps) {
   return (
-    <div className="flex items-center gap-2">
+    <ButtonGroup>
       <PresetSwitcher
         presets={presets}
         activePresetId={activePresetId}
@@ -36,6 +37,6 @@ export default function PresetControls({
       />
 
       <NewPresetButton presets={presets} currentPresetId={activePresetId} onCreate={onCreate} />
-    </div>
+    </ButtonGroup>
   );
 }
