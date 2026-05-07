@@ -1,4 +1,4 @@
-import { sortByOrder } from "@/lib/cv-helpers";
+import { getSectionLayout, sortByOrder } from "@/lib/cv-helpers";
 import type { CV } from "@/lib/schemas";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import LanguagesBlock from "./sections/LanguagesBlock";
@@ -11,15 +11,12 @@ import SectionTitle from "./shared/SectionTitle";
 import { styles } from "./styles";
 
 export default function CVDocument({ cv }: { cv: CV }) {
+  const visibleSections = cv.sections.filter((s) => s.visible);
   const sidebarSections = sortByOrder(
-    cv.sections.filter((s) => s.visible && (s.type === "SKILLS" || s.type === "LANGUAGES"))
+    visibleSections.filter((s) => getSectionLayout(s.type) === "sidebar")
   );
-
   const mainSections = sortByOrder(
-    cv.sections.filter(
-      (s) =>
-        s.visible && (s.type === "EDUCATION" || s.type === "EXPERIENCE" || s.type === "PROJECTS")
-    )
+    visibleSections.filter((s) => getSectionLayout(s.type) === "main")
   );
 
   return (

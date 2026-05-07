@@ -1,4 +1,10 @@
-import type { CV, Preset, Section, SectionItemData } from "@/lib/schemas";
+import type { CV, Preset, Section, SectionItemData, SectionType } from "@/lib/schemas";
+
+export type SectionLayout = "sidebar" | "main";
+
+export function getSectionLayout(type: SectionType): SectionLayout {
+  return type === "SKILLS" || type === "LANGUAGES" ? "sidebar" : "main";
+}
 
 export function sortByOrder<T extends { order: number }>(xs: T[]): T[] {
   return [...xs].sort((a, b) => a.order - b.order);
