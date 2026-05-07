@@ -146,11 +146,13 @@ function NewPresetForm({ presets, currentPresetId, onCreate }: NewPresetFormProp
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {presets.map((preset) => (
-                <SelectItem key={preset.id} value={preset.id}>
-                  {preset.name}
-                </SelectItem>
-              ))}
+              {[...presets]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((preset) => (
+                  <SelectItem key={preset.id} value={preset.id}>
+                    {preset.name}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
         </div>
