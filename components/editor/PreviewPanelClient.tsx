@@ -17,55 +17,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
-// Zoom configuration
-const MIN_SCALE = 0.6;
-const MAX_SCALE = 1.6;
-const SCALE_STEP = 0.1;
-
-type ZoomControlsProps = {
-  scale: number;
-  onZoomOut: () => void;
-  onZoomIn: () => void;
-  onZoomReset: () => void;
-};
-
-function ZoomControls({ scale, onZoomOut, onZoomIn, onZoomReset }: ZoomControlsProps) {
-  return (
-    <div className="flex items-center gap-2">
-      <Button
-        type="button"
-        variant="outline"
-        size="icon"
-        onClick={onZoomOut}
-        disabled={scale <= MIN_SCALE}
-        aria-label="Zoom out preview"
-      >
-        <MinusIcon />
-      </Button>
-      <div className="min-w-12 text-center text-xs">{Math.round(scale * 100)}%</div>
-      <Button
-        type="button"
-        variant="outline"
-        size="icon"
-        onClick={onZoomIn}
-        disabled={scale >= MAX_SCALE}
-        aria-label="Zoom in preview"
-      >
-        <PlusIcon />
-      </Button>
-      <Button
-        type="button"
-        variant="outline"
-        onClick={onZoomReset}
-        disabled={scale === 1}
-        aria-label="Reset preview zoom"
-      >
-        Reset
-      </Button>
-    </div>
-  );
-}
-
 type ScrollAnchor = {
   pageIndex: number;
   offset: number;
@@ -295,6 +246,55 @@ export default function PreviewPanelClient({
           </div>
         ) : null}
       </div>
+    </div>
+  );
+}
+
+// Zoom configuration
+const MIN_SCALE = 0.6;
+const MAX_SCALE = 1.6;
+const SCALE_STEP = 0.1;
+
+type ZoomControlsProps = {
+  scale: number;
+  onZoomOut: () => void;
+  onZoomIn: () => void;
+  onZoomReset: () => void;
+};
+
+function ZoomControls({ scale, onZoomOut, onZoomIn, onZoomReset }: ZoomControlsProps) {
+  return (
+    <div className="flex items-center gap-2">
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        onClick={onZoomOut}
+        disabled={scale <= MIN_SCALE}
+        aria-label="Zoom out preview"
+      >
+        <MinusIcon />
+      </Button>
+      <div className="min-w-12 text-center text-xs">{Math.round(scale * 100)}%</div>
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        onClick={onZoomIn}
+        disabled={scale >= MAX_SCALE}
+        aria-label="Zoom in preview"
+      >
+        <PlusIcon />
+      </Button>
+      <Button
+        type="button"
+        variant="outline"
+        onClick={onZoomReset}
+        disabled={scale === 1}
+        aria-label="Reset preview zoom"
+      >
+        Reset
+      </Button>
     </div>
   );
 }
