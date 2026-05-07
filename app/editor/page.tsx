@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { NewPresetCreateArgs } from "@/components/editor/presets/NewPresetDialog";
 import { mockPresets } from "@/lib/mock-data";
+import { createPreset } from "@/lib/cv-helpers";
 import type { CV, Preset } from "@/lib/schemas";
 import EditorPanel from "@/components/editor/EditorPanel";
 import PreviewPanel from "@/components/editor/PreviewPanel";
@@ -44,6 +46,15 @@ export default function EditorPage() {
     setPreviewCV(next);
   }
 
+  function handleCreatePreset(args: NewPresetCreateArgs) {
+    const fromCV =
+      args.source === "duplicate" ? presets.find((p) => p.id === args.fromPresetId)?.cv : undefined;
+    const preset = createPreset({ name: args.name, fromCV });
+    setPresets((prev) => [...prev, preset]);
+    setActivePresetId(preset.id);
+    setPreviewCV(preset.cv!);
+  }
+
   return (
     <div className="flex flex-1 overflow-hidden">
       <EditorPanel cv={activeCV} onUpdate={handleUpdateCV} />
@@ -52,6 +63,7 @@ export default function EditorPage() {
         presets={presets}
         activePresetId={activePresetId}
         onSwitchPreset={handleSwitchPreset}
+        onCreatePreset={handleCreatePreset}
       />
     </div>
   );

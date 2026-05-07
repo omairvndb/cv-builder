@@ -1,6 +1,7 @@
 "use client";
 
 import CVDocument from "@/components/pdf/CVDocument";
+import type { NewPresetCreateArgs } from "@/components/editor/presets/NewPresetDialog";
 import PresetControls from "@/components/editor/presets/PresetControls";
 import { Button } from "@/components/ui/button";
 import type { CV, Preset } from "@/lib/schemas";
@@ -76,6 +77,7 @@ type PreviewPanelClientProps = {
   presets: Preset[];
   activePresetId: string;
   onSwitchPreset: (presetId: string) => void;
+  onCreatePreset: (args: NewPresetCreateArgs) => void;
 };
 
 export default function PreviewPanelClient({
@@ -83,6 +85,7 @@ export default function PreviewPanelClient({
   presets,
   activePresetId,
   onSwitchPreset,
+  onCreatePreset,
 }: PreviewPanelClientProps) {
   // These states rerender the cv preview when they change
   const [scale, setScale] = useState(1);
@@ -220,6 +223,7 @@ export default function PreviewPanelClient({
             presets={presets}
             activePresetId={activePresetId}
             onSwitch={onSwitchPreset}
+            onCreate={onCreatePreset}
           />
         </div>
 

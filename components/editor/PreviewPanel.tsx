@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import type { NewPresetCreateArgs } from "@/components/editor/presets/NewPresetDialog";
 import type { CV, Preset } from "@/lib/schemas";
 
 type PreviewPanelClientProps = {
@@ -8,6 +9,7 @@ type PreviewPanelClientProps = {
   presets: Preset[];
   activePresetId: string;
   onSwitchPreset: (presetId: string) => void;
+  onCreatePreset: (args: NewPresetCreateArgs) => void;
 };
 
 // making sure to skip SSR for React-PDF module as noted in React-PDF documentation
