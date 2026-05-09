@@ -11,3 +11,57 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum SectionType {
+  EXPERIENCE
+  EDUCATION
+  SKILLS
+  PROJECTS
+  LANGUAGES
+}
+
+model Preset {
+  id        String   @id @default(cuid())
+  name      String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cv        CV?
+}
+
+model CV {
+  id            String    @id @default(cuid())
+  preset        Preset    @relation(fields: [presetId], references: [id], onDelete: Cascade)
+  presetId      String    @unique
+  name          String
+  title         String?
+  email         String
+  phone         String
+  location      String
+  linkedin      String?
+  github        String?
+  website       String?
+  driverLicense String?
+  dateOfBirth   String?
+  summary       String?
+  sections      Section[]
+}
+
+model Section {
+  id      String        @id @default(cuid())
+  cv      CV            @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  cvId    String
+  type    SectionType
+  title   String
+  order   Int
+  visible Boolean       @default(true)
+  items   SectionItem[]
+}
+
+model SectionItem {
+  id        String  @id @default(cuid())
+  section   Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId String
+  order     Int
+  data      Json
+}
