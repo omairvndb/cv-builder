@@ -1,6 +1,7 @@
 "use client";
 
 import CVDocument from "@/components/pdf/CVDocument";
+import { getSectionOrderSignature } from "@/lib/cv-helpers";
 import type { NewPresetCreateArgs } from "@/lib/schemas";
 import PresetControls from "@/components/editor/presets/PresetControls";
 import { Button } from "@/components/ui/button";
@@ -58,8 +59,17 @@ export default function PreviewPanelClient({
   /** Ref to the number of pages that have finished rendering. */
   const renderedPagesRef = useRef(0);
 
-  /** Ref to the PDF document element. */
-  const documentElement = useMemo(() => <CVDocument cv={cv} />, [cv]);
+  /**
+   * Ref to the PDF document element.
+   * The key includes the section-order signature so the entire tree remounts on reorder.
+   * (works around a bug in react-pdf/renderer
+   * where its host `insertBefore` doesn't remove the moved child from its old position,
+   * which duplicates sections in the rendered PDF after a reorder.)
+   */
+  const documentElement = useMemo(
+    () => <CVDocument key={getSectionOrderSignature(cv)} cv={cv} />,
+    [cv]
+  );
   const [instance, updateInstance] = usePDF({ document: documentElement });
 
   /** Capture the visible page and offset so we can restore scroll after rerender. */

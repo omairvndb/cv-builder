@@ -10,6 +10,23 @@ export function sortByOrder<T extends { order: number }>(xs: T[]): T[] {
   return [...xs].sort((a, b) => a.order - b.order);
 }
 
+export function reorderSections(cv: CV, orderedIds: string[]): CV {
+  const newOrderById = new Map(orderedIds.map((id, idx) => [id, idx]));
+  const globalOrderById = new Map(
+    [...cv.sections]
+      .sort((a, b) => (newOrderById.get(a.id) ?? a.order) - (newOrderById.get(b.id) ?? b.order))
+      .map((s, idx) => [s.id, idx])
+  );
+  return {
+    ...cv,
+    sections: cv.sections.map((s) => ({ ...s, order: globalOrderById.get(s.id)! })),
+  };
+}
+
+export function getSectionOrderSignature(cv: CV): string {
+  return cv.sections.map((s) => `${s.id}@${s.order}`).join(",");
+}
+
 export function updateSection(cv: CV, sectionId: string, updater: (s: Section) => Section): CV {
   return { ...cv, sections: cv.sections.map((s) => (s.id === sectionId ? updater(s) : s)) };
 }

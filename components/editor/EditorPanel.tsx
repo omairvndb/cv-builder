@@ -1,6 +1,6 @@
 "use client";
 
-import type { CV, Section } from "@/lib/schemas";
+import type { CV } from "@/lib/schemas";
 import { getSectionLayout, sortByOrder } from "@/lib/cv-helpers";
 import {
   Accordion,
@@ -9,13 +9,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import PersonalInfoSection from "./sections/PersonalInfoSection";
-import SectionEditor from "./sections/SectionEditor";
+import SectionGroup from "./sections/SectionGroup";
 
 export default function EditorPanel({ cv, onUpdate }: { cv: CV; onUpdate: (cv: CV) => void }) {
   const sortedSections = sortByOrder(cv.sections);
   const sidebarSections = sortedSections.filter((s) => getSectionLayout(s.type) === "sidebar");
   const mainSections = sortedSections.filter((s) => getSectionLayout(s.type) === "main");
-
   return (
     <div className="w-105 shrink-0 border-r overflow-y-auto p-4 space-y-6">
       <Accordion type="multiple">
@@ -29,34 +28,6 @@ export default function EditorPanel({ cv, onUpdate }: { cv: CV; onUpdate: (cv: C
 
       <SectionGroup label="Sidebar" sections={sidebarSections} cv={cv} onUpdate={onUpdate} />
       <SectionGroup label="Main" sections={mainSections} cv={cv} onUpdate={onUpdate} />
-    </div>
-  );
-}
-
-function SectionGroup({
-  label,
-  sections,
-  cv,
-  onUpdate,
-}: {
-  label: string;
-  sections: Section[];
-  cv: CV;
-  onUpdate: (cv: CV) => void;
-}) {
-  return (
-    <div className="space-y-2">
-      <h2 className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</h2>
-      <Accordion type="multiple">
-        {sections.map((section) => (
-          <AccordionItem key={section.id} value={section.id}>
-            <AccordionTrigger>{section.title}</AccordionTrigger>
-            <AccordionContent>
-              <SectionEditor cv={cv} section={section} onUpdate={onUpdate} />
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
     </div>
   );
 }
