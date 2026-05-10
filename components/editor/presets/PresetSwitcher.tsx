@@ -25,6 +25,7 @@ type PresetSwitcherProps = {
   onRename: (name: string) => void;
   onToggleDefault: () => void;
   onDelete: () => void;
+  isDeleting?: boolean;
 };
 
 export default function PresetSwitcher({
@@ -34,6 +35,7 @@ export default function PresetSwitcher({
   onRename,
   onToggleDefault,
   onDelete,
+  isDeleting,
 }: PresetSwitcherProps) {
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState("");
@@ -129,6 +131,7 @@ export default function PresetSwitcher({
         description="This action cannot be undone."
         confirmLabel="Delete"
         onConfirm={onDelete}
+        loading={isDeleting}
       />
     </>
   );

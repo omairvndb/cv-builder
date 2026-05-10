@@ -25,6 +25,7 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
   const [activePresetId, setActivePresetId] = useState<string | null>(() =>
     pickInitialPresetId(initialPresets)
   );
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const activePreset = presets.find((p) => p.id === activePresetId) ?? null;
   const activeCV = activePreset?.cv ?? null;
@@ -115,12 +116,15 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
    */
   async function handleDeletePreset() {
     if (!activePresetId) return;
+    setIsDeleting(true);
     try {
       await deletePreset(activePresetId);
     } catch (error) {
       console.error("Failed to delete preset:", error);
+      setIsDeleting(false);
       return;
     }
+    setIsDeleting(false);
     const remaining = presets.filter((p) => p.id !== activePresetId);
     setPresets(remaining);
     const next = remaining.find((p) => p.isDefault) ?? remaining[0] ?? null;
@@ -145,6 +149,7 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
         onRenamePreset={handleRenamePreset}
         onToggleDefaultPreset={handleToggleDefaultPreset}
         onDeletePreset={handleDeletePreset}
+        isDeleting={isDeleting}
       />
     </div>
   );

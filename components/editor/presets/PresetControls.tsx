@@ -14,6 +14,7 @@ type PresetControlsProps = {
   onRename: (name: string) => void;
   onToggleDefault: () => void;
   onDelete: () => void;
+  isDeleting?: boolean;
 };
 
 export default function PresetControls({
@@ -24,6 +25,7 @@ export default function PresetControls({
   onRename,
   onToggleDefault,
   onDelete,
+  isDeleting,
 }: PresetControlsProps) {
   return (
     <ButtonGroup>
@@ -34,6 +36,7 @@ export default function PresetControls({
         onRename={onRename}
         onToggleDefault={onToggleDefault}
         onDelete={onDelete}
+        isDeleting={isDeleting}
       />
 
       <NewPresetButton presets={presets} currentPresetId={activePresetId} onCreate={onCreate} />
