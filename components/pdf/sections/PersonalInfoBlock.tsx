@@ -14,7 +14,7 @@ type InfoRow = {
 
 function buildRows(cv: CV): InfoRow[] {
   return [
-    { icon: PDF_ICONS.envelope, label: cv.email },
+    cv.email && { icon: PDF_ICONS.envelope, label: cv.email },
     cv.phone && { icon: PDF_ICONS.phone, label: cv.phone },
     cv.location && { icon: PDF_ICONS.mapPin, label: cv.location },
     cv.linkedin && {
