@@ -1,4 +1,4 @@
-import type { CV, Preset, Section, SectionItemData, SectionType } from "@/lib/schemas";
+import type { CV, Section, SectionItemData, SectionType } from "@/lib/schemas";
 
 export type SectionLayout = "sidebar" | "main";
 
@@ -58,14 +58,61 @@ export function removeSectionItem(cv: CV, sectionId: string, itemId: string): CV
 }
 
 export function createBlankCV(presetId: string): CV {
+  const cvId = crypto.randomUUID();
   return {
-    id: crypto.randomUUID(),
+    id: cvId,
     presetId,
     name: "",
     email: "",
     phone: "",
     location: "",
-    sections: [],
+    sections: [
+      {
+        id: crypto.randomUUID(),
+        cvId,
+        type: "EDUCATION",
+        title: "Education",
+        order: 0,
+        visible: true,
+        items: [],
+      },
+      {
+        id: crypto.randomUUID(),
+        cvId,
+        type: "EXPERIENCE",
+        title: "Work Experience",
+        order: 1,
+        visible: true,
+        items: [],
+      },
+      {
+        id: crypto.randomUUID(),
+        cvId,
+        type: "SKILLS",
+        title: "Skills",
+        order: 2,
+        visible: true,
+        items: [],
+      },
+      {
+        id: crypto.randomUUID(),
+        cvId,
+        type: "PROJECTS",
+        title: "Projects",
+        order: 3,
+        visible: true,
+        items: [],
+      },
+      {
+        id: crypto.randomUUID(),
+        cvId,
+        type: "LANGUAGES",
+        title: "Languages",
+        order: 4,
+        visible: true,
+        items: [],
+      },
+    ],
   };
 }
 
@@ -88,25 +135,5 @@ export function duplicateCV(cv: CV, newPresetId: string): CV {
         })),
       };
     }),
-  };
-}
-
-type CreatePresetArgs = {
-  name: string;
-  isDefault?: boolean;
-  fromCV?: CV;
-};
-
-export function createPreset({ name, isDefault = false, fromCV }: CreatePresetArgs): Preset {
-  const id = crypto.randomUUID();
-  const now = new Date();
-  const cv = fromCV ? duplicateCV(fromCV, id) : createBlankCV(id);
-  return {
-    id,
-    name,
-    isDefault,
-    createdAt: now,
-    updatedAt: now,
-    cv,
   };
 }

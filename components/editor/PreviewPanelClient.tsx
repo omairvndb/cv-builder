@@ -1,12 +1,19 @@
 "use client";
 
-import CVDocument from "@/components/pdf/CVDocument";
-import { getSectionOrderSignature } from "@/lib/cv-helpers";
-import type { NewPresetCreateArgs } from "@/lib/schemas";
 import PresetControls from "@/components/editor/presets/PresetControls";
+import CVDocument from "@/components/pdf/CVDocument";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { CV, Preset } from "@/lib/schemas";
-import { DownloadSimpleIcon, MinusIcon, PlusIcon } from "@phosphor-icons/react";
+import type { SaveStatus } from "@/hooks/useAutoSave";
+import { getSectionOrderSignature } from "@/lib/cv-helpers";
+import type { CV, NewPresetCreateArgs, Preset } from "@/lib/schemas";
+import {
+  CheckIcon,
+  DownloadSimpleIcon,
+  MinusIcon,
+  PlusIcon,
+  WarningCircleIcon,
+} from "@phosphor-icons/react";
 import { usePDF } from "@react-pdf/renderer";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -28,8 +35,9 @@ export type PreviewPanelClientProps = {
   cv: CV;
   presets: Preset[];
   activePresetId: string;
+  saveStatus: SaveStatus;
   onSwitchPreset: (presetId: string) => void;
-  onCreatePreset: (args: NewPresetCreateArgs) => void;
+  onCreatePreset: (args: NewPresetCreateArgs) => Promise<void>;
   onRenamePreset: (name: string) => void;
   onToggleDefaultPreset: () => void;
   onDeletePreset: () => void;
@@ -39,6 +47,7 @@ export default function PreviewPanelClient({
   cv,
   presets,
   activePresetId,
+  saveStatus,
   onSwitchPreset,
   onCreatePreset,
   onRenamePreset,
@@ -197,7 +206,26 @@ export default function PreviewPanelClient({
           />
         </div>
 
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end gap-4">
+          {saveStatus === "saving" && (
+            <Badge variant="secondary">
+              <Spinner />
+              Saving…
+            </Badge>
+          )}
+          {saveStatus === "saved" && (
+            <Badge variant="secondary">
+              <CheckIcon />
+              Saved
+            </Badge>
+          )}
+          {saveStatus === "error" && (
+            <Badge variant="destructive">
+              <WarningCircleIcon />
+              Save failed
+            </Badge>
+          )}
+
           <Button
             type="button"
             size="icon"

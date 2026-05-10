@@ -37,7 +37,15 @@ import type { NewPresetCreateArgs, Preset } from "@/lib/schemas";
 type NewPresetButtonProps = {
   presets: Preset[];
   currentPresetId?: string;
-  onCreate: (args: NewPresetCreateArgs) => void;
+  onCreate: (args: NewPresetCreateArgs) => Promise<void>;
+};
+
+type Source = "blank" | "duplicate";
+
+type NewPresetFormProps = {
+  presets: Preset[];
+  currentPresetId: string;
+  onCreate: (args: NewPresetCreateArgs) => Promise<void>;
 };
 
 export default function NewPresetButton({
@@ -66,8 +74,8 @@ export default function NewPresetButton({
         <NewPresetForm
           presets={presets}
           currentPresetId={currentPresetId}
-          onCreate={(args) => {
-            onCreate(args);
+          onCreate={async (args) => {
+            await onCreate(args);
             setOpen(false);
           }}
         />
@@ -76,27 +84,27 @@ export default function NewPresetButton({
   );
 }
 
-type Source = "blank" | "duplicate";
-
-type NewPresetFormProps = {
-  presets: Preset[];
-  currentPresetId: string;
-  onCreate: (args: NewPresetCreateArgs) => void;
-};
-
 function NewPresetForm({ presets, currentPresetId, onCreate }: NewPresetFormProps) {
   const [name, setName] = useState("");
   const [source, setSource] = useState<Source>("blank");
   const [fromPresetId, setFromPresetId] = useState<string>(currentPresetId);
+  const [isPending, setIsPending] = useState(false);
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     const trimmed = name.trim();
-    if (!trimmed) return;
-    if (source === "duplicate") {
-      onCreate({ source: "duplicate", name: trimmed, fromPresetId });
-    } else {
-      onCreate({ source: "blank", name: trimmed });
+    if (!trimmed || isPending) return;
+    setIsPending(true);
+    try {
+      if (source === "duplicate") {
+        await onCreate({ source: "duplicate", name: trimmed, fromPresetId });
+      } else {
+        await onCreate({ source: "blank", name: trimmed });
+      }
+    } catch (error) {
+      console.error("Failed to create preset:", error);
+    } finally {
+      setIsPending(false);
     }
   }
 
@@ -168,8 +176,8 @@ function NewPresetForm({ presets, currentPresetId, onCreate }: NewPresetFormProp
             Cancel
           </Button>
         </DialogClose>
-        <Button type="submit" disabled={!name.trim()}>
-          Create
+        <Button type="submit" disabled={!name.trim() || isPending}>
+          {isPending ? "Creating…" : "Create"}
         </Button>
       </DialogFooter>
     </form>
