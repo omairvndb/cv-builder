@@ -16,6 +16,7 @@ import {
   Field,
   FieldContent,
   FieldDescription,
+  FieldError,
   FieldLabel,
   FieldLegend,
   FieldSet,
@@ -90,16 +91,18 @@ function NewPresetForm({ presets, currentPresetId, onCreate }: NewPresetFormProp
   const [fromPresetId, setFromPresetId] = useState<string>(currentPresetId);
   const [isPending, setIsPending] = useState(false);
 
+  const trimmedName = name.trim();
+  const nameTaken = presets.some((p) => p.name.toLowerCase() === trimmedName.toLowerCase());
+
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-    const trimmed = name.trim();
-    if (!trimmed || isPending) return;
+    if (!trimmedName || nameTaken || isPending) return;
     setIsPending(true);
     try {
       if (source === "duplicate") {
-        await onCreate({ source: "duplicate", name: trimmed, fromPresetId });
+        await onCreate({ source: "duplicate", name: trimmedName, fromPresetId });
       } else {
-        await onCreate({ source: "blank", name: trimmed });
+        await onCreate({ source: "blank", name: trimmedName });
       }
     } catch (error) {
       console.error("Failed to create preset:", error);
@@ -110,15 +113,21 @@ function NewPresetForm({ presets, currentPresetId, onCreate }: NewPresetFormProp
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-4">
-      <div className="grid gap-2">
-        <Label htmlFor="new-preset-name">Name</Label>
+      <Field data-invalid={nameTaken ? "true" : undefined}>
+        <FieldLabel htmlFor="new-preset-name">
+          Name <span className="text-destructive">*</span>
+        </FieldLabel>
         <Input
           id="new-preset-name"
           value={name}
           onChange={(event) => setName(event.target.value)}
           placeholder="e.g. Frontend Developer"
+          aria-invalid={nameTaken}
+          className="text-foreground"
+          required
         />
-      </div>
+        {nameTaken && <FieldError>A preset with this name already exists.</FieldError>}
+      </Field>
 
       {presets.length > 0 && (
         <FieldSet>
@@ -176,7 +185,7 @@ function NewPresetForm({ presets, currentPresetId, onCreate }: NewPresetFormProp
             Cancel
           </Button>
         </DialogClose>
-        <Button type="submit" disabled={!name.trim() || isPending}>
+        <Button type="submit" disabled={!trimmedName || nameTaken || isPending}>
           {isPending ? "Creating…" : "Create"}
         </Button>
       </DialogFooter>
