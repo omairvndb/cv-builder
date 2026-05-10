@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/select";
 import { PlusIcon } from "@phosphor-icons/react";
 import type { NewPresetCreateArgs, Preset } from "@/lib/schemas";
+import { toast } from "sonner";
 
 type NewPresetButtonProps = {
   presets: Preset[];
@@ -104,8 +105,8 @@ function NewPresetForm({ presets, currentPresetId, onCreate }: NewPresetFormProp
       } else {
         await onCreate({ source: "blank", name: trimmedName });
       }
-    } catch (error) {
-      console.error("Failed to create preset:", error);
+    } catch {
+      toast.error("Failed to create preset.");
     } finally {
       setIsPending(false);
     }
