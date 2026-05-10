@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { createPreset, deletePreset, duplicatePreset, updatePreset } from "@/lib/actions/presets";
 import { useAutoSave } from "@/hooks/useAutoSave";
+import { toast } from "sonner";
 import type { CV, NewPresetCreateArgs, Preset } from "@/lib/schemas";
 import EditorPanel from "@/components/editor/EditorPanel";
 import NoPresetsState from "@/components/editor/presets/NoPresetsState";
@@ -83,8 +84,8 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
     );
     try {
       await updatePreset(activePresetId, { name });
-    } catch (error) {
-      console.error("Failed to rename preset:", error);
+    } catch {
+      toast.error("Failed to rename preset.");
     }
   }
 
@@ -104,8 +105,8 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
     );
     try {
       await updatePreset(activePresetId, { isDefault: newIsDefault });
-    } catch (error) {
-      console.error("Failed to update preset default:", error);
+    } catch {
+      toast.error("Failed to update preset.");
     }
   }
 
@@ -119,8 +120,8 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
     setIsDeleting(true);
     try {
       await deletePreset(activePresetId);
-    } catch (error) {
-      console.error("Failed to delete preset:", error);
+    } catch {
+      toast.error("Failed to delete preset.");
       setIsDeleting(false);
       return;
     }

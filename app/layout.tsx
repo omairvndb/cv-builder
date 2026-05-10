@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" });
@@ -16,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`h-full antialiased ${notoSans.variable} font-sans`}>
-      <body className="h-full flex flex-col">{children}</body>
+      <body className="h-full flex flex-col">
+        {children}
+        <Toaster position="top-center" />
+      </body>
     </html>
   );
 }
