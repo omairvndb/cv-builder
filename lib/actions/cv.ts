@@ -11,39 +11,30 @@ const SaveCVSchema = CVSchema.extend({ name: z.string() });
 
 export async function saveCV(cv: CV): Promise<CV> {
   const parsed = SaveCVSchema.parse(cv);
+  const toNullable = (value?: string) => value ?? null;
+  const personalData = {
+    name: parsed.name,
+    email: parsed.email,
+    phone: parsed.phone,
+    location: parsed.location,
+    title: toNullable(parsed.title),
+    linkedin: toNullable(parsed.linkedin),
+    github: toNullable(parsed.github),
+    website: toNullable(parsed.website),
+    driverLicense: toNullable(parsed.driverLicense),
+    dateOfBirth: toNullable(parsed.dateOfBirth),
+    summary: toNullable(parsed.summary),
+  };
 
   const saved = await prisma.$transaction(async (tx) => {
-    // Upsert the CV row — capture the actual DB id (may differ from client id on first save)
     const { id: dbCvId } = await tx.cV.upsert({
       where: { presetId: parsed.presetId },
       create: {
         id: parsed.id,
         presetId: parsed.presetId,
-        name: parsed.name,
-        email: parsed.email,
-        phone: parsed.phone,
-        location: parsed.location,
-        title: parsed.title,
-        linkedin: parsed.linkedin,
-        github: parsed.github,
-        website: parsed.website,
-        driverLicense: parsed.driverLicense,
-        dateOfBirth: parsed.dateOfBirth,
-        summary: parsed.summary,
+        ...personalData,
       },
-      update: {
-        name: parsed.name,
-        email: parsed.email,
-        phone: parsed.phone,
-        location: parsed.location,
-        title: parsed.title,
-        linkedin: parsed.linkedin,
-        github: parsed.github,
-        website: parsed.website,
-        driverLicense: parsed.driverLicense,
-        dateOfBirth: parsed.dateOfBirth,
-        summary: parsed.summary,
-      },
+      update: personalData,
       select: { id: true },
     });
 
