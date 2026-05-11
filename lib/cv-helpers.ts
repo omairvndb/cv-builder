@@ -10,6 +10,10 @@ export function sortByOrder<T extends { order: number }>(xs: T[]): T[] {
   return [...xs].sort((a, b) => a.order - b.order);
 }
 
+export function normalizeSectionItems(items: Section["items"]): Section["items"] {
+  return sortByOrder(items).map((item, idx) => ({ ...item, order: idx }));
+}
+
 export function reorderSections(cv: CV, orderedIds: string[]): CV {
   const newOrderById = new Map(orderedIds.map((id, idx) => [id, idx]));
   const globalOrderById = new Map(
@@ -44,17 +48,23 @@ export function updateSectionItem(
 }
 
 export function addSectionItem(cv: CV, sectionId: string, data: SectionItemData): CV {
-  return updateSection(cv, sectionId, (s) => ({
-    ...s,
-    items: [...s.items, { id: crypto.randomUUID(), sectionId, order: s.items.length, data }],
-  }));
+  return updateSection(cv, sectionId, (s) => {
+    const normalized = normalizeSectionItems(s.items);
+    return {
+      ...s,
+      items: [
+        ...normalized,
+        { id: crypto.randomUUID(), sectionId, order: normalized.length, data },
+      ],
+    };
+  });
 }
 
 export function removeSectionItem(cv: CV, sectionId: string, itemId: string): CV {
-  return updateSection(cv, sectionId, (s) => ({
-    ...s,
-    items: s.items.filter((i) => i.id !== itemId),
-  }));
+  return updateSection(cv, sectionId, (s) => {
+    const remaining = s.items.filter((i) => i.id !== itemId);
+    return { ...s, items: normalizeSectionItems(remaining) };
+  });
 }
 
 export function createBlankCV(presetId: string): CV {
