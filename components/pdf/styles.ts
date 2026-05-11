@@ -19,7 +19,9 @@ export const SIDEBAR_WIDTH = 160;
 export const H_PAD = 22;
 
 // Typography tokens
-export const FONT_SIZE_SECTION_TITLE = 9;
+export const FONT_SIZE_NAME_TITLE = 22;
+export const FONT_SIZE_JOB_TITLE = 16;
+export const FONT_SIZE_SECTION_TITLE = 12;
 export const FONT_SIZE = 8.5;
 export const FONT_SIZE_SMALL = 8;
 
@@ -68,8 +70,8 @@ export const styles = StyleSheet.create({
     left: 0,
     top: 0,
     width: SIDEBAR_WIDTH,
-    paddingTop: 24,
-    paddingBottom: 24,
+    paddingTop: 28,
+    paddingBottom: 28,
     paddingLeft: 12,
     paddingRight: 12,
   },
@@ -126,12 +128,12 @@ export const styles = StyleSheet.create({
   },
   nameText: {
     fontFamily: "Helvetica-Bold",
-    fontSize: 22,
+    fontSize: FONT_SIZE_NAME_TITLE,
     color: WHITE,
   },
   jobTitleText: {
     marginTop: 4,
-    fontSize: 12,
+    fontSize: FONT_SIZE_JOB_TITLE,
     color: "#bbbbbb",
   },
   content: {
@@ -159,9 +161,9 @@ export const styles = StyleSheet.create({
   entrySubtitle: { ...mutedLabel, marginTop: 1, marginBottom: 2 },
 
   // Entry variants
-  bodyText: { ...entryBase, marginTop: 2 },
-  bulletRow: { flexDirection: "row", marginTop: 2 },
+  bodyText: { ...entryBase, marginTop: 2.5, lineHeight: 1.25 },
+  bulletRow: { flexDirection: "row", marginTop: 2.5 },
   bulletDot: { ...entryBase, marginRight: 4 },
   bulletText: { ...entryBase, flex: 1 },
-  techText: { ...mutedLabel, marginTop: 3, fontFamily: "Helvetica-Oblique" },
+  techText: { ...mutedLabel, marginTop: 4, fontFamily: "Helvetica-Oblique" },
 });
