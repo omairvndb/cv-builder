@@ -11,7 +11,7 @@ export type SectionType = z.infer<typeof SectionTypeSchema>;
 
 export const ExperienceDataSchema = z.object({
   company: z.string(),
-  location: z.string().optional(),
+  location: z.string(),
   role: z.string(),
   startDate: z.string(),
   endDate: z.string(),
@@ -112,6 +112,7 @@ export type Preset = z.infer<typeof PresetSchema>;
 
 export const emptyExperience: ExperienceData = {
   company: "",
+  location: "",
   role: "",
   startDate: "",
   endDate: "",

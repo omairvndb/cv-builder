@@ -62,7 +62,7 @@ export default function ExperienceSection({ cv, section, onUpdate }: Props) {
               </FormField>
               <FormField label="Location">
                 <Input
-                  value={data.location ?? ""}
+                  value={data.location}
                   onChange={set("location")}
                   placeholder="e.g. Antwerpen"
                 />
