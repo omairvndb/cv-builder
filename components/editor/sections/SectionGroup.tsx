@@ -16,11 +16,13 @@ import { useSortable } from "@dnd-kit/react/sortable";
 import { DotsSixVerticalIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import SectionEditor from "./SectionEditor";
+import { Badge } from "@/components/ui/badge";
 
 type SectionGroupProps = {
   label: string;
   sections: Section[];
   cv: CV;
+  savedCV: CV | null;
   onUpdate: (cv: CV) => void;
 };
 
@@ -28,10 +30,17 @@ type SortableSectionItemProps = {
   cv: CV;
   section: Section;
   index: number;
+  savedCV: CV | null;
   onUpdate: (cv: CV) => void;
 };
 
-export default function SectionGroup({ label, sections, cv, onUpdate }: SectionGroupProps) {
+export default function SectionGroup({
+  label,
+  sections,
+  cv,
+  savedCV,
+  onUpdate,
+}: SectionGroupProps) {
   const sectionIds = sections.map((s) => s.id);
   const [isDragging, setIsDragging] = useState(false);
   const [openItems, setOpenItems] = useState<string[]>([]);
@@ -56,6 +65,7 @@ export default function SectionGroup({ label, sections, cv, onUpdate }: SectionG
               cv={cv}
               section={section}
               index={index}
+              savedCV={savedCV}
               onUpdate={onUpdate}
             />
           ))}
@@ -73,13 +83,15 @@ export default function SectionGroup({ label, sections, cv, onUpdate }: SectionG
   );
 }
 
-function SortableSectionItem({ cv, section, index, onUpdate }: SortableSectionItemProps) {
+function SortableSectionItem({ cv, section, index, savedCV, onUpdate }: SortableSectionItemProps) {
   const { ref, handleRef, isDragSource } = useSortable({
     id: section.id,
     index,
     data: { title: section.title },
   });
   const { source } = useDragOperation();
+  const savedSection = savedCV?.sections.find((s) => s.id === section.id) ?? null;
+  const isSectionDirty = JSON.stringify(section) !== JSON.stringify(savedSection);
 
   return (
     <div ref={ref} className={cn(isDragSource && "opacity-0")}>
@@ -98,7 +110,12 @@ function SortableSectionItem({ cv, section, index, onUpdate }: SortableSectionIt
           >
             <DotsSixVerticalIcon weight="bold" />
           </Button>
-          <AccordionTrigger className="pl-7">{section.title}</AccordionTrigger>
+          <AccordionTrigger className="pl-7">
+            <span className="flex items-center gap-2">
+              {section.title}
+              {isSectionDirty && <Badge variant="secondary">Modified</Badge>}
+            </span>
+          </AccordionTrigger>
         </div>
 
         {/* Unmount content during drag instead of letting Radix animate close —
