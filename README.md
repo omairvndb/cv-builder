@@ -1,14 +1,14 @@
 # CV Builder
 
-A personal CV builder with a live PDF preview, multi-preset support, and manual save. Built for personal use, because good CV tools are either overpriced, overcomplicated, or both.
+A personal CV builder with a live PDF preview, multi-preset support, and manual save. Built for personal use and as a learning project, because good CV tools are either paywalled, overcomplicated, or both.
 
 ---
 
-## The Problem
+## Motivation
 
-Maintaining a CV in Figma is tedious. Every update (a new job, a tweaked summary, a skill added) means repositioning elements, fixing alignment, and re-exporting. And when you need slightly different versions for different job applications, you're either juggling multiple Figma files or constantly undoing changes.
+Maintaining a CV in Figma, Word, or any other editing tool is tedious. Every update (a new job, a tweaked summary, a skill added) means repositioning elements, fixing alignment, and re-exporting. And when you need slightly different versions for different job applications, you're either juggling multiple files or constantly undoing changes.
 
-The good CV builders that exist either charge a subscription, lock you into a rigid template, or bury you in options you don't need. Many also show a preview that is only an approximation of the final PDF, rendered in HTML/CSS and converted at export time, which means fonts shift, spacing drifts, and what you see is not always what you get.
+The good CV builders that exist either charge a subscription, lock you into a rigid template, or bury you in options you don't need. Many also render the preview in HTML/CSS and convert to PDF at export, which is meticulous and very difficult to get right. In practice, fonts render slightly off, spacing shifts, and the preview stops matching reality. This app uses the same engine for both preview and export, making the live preview a guaranteed 1-to-1 representation of the file you download.
 
 This is a purpose-built personal tool: one layout, one workflow, built for one person's preferences. The UI is kept intentionally simple and consistent throughout, using shadcn/ui components across the board so everything looks and behaves like it came from one hand.
 
