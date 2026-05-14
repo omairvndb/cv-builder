@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import type { Preset } from "@/lib/schemas";
 import { AsteriskSimpleIcon, CaretDownIcon } from "@phosphor-icons/react";
 
-type PresetSwitcherProps = {
+type PresetDropdownMenuProps = {
   presets: Preset[];
   activePresetId: string;
   onSwitch: (presetId: string) => void;
@@ -28,7 +28,7 @@ type PresetSwitcherProps = {
   isDeleting?: boolean;
 };
 
-export default function PresetSwitcher({
+export default function PresetDropdownMenu({
   presets,
   activePresetId,
   onSwitch,
@@ -36,7 +36,7 @@ export default function PresetSwitcher({
   onToggleDefault,
   onDelete,
   isDeleting,
-}: PresetSwitcherProps) {
+}: PresetDropdownMenuProps) {
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);

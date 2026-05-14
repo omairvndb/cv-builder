@@ -1,10 +1,10 @@
 "use client";
 
-import type { ComponentProps } from "react";
-import type { Preset } from "@/lib/schemas";
 import { ButtonGroup } from "@/components/ui/button-group";
+import type { Preset } from "@/lib/schemas";
+import type { ComponentProps } from "react";
 import NewPresetButton from "./NewPresetButton";
-import PresetSwitcher from "./PresetSwitcher";
+import PresetDropdownMenu from "./PresetDropdownMenu";
 
 type PresetControlsProps = {
   presets: Preset[];
@@ -29,7 +29,7 @@ export default function PresetControls({
 }: PresetControlsProps) {
   return (
     <ButtonGroup>
-      <PresetSwitcher
+      <PresetDropdownMenu
         presets={presets}
         activePresetId={activePresetId}
         onSwitch={onSwitch}
