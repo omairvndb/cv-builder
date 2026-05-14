@@ -16,8 +16,6 @@ import { useSortable } from "@dnd-kit/react/sortable";
 import { DotsSixVerticalIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import SectionEditor from "./SectionEditor";
-import { Badge } from "@/components/ui/badge";
-
 type SectionGroupProps = {
   label: string;
   sections: Section[];
@@ -130,7 +128,9 @@ function SortableSectionItem({ cv, section, index, savedCV, onUpdate }: Sortable
               ) : (
                 <span className="text-muted-foreground">{section.title}</span>
               )}
-              {isSectionDirty && <Badge variant="secondary">Modified</Badge>}
+              {isSectionDirty && (
+                <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
+              )}
             </span>
           </AccordionTrigger>
         </div>
@@ -140,7 +140,12 @@ function SortableSectionItem({ cv, section, index, savedCV, onUpdate }: Sortable
             and the layout shifts visibly under the pointer. */}
         {!source && (
           <AccordionContent>
-            <SectionEditor cv={cv} section={section} onUpdate={onUpdate} />
+            <SectionEditor
+              cv={cv}
+              section={section}
+              savedSection={savedSection}
+              onUpdate={onUpdate}
+            />
           </AccordionContent>
         )}
       </AccordionItem>

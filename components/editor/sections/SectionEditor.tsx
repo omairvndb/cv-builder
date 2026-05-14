@@ -10,22 +10,54 @@ import LanguagesSection from "./LanguagesSection";
 export default function SectionEditor({
   cv,
   section,
+  savedSection,
   onUpdate,
 }: {
   cv: CV;
   section: Section;
+  savedSection: Section | null;
   onUpdate: (cv: CV) => void;
 }) {
   switch (section.type) {
     case "EXPERIENCE":
-      return <ExperienceSection cv={cv} section={section} onUpdate={onUpdate} />;
+      return (
+        <ExperienceSection
+          cv={cv}
+          section={section}
+          savedSection={savedSection}
+          onUpdate={onUpdate}
+        />
+      );
     case "EDUCATION":
-      return <EducationSection cv={cv} section={section} onUpdate={onUpdate} />;
+      return (
+        <EducationSection
+          cv={cv}
+          section={section}
+          savedSection={savedSection}
+          onUpdate={onUpdate}
+        />
+      );
     case "SKILLS":
-      return <SkillsSection cv={cv} section={section} onUpdate={onUpdate} />;
+      return (
+        <SkillsSection cv={cv} section={section} savedSection={savedSection} onUpdate={onUpdate} />
+      );
     case "PROJECTS":
-      return <ProjectsSection cv={cv} section={section} onUpdate={onUpdate} />;
+      return (
+        <ProjectsSection
+          cv={cv}
+          section={section}
+          savedSection={savedSection}
+          onUpdate={onUpdate}
+        />
+      );
     case "LANGUAGES":
-      return <LanguagesSection cv={cv} section={section} onUpdate={onUpdate} />;
+      return (
+        <LanguagesSection
+          cv={cv}
+          section={section}
+          savedSection={savedSection}
+          onUpdate={onUpdate}
+        />
+      );
   }
 }

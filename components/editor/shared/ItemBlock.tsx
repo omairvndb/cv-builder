@@ -5,14 +5,17 @@ import ConfirmDialog from "./ConfirmDialog";
 
 export default function ItemBlock({
   onRemove,
+  isDirty,
   children,
 }: {
   onRemove: () => void;
+  isDirty?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <Card size="sm" className="border ring-0">
       <CardHeader>
+        {isDirty && <span className="w-1.5 h-1.5 rounded-full bg-primary" />}
         <CardAction>
           <ConfirmDialog
             trigger={

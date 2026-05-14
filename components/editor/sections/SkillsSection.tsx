@@ -9,6 +9,7 @@ import {
 } from "@/lib/schemas";
 import {
   addSectionItem,
+  isItemDirty,
   removeSectionItem,
   sortByOrder,
   updateSectionItem,
@@ -20,21 +21,23 @@ import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
 import TagInput from "../shared/TagInput";
 
-type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
+type Props = { cv: CV; section: Section; savedSection: Section | null; onUpdate: (cv: CV) => void };
 
 function SkillsItem({
   item,
+  isDirty,
   onUpdate,
   onRemove,
 }: {
   item: SectionItem;
+  isDirty: boolean;
   onUpdate: (data: SkillsData) => void;
   onRemove: () => void;
 }) {
   const data = item.data as SkillsData;
 
   return (
-    <ItemBlock onRemove={onRemove}>
+    <ItemBlock onRemove={onRemove} isDirty={isDirty}>
       <FormField label="Category">
         <Input
           value={data.category}
@@ -51,19 +54,23 @@ function SkillsItem({
   );
 }
 
-export default function SkillsSection({ cv, section, onUpdate }: Props) {
+export default function SkillsSection({ cv, section, savedSection, onUpdate }: Props) {
   const items = sortByOrder(section.items);
 
   return (
     <div className="flex flex-col gap-3">
-      {items.map((item) => (
-        <SkillsItem
-          key={item.id}
-          item={item}
-          onUpdate={(data) => onUpdate(updateSectionItem(cv, section.id, item.id, data))}
-          onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
-        />
-      ))}
+      {items.map((item) => {
+        const isDirty = isItemDirty(item, savedSection);
+        return (
+          <SkillsItem
+            key={item.id}
+            item={item}
+            isDirty={isDirty}
+            onUpdate={(data) => onUpdate(updateSectionItem(cv, section.id, item.id, data))}
+            onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
+          />
+        );
+      })}
       <Button
         className="w-full"
         onClick={() => onUpdate(addSectionItem(cv, section.id, emptySkills))}

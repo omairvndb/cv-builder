@@ -1,6 +1,7 @@
 import { emptyEducation, type CV, type Section, type EducationData } from "@/lib/schemas";
 import {
   addSectionItem,
+  isItemDirty,
   removeSectionItem,
   sortByOrder,
   updateSectionItem,
@@ -13,9 +14,9 @@ import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
 import BulletListEditor from "../shared/BulletListEditor";
 
-type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
+type Props = { cv: CV; section: Section; savedSection: Section | null; onUpdate: (cv: CV) => void };
 
-export default function EducationSection({ cv, section, onUpdate }: Props) {
+export default function EducationSection({ cv, section, savedSection, onUpdate }: Props) {
   const items = sortByOrder(section.items);
 
   const update = (id: string, field: keyof EducationData, value: string) => {
@@ -44,9 +45,12 @@ export default function EducationSection({ cv, section, onUpdate }: Props) {
             update(item.id, field, e.target.value);
         const bullets = data.bullets ?? [];
 
+        const isDirty = isItemDirty(item, savedSection);
+
         return (
           <ItemBlock
             key={item.id}
+            isDirty={isDirty}
             onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
           >
             <div className="grid grid-cols-2 gap-3">

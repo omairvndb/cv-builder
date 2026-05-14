@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/accordion";
 import PersonalInfoSection from "./sections/PersonalInfoSection";
 import SectionGroup from "./sections/SectionGroup";
-import { Badge } from "../ui/badge";
 
 const metaFields = (cv: CV) =>
   Object.fromEntries(Object.entries(cv).filter(([k]) => k !== "sections"));
@@ -38,7 +37,9 @@ export default function EditorPanel({
           <AccordionTrigger>
             <span className="flex items-center gap-2">
               Personal Info
-              {isPersonalInfoDirty && <Badge variant="secondary">Modified</Badge>}
+              {isPersonalInfoDirty && (
+                <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
+              )}
             </span>
           </AccordionTrigger>
           <AccordionContent>

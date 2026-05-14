@@ -9,6 +9,7 @@ import {
 } from "@/lib/schemas";
 import {
   addSectionItem,
+  isItemDirty,
   removeSectionItem,
   sortByOrder,
   updateSectionItem,
@@ -22,14 +23,16 @@ import FormField from "../shared/FormField";
 import BulletListEditor from "../shared/BulletListEditor";
 import TagInput from "../shared/TagInput";
 
-type Props = { cv: CV; section: Section; onUpdate: (cv: CV) => void };
+type Props = { cv: CV; section: Section; savedSection: Section | null; onUpdate: (cv: CV) => void };
 
 function ProjectItem({
   item,
+  isDirty,
   onUpdate,
   onRemove,
 }: {
   item: SectionItem;
+  isDirty: boolean;
   onUpdate: (data: ProjectsData) => void;
   onRemove: () => void;
 }) {
@@ -45,7 +48,7 @@ function ProjectItem({
   const bullets = data.bullets ?? [];
 
   return (
-    <ItemBlock onRemove={onRemove}>
+    <ItemBlock onRemove={onRemove} isDirty={isDirty}>
       <FormField label="Title">
         <Input value={data.title} onChange={set("title")} />
       </FormField>
@@ -73,19 +76,23 @@ function ProjectItem({
   );
 }
 
-export default function ProjectsSection({ cv, section, onUpdate }: Props) {
+export default function ProjectsSection({ cv, section, savedSection, onUpdate }: Props) {
   const items = sortByOrder(section.items);
 
   return (
     <div className="flex flex-col gap-3">
-      {items.map((item) => (
-        <ProjectItem
-          key={item.id}
-          item={item}
-          onUpdate={(data) => onUpdate(updateSectionItem(cv, section.id, item.id, data))}
-          onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
-        />
-      ))}
+      {items.map((item) => {
+        const isDirty = isItemDirty(item, savedSection);
+        return (
+          <ProjectItem
+            key={item.id}
+            item={item}
+            isDirty={isDirty}
+            onUpdate={(data) => onUpdate(updateSectionItem(cv, section.id, item.id, data))}
+            onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
+          />
+        );
+      })}
       <Button
         className="w-full"
         onClick={() => onUpdate(addSectionItem(cv, section.id, emptyProjects))}

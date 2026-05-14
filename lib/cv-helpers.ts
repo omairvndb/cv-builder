@@ -1,4 +1,4 @@
-import type { CV, Section, SectionItemData, SectionType } from "@/lib/schemas";
+import type { CV, Section, SectionItem, SectionItemData, SectionType } from "@/lib/schemas";
 
 export type SectionLayout = "sidebar" | "main";
 
@@ -65,6 +65,11 @@ export function removeSectionItem(cv: CV, sectionId: string, itemId: string): CV
     const remaining = s.items.filter((i) => i.id !== itemId);
     return { ...s, items: normalizeSectionItems(remaining) };
   });
+}
+
+export function isItemDirty(item: SectionItem, savedSection: Section | null): boolean {
+  const savedItem = savedSection?.items.find((i) => i.id === item.id);
+  return JSON.stringify(item) !== JSON.stringify(savedItem);
 }
 
 export function createBlankCV(presetId: string): CV {
