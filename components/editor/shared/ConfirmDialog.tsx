@@ -18,6 +18,7 @@ export type ConfirmDialogProps = {
   title: string;
   description?: string;
   confirmLabel: string;
+  confirmVariant?: React.ComponentProps<typeof AlertDialogAction>["variant"];
   loading?: boolean;
 };
 
@@ -29,6 +30,7 @@ export default function ConfirmDialog({
   title,
   description,
   confirmLabel,
+  confirmVariant = "destructive",
   loading,
 }: ConfirmDialogProps) {
   return (
@@ -42,7 +44,7 @@ export default function ConfirmDialog({
         <AlertDialogFooter>
           <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            variant="destructive"
+            variant={confirmVariant}
             disabled={loading}
             onClick={(e) => {
               if (loading) {

@@ -2,16 +2,21 @@
 
 // Central state hub for the editor. Owns all preset + CV state.
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createPreset, deletePreset, duplicatePreset, updatePreset } from "@/lib/actions/presets";
-import { useAutoSave } from "@/hooks/useAutoSave";
+import { saveCV } from "@/lib/actions/cv";
 import { toast } from "sonner";
 import type { CV, NewPresetCreateArgs, Preset } from "@/lib/schemas";
 import EditorPanel from "@/components/editor/EditorPanel";
 import NoPresetsState from "@/components/editor/presets/NoPresetsState";
 import PreviewPanel from "@/components/editor/PreviewPanel";
+import ConfirmDialog from "@/components/editor/shared/ConfirmDialog";
 
-const PREVIEW_DEBOUNCE_MS = 800;
+export type SaveStatus = "idle" | "saving" | "saved" | "error";
+
+type PendingAction =
+  | { type: "switch"; presetId: string }
+  | { type: "create"; args: NewPresetCreateArgs };
 
 /**
  * Selects the preset to activate on load.
@@ -27,43 +32,47 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
     pickInitialPresetId(initialPresets)
   );
   const [isDeleting, setIsDeleting] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
 
   const activePreset = presets.find((p) => p.id === activePresetId) ?? null;
   const activeCV = activePreset?.cv ?? null;
 
-  // Separate from activeCV so the PDF preview can be debounced
+  // previewCV only updates on explicit save (this is what drives the PDF re-render)
   const [previewCV, setPreviewCV] = useState<CV | null>(activeCV);
+  const isDirty = activeCV !== previewCV; // = unsaved changes
 
-  const { status: saveStatus, save: scheduleAutoSave } = useAutoSave();
-
-  // Sync previewCV to activeCV after a debounce.
-  // The cleanup cancels any pending update when activeCV changes again before the timeout fires.
-  useEffect(() => {
-    if (!activeCV) return;
-    const timeoutId = setTimeout(() => setPreviewCV(activeCV), PREVIEW_DEBOUNCE_MS);
-    return () => clearTimeout(timeoutId);
-  }, [activeCV]);
+  const handleSave = useCallback(async (): Promise<boolean> => {
+    if (!activeCV || !isDirty) return true;
+    setSaveStatus("saving");
+    try {
+      await saveCV(activeCV);
+      setPreviewCV(activeCV);
+      setSaveStatus("saved");
+      return true;
+    } catch {
+      setSaveStatus("error");
+      toast.error("Failed to save.");
+      return false;
+    }
+  }, [activeCV, isDirty]);
 
   function handleUpdateCV(cv: CV) {
     if (!activePresetId) return;
     setPresets((prev) =>
       prev.map((p) => (p.id === activePresetId ? { ...p, cv, updatedAt: new Date() } : p))
     );
-    scheduleAutoSave(cv);
   }
 
-  /**
-   * Switches the active preset and immediately syncs the preview.
-   * Bypasses the debounce: the 800ms lag only applies to live edits, not preset switches.
-   */
-  function handleSwitchPreset(presetId: string) {
+  function doSwitchPreset(presetId: string) {
     const next = presets.find((p) => p.id === presetId)?.cv;
     if (!next) return;
     setActivePresetId(presetId);
     setPreviewCV(next);
+    setSaveStatus("idle");
   }
 
-  async function handleCreatePreset(args: NewPresetCreateArgs) {
+  async function doCreatePreset(args: NewPresetCreateArgs) {
     const preset =
       args.source === "duplicate"
         ? await duplicatePreset(args.fromPresetId, args.name)
@@ -71,6 +80,36 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
     setPresets((prev) => [...prev, preset]);
     setActivePresetId(preset.id);
     setPreviewCV(preset.cv ?? null);
+    setSaveStatus("idle");
+  }
+
+  /**
+   * Switches the active preset. If there are unsaved changes, shows a confirmation
+   * dialog first. The preview always syncs to the saved state of the target preset.
+   */
+  function handleSwitchPreset(presetId: string) {
+    if (isDirty) {
+      setPendingAction({ type: "switch", presetId });
+      return;
+    }
+    doSwitchPreset(presetId);
+  }
+
+  async function handleCreatePreset(args: NewPresetCreateArgs) {
+    if (isDirty) {
+      setPendingAction({ type: "create", args });
+      return;
+    }
+    await doCreatePreset(args);
+  }
+
+  async function handleSaveAndContinue() {
+    if (!pendingAction) return;
+    const saved = await handleSave();
+    if (!saved) return;
+    setPendingAction(null);
+    if (pendingAction.type === "switch") doSwitchPreset(pendingAction.presetId);
+    else await doCreatePreset(pendingAction.args);
   }
 
   /**
@@ -131,27 +170,57 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
     const next = remaining.find((p) => p.isDefault) ?? remaining[0] ?? null;
     setActivePresetId(next?.id ?? null);
     setPreviewCV(next?.cv ?? null);
+    setSaveStatus("idle");
   }
+
+  // Cmd+S / Ctrl+S shortcut
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+        e.preventDefault();
+        handleSave();
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [handleSave]);
 
   if (!activeCV || !previewCV || !activePresetId) {
     return <NoPresetsState onCreate={handleCreatePreset} />;
   }
 
   return (
-    <div className="flex flex-1 overflow-hidden">
-      <EditorPanel cv={activeCV} onUpdate={handleUpdateCV} />
-      <PreviewPanel
-        cv={previewCV}
-        presets={presets}
-        activePresetId={activePresetId}
-        saveStatus={saveStatus}
-        onSwitchPreset={handleSwitchPreset}
-        onCreatePreset={handleCreatePreset}
-        onRenamePreset={handleRenamePreset}
-        onToggleDefaultPreset={handleToggleDefaultPreset}
-        onDeletePreset={handleDeletePreset}
-        isDeleting={isDeleting}
+    <>
+      <div className="flex flex-1 overflow-hidden">
+        <EditorPanel cv={activeCV} onUpdate={handleUpdateCV} />
+        <PreviewPanel
+          cv={previewCV}
+          presets={presets}
+          activePresetId={activePresetId}
+          saveStatus={saveStatus}
+          isDirty={isDirty}
+          onSave={handleSave}
+          onSwitchPreset={handleSwitchPreset}
+          onCreatePreset={handleCreatePreset}
+          onRenamePreset={handleRenamePreset}
+          onToggleDefaultPreset={handleToggleDefaultPreset}
+          onDeletePreset={handleDeletePreset}
+          isDeleting={isDeleting}
+        />
+      </div>
+
+      <ConfirmDialog
+        open={!!pendingAction}
+        onOpenChange={(open) => {
+          if (!open) setPendingAction(null);
+        }}
+        title="Unsaved changes"
+        description="You have unsaved changes. Save before switching presets?"
+        confirmLabel="Save & Continue"
+        confirmVariant="default"
+        loading={saveStatus === "saving"}
+        onConfirm={handleSaveAndContinue}
       />
-    </div>
+    </>
   );
 }

@@ -1,13 +1,16 @@
 "use client";
 
+import type { SaveStatus } from "@/app/editor/_client";
 import PresetControls from "@/components/editor/presets/PresetControls";
 import CVDocument from "@/components/pdf/CVDocument";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { SaveStatus } from "@/hooks/useAutoSave";
+import { Kbd } from "@/components/ui/kbd";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { getSectionOrderSignature } from "@/lib/cv-helpers";
 import type { CV, NewPresetCreateArgs, Preset } from "@/lib/schemas";
 import {
+  ArrowClockwiseIcon,
   CheckIcon,
   DownloadSimpleIcon,
   MinusIcon,
@@ -36,6 +39,8 @@ export type PreviewPanelClientProps = {
   presets: Preset[];
   activePresetId: string;
   saveStatus: SaveStatus;
+  isDirty: boolean;
+  onSave: () => Promise<boolean>;
   onSwitchPreset: (presetId: string) => void;
   onCreatePreset: (args: NewPresetCreateArgs) => Promise<void>;
   onRenamePreset: (name: string) => void;
@@ -49,6 +54,8 @@ export default function PreviewPanelClient({
   presets,
   activePresetId,
   saveStatus,
+  isDirty,
+  onSave,
   onSwitchPreset,
   onCreatePreset,
   onRenamePreset,
@@ -209,24 +216,42 @@ export default function PreviewPanelClient({
           />
         </div>
 
-        <div className="flex items-center justify-end gap-4">
-          {saveStatus === "saving" && (
-            <Badge variant="secondary">
-              <Spinner />
-              Saving…
-            </Badge>
-          )}
-          {saveStatus === "saved" && (
+        <div className="flex items-center justify-end gap-2">
+          {saveStatus === "saved" && !isDirty && (
             <Badge variant="secondary">
               <CheckIcon />
               Saved
             </Badge>
           )}
-          {saveStatus === "error" && (
-            <Badge variant="destructive">
-              <WarningCircleIcon />
-              Save failed
-            </Badge>
+
+          {isDirty && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  type="button"
+                  size="icon"
+                  variant={saveStatus === "error" ? "destructive" : "outline"}
+                  onClick={onSave}
+                  disabled={saveStatus === "saving"}
+                  aria-label="Save changes"
+                >
+                  {saveStatus === "saving" && <Spinner />}
+                  {saveStatus === "error" && <WarningCircleIcon />}
+                  {saveStatus !== "saving" && saveStatus !== "error" && (
+                    <ArrowClockwiseIcon weight="fill" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {saveStatus === "error" ? (
+                  <>Save failed! Click to retry.</>
+                ) : (
+                  <>
+                    Save Changes <Kbd>⌘S</Kbd>
+                  </>
+                )}
+              </TooltipContent>
+            </Tooltip>
           )}
 
           <Button
@@ -234,13 +259,19 @@ export default function PreviewPanelClient({
             size="icon"
             className="cursor-pointer"
             onClick={handleDownload}
-            disabled={!instance.url}
+            disabled={isDirty || !instance.url}
             aria-label="Download PDF"
           >
             <DownloadSimpleIcon />
           </Button>
         </div>
       </div>
+
+      {isDirty && (
+        <div className="flex items-center justify-center border-b py-1.5 text-xs font-medium text-muted-foreground">
+          Preview outdated. Save to update <Kbd className="ms-1.5">⌘S</Kbd>
+        </div>
+      )}
 
       {/* PDF container */}
       <div ref={containerRef} className="relative flex-1 overflow-auto bg-muted">
