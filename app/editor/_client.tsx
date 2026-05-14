@@ -10,7 +10,15 @@ import type { CV, NewPresetCreateArgs, Preset } from "@/lib/schemas";
 import EditorPanel from "@/components/editor/EditorPanel";
 import NoPresetsState from "@/components/editor/presets/NoPresetsState";
 import PreviewPanel from "@/components/editor/PreviewPanel";
-import ConfirmDialog from "@/components/editor/shared/ConfirmDialog";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export type SaveStatus = "idle" | "saving" | "saved" | "error";
 
@@ -209,18 +217,51 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
         />
       </div>
 
-      <ConfirmDialog
+      <UnsavedChangesDialog
         open={!!pendingAction}
-        onOpenChange={(open) => {
-          if (!open) setPendingAction(null);
-        }}
-        title="Unsaved changes"
-        description="You have unsaved changes. Save before switching presets?"
-        confirmLabel="Save & Continue"
-        confirmVariant="default"
-        loading={saveStatus === "saving"}
+        saving={saveStatus === "saving"}
         onConfirm={handleSaveAndContinue}
+        onCancel={() => setPendingAction(null)}
       />
     </>
+  );
+}
+
+function UnsavedChangesDialog({
+  open,
+  saving,
+  onConfirm,
+  onCancel,
+}: {
+  open: boolean;
+  saving: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        if (!isOpen && saving) return;
+        if (!isOpen) onCancel();
+      }}
+    >
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Unsaved changes</DialogTitle>
+          <DialogDescription>
+            You have unsaved changes. Save before switching presets?
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" disabled={saving} onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button disabled={saving} onClick={onConfirm}>
+            {saving ? "Saving Changes…" : "Save & Continue"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
