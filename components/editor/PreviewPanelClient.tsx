@@ -10,7 +10,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { getSectionOrderSignature } from "@/lib/cv-helpers";
 import type { CV, NewPresetCreateArgs, Preset } from "@/lib/schemas";
 import {
-  ArrowClockwiseIcon,
+  ArrowFatLineDownIcon,
   CheckIcon,
   DownloadSimpleIcon,
   MinusIcon,
@@ -237,9 +237,7 @@ export default function PreviewPanelClient({
                 >
                   {saveStatus === "saving" && <Spinner />}
                   {saveStatus === "error" && <WarningCircleIcon />}
-                  {saveStatus !== "saving" && saveStatus !== "error" && (
-                    <ArrowClockwiseIcon weight="fill" />
-                  )}
+                  {saveStatus !== "saving" && saveStatus !== "error" && <ArrowFatLineDownIcon />}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
