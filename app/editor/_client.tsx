@@ -48,7 +48,7 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
 
   // previewCV only updates on explicit save (this is what drives the PDF re-render)
   const [previewCV, setPreviewCV] = useState<CV | null>(activeCV);
-  const isDirty = activeCV !== previewCV; // = unsaved changes
+  const isDirty = JSON.stringify(activeCV) !== JSON.stringify(previewCV); // = unsaved changes
 
   const handleSave = useCallback(async (): Promise<boolean> => {
     if (!activeCV || !isDirty) return true;
