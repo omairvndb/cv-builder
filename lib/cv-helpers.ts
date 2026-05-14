@@ -15,15 +15,15 @@ export function normalizeSectionItems(items: Section["items"]): Section["items"]
 }
 
 export function reorderSections(cv: CV, orderedIds: string[]): CV {
-  const newOrderById = new Map(orderedIds.map((id, idx) => [id, idx]));
-  const globalOrderById = new Map(
-    [...cv.sections]
-      .sort((a, b) => (newOrderById.get(a.id) ?? a.order) - (newOrderById.get(b.id) ?? b.order))
-      .map((s, idx) => [s.id, idx])
-  );
+  const currentOrders = orderedIds
+    .map((id) => cv.sections.find((s) => s.id === id)!.order)
+    .sort((a, b) => a - b);
+  const newOrderById = new Map(orderedIds.map((id, idx) => [id, currentOrders[idx]]));
   return {
     ...cv,
-    sections: cv.sections.map((s) => ({ ...s, order: globalOrderById.get(s.id)! })),
+    sections: cv.sections.map((s) =>
+      newOrderById.has(s.id) ? { ...s, order: newOrderById.get(s.id)! } : s
+    ),
   };
 }
 
