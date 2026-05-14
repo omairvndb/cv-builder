@@ -7,13 +7,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { reorderSections } from "@/lib/cv-helpers";
+import { reorderSections, updateSection } from "@/lib/cv-helpers";
 import type { CV, Section } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import { move } from "@dnd-kit/helpers";
 import { DragDropProvider, DragOverlay, useDragOperation, type DragEndEvent } from "@dnd-kit/react";
 import { useSortable } from "@dnd-kit/react/sortable";
-import { DotsSixVerticalIcon } from "@phosphor-icons/react";
+import { DotsSixVerticalIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import SectionEditor from "./SectionEditor";
 import { Badge } from "@/components/ui/badge";
@@ -110,9 +110,26 @@ function SortableSectionItem({ cv, section, index, savedCV, onUpdate }: Sortable
           >
             <DotsSixVerticalIcon weight="bold" />
           </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-xs"
+            aria-label={section.visible ? "Hide section" : "Show section"}
+            onClick={(e) => {
+              e.stopPropagation();
+              onUpdate(updateSection(cv, section.id, (s) => ({ ...s, visible: !s.visible })));
+            }}
+            className="absolute inset-y-0 h-auto z-10 touch-none right-6 cursor-pointer"
+          >
+            {section.visible ? <EyeIcon /> : <EyeSlashIcon />}
+          </Button>
           <AccordionTrigger className="pl-7">
             <span className="flex items-center gap-2">
-              {section.title}
+              {section.visible ? (
+                section.title
+              ) : (
+                <span className="text-muted-foreground">{section.title}</span>
+              )}
               {isSectionDirty && <Badge variant="secondary">Modified</Badge>}
             </span>
           </AccordionTrigger>
