@@ -27,8 +27,25 @@ export function reorderSections(cv: CV, orderedIds: string[]): CV {
   };
 }
 
+export function reorderSectionItems(cv: CV, sectionId: string, orderedIds: string[]): CV {
+  return updateSection(cv, sectionId, (s) => {
+    const currentOrders = orderedIds
+      .map((id) => s.items.find((i) => i.id === id)!.order)
+      .sort((a, b) => a - b);
+    const newOrderById = new Map(orderedIds.map((id, idx) => [id, currentOrders[idx]]));
+    return {
+      ...s,
+      items: s.items.map((i) =>
+        newOrderById.has(i.id) ? { ...i, order: newOrderById.get(i.id)! } : i
+      ),
+    };
+  });
+}
+
 export function getSectionOrderSignature(cv: CV): string {
-  return cv.sections.map((s) => `${s.id}@${s.order}`).join(",");
+  return cv.sections
+    .map((s) => `${s.id}@${s.order}[${s.items.map((i) => `${i.id}@${i.order}`).join(",")}]`)
+    .join(",");
 }
 
 export function updateSection(cv: CV, sectionId: string, updater: (s: Section) => Section): CV {

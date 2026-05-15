@@ -6,6 +6,7 @@ import {
   addSectionItem,
   isItemDirty,
   removeSectionItem,
+  reorderSectionItems,
   sortByOrder,
   updateSectionItem,
 } from "@/lib/cv-helpers";
@@ -17,6 +18,7 @@ import ItemBlock from "../shared/ItemBlock";
 import FormField from "../shared/FormField";
 import BulletListEditor from "../shared/BulletListEditor";
 import AddItemDialog from "../shared/AddItemDialog";
+import SortableItems from "../shared/SortableItems";
 
 type Props = { cv: CV; section: Section; savedSection: Section | null; onUpdate: (cv: CV) => void };
 
@@ -28,22 +30,23 @@ export default function EducationSection({ cv, section, savedSection, onUpdate }
   return (
     <div className="flex flex-col gap-3">
       {/* Items */}
-      {items.map((item) => {
-        const data = item.data as EducationData;
-        const isDirty = isItemDirty(item, savedSection);
-        return (
+      <SortableItems
+        items={items}
+        onReorder={(orderedIds) => onUpdate(reorderSectionItems(cv, section.id, orderedIds))}
+      >
+        {(item, handleRef) => (
           <ItemBlock
-            key={item.id}
-            isDirty={isDirty}
+            handleRef={handleRef}
+            isDirty={isItemDirty(item, savedSection)}
             onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
           >
             <EducationFields
-              data={data}
+              data={item.data as EducationData}
               onChange={(newData) => onUpdate(updateSectionItem(cv, section.id, item.id, newData))}
             />
           </ItemBlock>
-        );
-      })}
+        )}
+      </SortableItems>
 
       {/* Add button */}
       <Button

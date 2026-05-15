@@ -7,7 +7,9 @@ import SectionTitle from "./shared/SectionTitle";
 import { styles } from "./styles";
 
 export default function CVDocument({ cv }: { cv: CV }) {
-  const visibleSections = cv.sections.filter((s) => s.visible);
+  const visibleSections = cv.sections
+    .filter((s) => s.visible)
+    .map((s) => ({ ...s, items: sortByOrder(s.items) }));
   const sidebarSections = sortByOrder(
     visibleSections.filter((s) => getSectionLayout(s.type) === "sidebar")
   );
