@@ -5,6 +5,14 @@ import LanguagesBlock from "./LanguagesBlock";
 import ProjectsBlock from "./ProjectsBlock";
 import SkillsBlock from "./SkillsBlock";
 
+const DUTCH_SECTION_TITLES = {
+  EDUCATION: "Opleiding",
+  EXPERIENCE: "Werkervaring",
+  SKILLS: "Technische vaardigheden",
+  PROJECTS: "Projecten",
+  LANGUAGES: "Talen",
+} as const;
+
 export default function SectionBlock({
   section,
   first = false,
@@ -12,16 +20,17 @@ export default function SectionBlock({
   section: Section;
   first?: boolean;
 }) {
+  const localised = { ...section, title: DUTCH_SECTION_TITLES[section.type] };
   switch (section.type) {
     case "EXPERIENCE":
-      return <ExperienceBlock section={section} first={first} />;
+      return <ExperienceBlock section={localised} first={first} />;
     case "EDUCATION":
-      return <EducationBlock section={section} first={first} />;
+      return <EducationBlock section={localised} first={first} />;
     case "PROJECTS":
-      return <ProjectsBlock section={section} first={first} />;
+      return <ProjectsBlock section={localised} first={first} />;
     case "SKILLS":
-      return <SkillsBlock section={section} />;
+      return <SkillsBlock section={localised} />;
     case "LANGUAGES":
-      return <LanguagesBlock section={section} />;
+      return <LanguagesBlock section={localised} />;
   }
 }
