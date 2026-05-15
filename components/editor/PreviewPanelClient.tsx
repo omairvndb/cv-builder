@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { getSectionOrderSignature } from "@/lib/cv-helpers";
+import { getOrderSignature } from "@/lib/cv-helpers";
 import type { CV, NewPresetCreateArgs, Preset } from "@/lib/schemas";
 import {
   ArrowFatLineDownIcon,
@@ -84,10 +84,7 @@ export default function PreviewPanelClient({
    * where its host `insertBefore` doesn't remove the moved child from its old position,
    * which duplicates sections in the rendered PDF after a reorder.)
    */
-  const documentElement = useMemo(
-    () => <CVDocument key={getSectionOrderSignature(cv)} cv={cv} />,
-    [cv]
-  );
+  const documentElement = useMemo(() => <CVDocument key={getOrderSignature(cv)} cv={cv} />, [cv]);
   const [instance, updateInstance] = usePDF({ document: documentElement });
 
   /** Capture the visible page and offset so we can restore scroll after rerender. */

@@ -14,35 +14,22 @@ export function normalizeSectionItems(items: Section["items"]): Section["items"]
   return sortByOrder(items).map((item, idx) => ({ ...item, order: idx }));
 }
 
-export function reorderSections(cv: CV, orderedIds: string[]): CV {
-  const currentOrders = orderedIds
-    .map((id) => cv.sections.find((s) => s.id === id)!.order)
-    .sort((a, b) => a - b);
-  const newOrderById = new Map(orderedIds.map((id, idx) => [id, currentOrders[idx]]));
-  return {
-    ...cv,
-    sections: cv.sections.map((s) =>
-      newOrderById.has(s.id) ? { ...s, order: newOrderById.get(s.id)! } : s
-    ),
-  };
-}
-
-export function reorderSectionItems(cv: CV, sectionId: string, orderedIds: string[]): CV {
-  return updateSection(cv, sectionId, (s) => {
-    const currentOrders = orderedIds
-      .map((id) => s.items.find((i) => i.id === id)!.order)
-      .sort((a, b) => a - b);
-    const newOrderById = new Map(orderedIds.map((id, idx) => [id, currentOrders[idx]]));
-    return {
-      ...s,
-      items: s.items.map((i) =>
-        newOrderById.has(i.id) ? { ...i, order: newOrderById.get(i.id)! } : i
-      ),
-    };
+function reorderByIds<T extends { id: string; order: number }>(xs: T[], orderedIds: string[]): T[] {
+  return xs.map((x) => {
+    const newOrder = orderedIds.indexOf(x.id);
+    return newOrder === -1 ? x : { ...x, order: newOrder };
   });
 }
 
-export function getSectionOrderSignature(cv: CV): string {
+export function reorderSections(cv: CV, orderedIds: string[]): CV {
+  return { ...cv, sections: reorderByIds(cv.sections, orderedIds) };
+}
+
+export function reorderSectionItems(cv: CV, sectionId: string, orderedIds: string[]): CV {
+  return updateSection(cv, sectionId, (s) => ({ ...s, items: reorderByIds(s.items, orderedIds) }));
+}
+
+export function getOrderSignature(cv: CV): string {
   return cv.sections
     .map((s) => `${s.id}@${s.order}[${s.items.map((i) => `${i.id}@${i.order}`).join(",")}]`)
     .join(",");
@@ -93,6 +80,14 @@ export function hasContent(data: Record<string, unknown>): boolean {
   return Object.values(data).some((v) => (Array.isArray(v) ? v.length > 0 : Boolean(v)));
 }
 
+const BLANK_SECTIONS: { type: SectionType; title: string }[] = [
+  { type: "EDUCATION", title: "Education" },
+  { type: "EXPERIENCE", title: "Work Experience" },
+  { type: "SKILLS", title: "Skills" },
+  { type: "PROJECTS", title: "Projects" },
+  { type: "LANGUAGES", title: "Languages" },
+];
+
 export function createBlankCV(presetId: string): CV {
   const cvId = crypto.randomUUID();
   return {
@@ -102,53 +97,14 @@ export function createBlankCV(presetId: string): CV {
     email: "",
     phone: "",
     location: "",
-    sections: [
-      {
-        id: crypto.randomUUID(),
-        cvId,
-        type: "EDUCATION",
-        title: "Education",
-        order: 0,
-        visible: true,
-        items: [],
-      },
-      {
-        id: crypto.randomUUID(),
-        cvId,
-        type: "EXPERIENCE",
-        title: "Work Experience",
-        order: 1,
-        visible: true,
-        items: [],
-      },
-      {
-        id: crypto.randomUUID(),
-        cvId,
-        type: "SKILLS",
-        title: "Skills",
-        order: 2,
-        visible: true,
-        items: [],
-      },
-      {
-        id: crypto.randomUUID(),
-        cvId,
-        type: "PROJECTS",
-        title: "Projects",
-        order: 3,
-        visible: true,
-        items: [],
-      },
-      {
-        id: crypto.randomUUID(),
-        cvId,
-        type: "LANGUAGES",
-        title: "Languages",
-        order: 4,
-        visible: true,
-        items: [],
-      },
-    ],
+    sections: BLANK_SECTIONS.map((s, order) => ({
+      id: crypto.randomUUID(),
+      cvId,
+      order,
+      visible: true,
+      items: [],
+      ...s,
+    })),
   };
 }
 
