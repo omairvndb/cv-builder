@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  emptyLanguage,
-  type CV,
-  type Section,
-  type SectionItem,
-  type LanguagesData,
-} from "@/lib/schemas";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   addSectionItem,
   isItemDirty,
@@ -14,71 +9,86 @@ import {
   sortByOrder,
   updateSectionItem,
 } from "@/lib/cv-helpers";
-import { Input } from "@/components/ui/input";
+import { emptyLanguage, type CV, type LanguagesData, type Section } from "@/lib/schemas";
 import { PlusIcon } from "@phosphor-icons/react";
-import { Button } from "@/components/ui/button";
-import ItemBlock from "../shared/ItemBlock";
+import { useState } from "react";
+import AddItemDialog from "../shared/AddItemDialog";
 import FormField from "../shared/FormField";
+import ItemBlock from "../shared/ItemBlock";
 
 type Props = { cv: CV; section: Section; savedSection: Section | null; onUpdate: (cv: CV) => void };
 
-function LanguageItem({
-  item,
-  isDirty,
-  onUpdate,
-  onRemove,
-}: {
-  item: SectionItem;
-  isDirty: boolean;
-  onUpdate: (data: LanguagesData) => void;
-  onRemove: () => void;
-}) {
-  const data = item.data as LanguagesData;
-
-  return (
-    <ItemBlock onRemove={onRemove} isDirty={isDirty}>
-      <div className="grid grid-cols-2 gap-3">
-        <FormField label="Language">
-          <Input
-            value={data.language}
-            onChange={(e) => onUpdate({ ...data, language: e.target.value })}
-          />
-        </FormField>
-        <FormField label="Proficiency">
-          <Input
-            value={data.proficiency}
-            onChange={(e) => onUpdate({ ...data, proficiency: e.target.value })}
-          />
-        </FormField>
-      </div>
-    </ItemBlock>
-  );
-}
-
 export default function LanguagesSection({ cv, section, savedSection, onUpdate }: Props) {
   const items = sortByOrder(section.items);
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState<LanguagesData>(emptyLanguage);
 
   return (
     <div className="flex flex-col gap-3">
+      {/* Items */}
       {items.map((item) => {
+        const data = item.data as LanguagesData;
         const isDirty = isItemDirty(item, savedSection);
         return (
-          <LanguageItem
+          <ItemBlock
             key={item.id}
-            item={item}
             isDirty={isDirty}
-            onUpdate={(data) => onUpdate(updateSectionItem(cv, section.id, item.id, data))}
             onRemove={() => onUpdate(removeSectionItem(cv, section.id, item.id))}
-          />
+          >
+            <LanguageFields
+              data={data}
+              onChange={(newData) => onUpdate(updateSectionItem(cv, section.id, item.id, newData))}
+            />
+          </ItemBlock>
         );
       })}
+
+      {/* Add button */}
       <Button
         className="w-full"
-        onClick={() => onUpdate(addSectionItem(cv, section.id, emptyLanguage))}
+        onClick={() => {
+          setDraft(emptyLanguage);
+          setOpen(true);
+        }}
       >
         <PlusIcon />
         Add language
       </Button>
+
+      {/* Add dialog */}
+      <AddItemDialog
+        title="Add language"
+        open={open}
+        onOpenChange={setOpen}
+        onConfirm={() => onUpdate(addSectionItem(cv, section.id, draft))}
+      >
+        <LanguageFields data={draft} onChange={setDraft} />
+      </AddItemDialog>
+    </div>
+  );
+}
+
+function LanguageFields({
+  data,
+  onChange,
+}: {
+  data: LanguagesData;
+  onChange: (data: LanguagesData) => void;
+}) {
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      <FormField label="Language">
+        <Input
+          value={data.language ?? ""}
+          onChange={(e) => onChange({ ...data, language: e.target.value || undefined })}
+        />
+      </FormField>
+      <FormField label="Proficiency">
+        <Input
+          value={data.proficiency ?? ""}
+          onChange={(e) => onChange({ ...data, proficiency: e.target.value || undefined })}
+        />
+      </FormField>
     </div>
   );
 }

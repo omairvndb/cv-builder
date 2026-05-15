@@ -72,6 +72,10 @@ export function isItemDirty(item: SectionItem, savedSection: Section | null): bo
   return JSON.stringify(item) !== JSON.stringify(savedItem);
 }
 
+export function hasContent(data: Record<string, unknown>): boolean {
+  return Object.values(data).some((v) => (Array.isArray(v) ? v.length > 0 : Boolean(v)));
+}
+
 export function createBlankCV(presetId: string): CV {
   const cvId = crypto.randomUUID();
   return {

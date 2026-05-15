@@ -52,7 +52,7 @@ export async function saveCV(cv: CV): Promise<CV> {
       })),
     });
 
-    const allItems = parsed.sections.flatMap((s) =>
+    const allItems = cv.sections.flatMap((s) =>
       s.items.map((i) => ({ id: i.id, sectionId: s.id, order: i.order, data: i.data }))
     );
     if (allItems.length > 0) {

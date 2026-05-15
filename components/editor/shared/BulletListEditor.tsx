@@ -26,7 +26,7 @@ export default function BulletListEditor({ bullets, onChange }: Props) {
             />
             <ConfirmDialog
               trigger={
-                <Button variant="outline" size="icon" type="button" disabled={bullets.length <= 1}>
+                <Button variant="outline" size="icon" type="button">
                   <XIcon />
                 </Button>
               }

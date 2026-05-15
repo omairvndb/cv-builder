@@ -10,42 +10,42 @@ export const SectionTypeSchema = z.enum([
 export type SectionType = z.infer<typeof SectionTypeSchema>;
 
 export const ExperienceDataSchema = z.object({
-  company: z.string(),
-  location: z.string(),
-  role: z.string(),
-  startDate: z.string(),
-  endDate: z.string(),
-  description: z.string(),
+  company: z.string().optional(),
+  location: z.string().optional(),
+  role: z.string().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+  description: z.string().optional(),
   bullets: z.array(z.string()).optional(),
   techStack: z.array(z.string()).optional(),
 });
 
 export const EducationDataSchema = z.object({
-  institution: z.string(),
+  institution: z.string().optional(),
   location: z.string().optional(),
-  degree: z.string(),
-  startDate: z.string(),
-  endDate: z.string(),
+  degree: z.string().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
   description: z.string().optional(),
   bullets: z.array(z.string()).optional(),
 });
 
 export const SkillsDataSchema = z.object({
-  category: z.string(),
-  items: z.array(z.string()),
+  category: z.string().optional(),
+  items: z.array(z.string()).optional(),
 });
 
 export const ProjectsDataSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  techStack: z.array(z.string()),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  techStack: z.array(z.string()).optional(),
   link: z.string().optional(),
   bullets: z.array(z.string()).optional(),
 });
 
 export const LanguagesDataSchema = z.object({
-  language: z.string(),
-  proficiency: z.string(),
+  language: z.string().optional(),
+  proficiency: z.string().optional(),
 });
 
 export const SectionItemDataSchema = z.union([
@@ -110,34 +110,11 @@ export type Section = z.infer<typeof SectionSchema>;
 export type CV = z.infer<typeof CVSchema>;
 export type Preset = z.infer<typeof PresetSchema>;
 
-export const emptyExperience: ExperienceData = {
-  company: "",
-  location: "",
-  role: "",
-  startDate: "",
-  endDate: "",
-  description: "",
-  bullets: [],
-};
-
-export const emptyEducation: EducationData = {
-  institution: "",
-  degree: "",
-  startDate: "",
-  endDate: "",
-};
-
-export const emptySkills: SkillsData = { category: "", items: [] };
-
-export const emptyProjects: ProjectsData = {
-  title: "",
-  description: "",
-  techStack: [],
-  link: undefined,
-  bullets: [],
-};
-
-export const emptyLanguage: LanguagesData = { language: "", proficiency: "" };
+export const emptyExperience: ExperienceData = { bullets: [], techStack: [] };
+export const emptyEducation: EducationData = { bullets: [] };
+export const emptySkills: SkillsData = { items: [] };
+export const emptyProjects: ProjectsData = { techStack: [], bullets: [] };
+export const emptyLanguage: LanguagesData = {};
 
 export type NewPresetCreateArgs =
   | { source: "blank"; name: string }
