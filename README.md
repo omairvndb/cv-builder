@@ -24,6 +24,7 @@ This is a purpose-built personal tool: one layout, one workflow, built for one p
 - **Keyboard shortcut**: `Cmd+S` / `Ctrl+S` to save
 - **Zoom controls**: scale the PDF preview from 60% to 160%
 - **PDF export**: download the CV as a PDF
+- **Add item dialog**: new items in any section are created through a dialog; fill in the form first, then confirm to add, or cancel to discard
 
 ### Presets
 
@@ -63,16 +64,16 @@ A4 two-column layout:
 
 ## Tech Stack
 
-| Concern        | Choice                                 |
-| -------------- | -------------------------------------- |
-| Framework      | Next.js 16 (App Router) + TypeScript   |
-| Styling        | Tailwind CSS v4 + shadcn/ui            |
-| Forms          | react-hook-form + Zod                  |
-| PDF            | @react-pdf/renderer                    |
-| Drag and drop  | @dnd-kit/react                         |
-| Database       | PostgreSQL (Neon)                      |
-| ORM            | Prisma                                 |
-| Server actions | Next.js Server Actions (no API routes) |
+| Concern            | Choice                                 |
+| ------------------ | -------------------------------------- |
+| Framework          | Next.js 16 (App Router) + TypeScript   |
+| Styling            | Tailwind CSS v4 + shadcn/ui            |
+| Types / validation | Zod (type inference) + react-hook-form |
+| PDF                | @react-pdf/renderer                    |
+| Drag and drop      | @dnd-kit/react                         |
+| Database           | PostgreSQL (Neon)                      |
+| ORM                | Prisma                                 |
+| Server actions     | Next.js Server Actions (no API routes) |
 
 ---
 
@@ -89,7 +90,7 @@ State lives in the editor page via plain `useState`. There are two CV copies in 
 
 ### Persistence
 
-All database operations go through Next.js Server Actions in `/lib/actions/`. Server Actions were chosen over API routes because a full REST layer would be overkill for a personal tool. Zod schemas in `lib/schemas.ts` are shared between the client (form validation) and server (action input validation), so the same rules apply in both places. Saves use Prisma transactions to upsert the CV and all its sections and items atomically.
+All database operations go through Next.js Server Actions in `/lib/actions/`. Server Actions were chosen over API routes because a full REST layer would be overkill for a personal tool. Zod schemas in `lib/schemas.ts` are used for TypeScript type inference throughout the app. On the server, `saveCV` skips runtime Zod validation as the input is already typed via TypeScript, and relies on `toNullable()` to convert optional fields to `null` for Prisma. Saves use Prisma transactions to upsert the CV and all its sections and items atomically.
 
 ### PDF generation
 
