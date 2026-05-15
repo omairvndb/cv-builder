@@ -5,67 +5,52 @@ import FormField from "../shared/FormField";
 
 type Props = { cv: CV; onUpdate: (cv: CV) => void };
 
-type RequiredField = "name" | "email" | "phone" | "location";
-type OptionalField =
-  | "title"
-  | "website"
-  | "linkedin"
-  | "github"
-  | "driverLicense"
-  | "dateOfBirth"
-  | "summary";
-
 export default function PersonalInfoSection({ cv, onUpdate }: Props) {
-  const setRequired =
-    (field: RequiredField) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      onUpdate({ ...cv, [field]: e.target.value });
-    };
-
-  const setOptional =
-    (field: OptionalField) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const set =
+    (field: keyof typeof cv) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       onUpdate({ ...cv, [field]: e.target.value || undefined });
     };
 
   return (
     <div className="flex flex-col gap-3">
       <FormField label="Name">
-        <Input value={cv.name} onChange={setRequired("name")} />
+        <Input value={cv.name ?? ""} onChange={set("name")} />
       </FormField>
       <FormField label="Job Title">
         <Input
           value={cv.title ?? ""}
-          onChange={setOptional("title")}
+          onChange={set("title")}
           placeholder="e.g. Software Developer"
         />
       </FormField>
       <div className="grid grid-cols-2 gap-3">
         <FormField label="Email">
-          <Input value={cv.email} onChange={setRequired("email")} />
+          <Input value={cv.email ?? ""} onChange={set("email")} />
         </FormField>
         <FormField label="Phone">
-          <Input value={cv.phone} onChange={setRequired("phone")} />
+          <Input value={cv.phone ?? ""} onChange={set("phone")} />
         </FormField>
         <FormField label="Location">
-          <Input value={cv.location} onChange={setRequired("location")} />
+          <Input value={cv.location ?? ""} onChange={set("location")} />
         </FormField>
         <FormField label="Website">
-          <Input value={cv.website ?? ""} onChange={setOptional("website")} />
+          <Input value={cv.website ?? ""} onChange={set("website")} />
         </FormField>
         <FormField label="LinkedIn">
-          <Input value={cv.linkedin ?? ""} onChange={setOptional("linkedin")} />
+          <Input value={cv.linkedin ?? ""} onChange={set("linkedin")} />
         </FormField>
         <FormField label="GitHub">
-          <Input value={cv.github ?? ""} onChange={setOptional("github")} />
+          <Input value={cv.github ?? ""} onChange={set("github")} />
         </FormField>
         <FormField label="Driver's License">
-          <Input value={cv.driverLicense ?? ""} onChange={setOptional("driverLicense")} />
+          <Input value={cv.driverLicense ?? ""} onChange={set("driverLicense")} />
         </FormField>
         <FormField label="Date of Birth">
-          <Input value={cv.dateOfBirth ?? ""} onChange={setOptional("dateOfBirth")} />
+          <Input value={cv.dateOfBirth ?? ""} onChange={set("dateOfBirth")} />
         </FormField>
       </div>
       <FormField label="Summary">
-        <Textarea value={cv.summary ?? ""} onChange={setOptional("summary")} rows={4} />
+        <Textarea value={cv.summary ?? ""} onChange={set("summary")} rows={4} />
       </FormField>
     </div>
   );

@@ -33,7 +33,7 @@ export default function CVDocument({ cv }: { cv: CV }) {
         <View style={styles.main}>
           {/* Name and job title header */}
           <View style={styles.nameHeader}>
-            <Text style={styles.nameText}>{cv.name.toUpperCase()}</Text>
+            {cv.name && <Text style={styles.nameText}>{cv.name.toUpperCase()}</Text>}
             {cv.title && <Text style={styles.jobTitleText}>{cv.title}</Text>}
           </View>
 
