@@ -174,23 +174,47 @@ export default function PreviewPanelClient({
     document.body.removeChild(link);
   }
 
-  function updateScale(nextScale: number) {
-    captureAnchor();
-    resetRenderProgress();
-    setScale(nextScale);
-  }
+  const updateScale = useCallback(
+    (nextScale: number) => {
+      captureAnchor();
+      resetRenderProgress();
+      setScale(nextScale);
+    },
+    [captureAnchor, resetRenderProgress]
+  );
 
-  function handleZoomOut() {
+  const handleZoomOut = useCallback(() => {
     updateScale(Math.max(MIN_SCALE, Number((scale - SCALE_STEP).toFixed(2))));
-  }
+  }, [scale, updateScale]);
 
-  function handleZoomIn() {
+  const handleZoomIn = useCallback(() => {
     updateScale(Math.min(MAX_SCALE, Number((scale + SCALE_STEP).toFixed(2))));
-  }
+  }, [scale, updateScale]);
 
-  function handleZoomReset() {
+  const handleZoomReset = useCallback(() => {
     updateScale(1);
-  }
+  }, [updateScale]);
+
+  // Keyboard shortcuts for zooming
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (!(e.metaKey || e.ctrlKey)) return;
+      if (e.key === "-") {
+        e.preventDefault();
+        handleZoomOut();
+      }
+      if (e.key === "=" || e.key === "+") {
+        e.preventDefault();
+        handleZoomIn();
+      }
+      if (e.key === "0") {
+        e.preventDefault();
+        handleZoomReset();
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [handleZoomOut, handleZoomIn, handleZoomReset]);
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
@@ -335,36 +359,57 @@ type ZoomControlsProps = {
 function ZoomControls({ scale, onZoomOut, onZoomIn, onZoomReset }: ZoomControlsProps) {
   return (
     <div className="flex items-center gap-2">
-      <Button
-        type="button"
-        variant="outline"
-        size="icon"
-        onClick={onZoomOut}
-        disabled={scale <= MIN_SCALE}
-        aria-label="Zoom out preview"
-      >
-        <MinusIcon />
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            onClick={onZoomOut}
+            disabled={scale <= MIN_SCALE}
+            aria-label="Zoom out preview"
+          >
+            <MinusIcon />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          Zoom Out <Kbd>⌘-</Kbd>
+        </TooltipContent>
+      </Tooltip>
       <div className="min-w-12 text-center text-xs">{Math.round(scale * 100)}%</div>
-      <Button
-        type="button"
-        variant="outline"
-        size="icon"
-        onClick={onZoomIn}
-        disabled={scale >= MAX_SCALE}
-        aria-label="Zoom in preview"
-      >
-        <PlusIcon />
-      </Button>
-      <Button
-        type="button"
-        variant="outline"
-        onClick={onZoomReset}
-        disabled={scale === 1}
-        aria-label="Reset preview zoom"
-      >
-        Reset
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            onClick={onZoomIn}
+            disabled={scale >= MAX_SCALE}
+            aria-label="Zoom in preview"
+          >
+            <PlusIcon />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          Zoom In <Kbd>⌘+</Kbd>
+        </TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onZoomReset}
+            disabled={scale === 1}
+            aria-label="Reset preview zoom"
+          >
+            Reset
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          Reset Zoom <Kbd>⌘0</Kbd>
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 }
