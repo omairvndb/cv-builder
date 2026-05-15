@@ -10,7 +10,7 @@ type HandleRef = (element: Element | null) => void;
 type SortableItemsProps<T extends { id: string }> = {
   items: T[];
   onReorder: (orderedIds: string[]) => void;
-  children: (item: T, handleRef: HandleRef) => React.ReactNode;
+  children: (item: T, handleRef: HandleRef | undefined) => React.ReactNode;
 };
 
 export default function SortableItems<T extends { id: string }>({
@@ -29,7 +29,8 @@ export default function SortableItems<T extends { id: string }>({
     <DragDropProvider onDragEnd={handleDragEnd}>
       {items.map((item, index) => (
         <SortableRow key={item.id} id={item.id} index={index}>
-          {(handleRef) => children(item, handleRef)}
+          {/* Only show drag handle if there are more than 2 items */}
+          {(handleRef) => children(item, items.length < 2 ? undefined : handleRef)}
         </SortableRow>
       ))}
     </DragDropProvider>
