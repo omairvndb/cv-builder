@@ -21,7 +21,9 @@ This is a purpose-built personal tool: one layout, one workflow, built for one p
 - **Two-panel layout**: form inputs on the left, live PDF preview on the right
 - **True live PDF preview**: the preview is rendered by the same engine that produces the export (`@react-pdf/renderer`), not an HTML/CSS approximation that gets converted at download time; fonts, spacing, and layout are identical between preview and export
 - **Save with visual feedback**: a save status indicator shows when changes are unsaved or successfully saved, and a small dot appears next to the personal info, each section title, and each individual item that has unsaved edits so you can see at a glance what's been touched
-- **Keyboard shortcut**: `Cmd+S` / `Ctrl+S` to save
+- **Keyboard shortcuts**:
+  - `Cmd+S` / `Ctrl+S` to save
+  - `Cmd+-` / `Ctrl+-` to zoom out, `Cmd+=` / `Ctrl+=` to zoom in, `Cmd+0` / `Ctrl+0` to reset zoom
 - **Zoom controls**: scale the PDF preview from 60% to 160%
 - **PDF export**: download the CV as a PDF
 - **Add item dialog**: new items in any section are created through a dialog; fill in the form first, then confirm to add, or cancel to discard
