@@ -1,4 +1,5 @@
 import type { Section } from "@/lib/schemas";
+import CertificationsBlock from "./CertificationsBlock";
 import EducationBlock from "./EducationBlock";
 import ExperienceBlock from "./ExperienceBlock";
 import LanguagesBlock from "./LanguagesBlock";
@@ -11,6 +12,7 @@ const DUTCH_SECTION_TITLES = {
   SKILLS: "Technische vaardigheden",
   PROJECTS: "Projecten",
   LANGUAGES: "Talen",
+  CERTIFICATIONS: "Certificaten",
 } as const;
 
 export default function SectionBlock({
@@ -32,5 +34,7 @@ export default function SectionBlock({
       return <SkillsBlock section={localised} />;
     case "LANGUAGES":
       return <LanguagesBlock section={localised} />;
+    case "CERTIFICATIONS":
+      return <CertificationsBlock section={localised} />;
   }
 }
