@@ -2,8 +2,10 @@ import type { CV, Section, SectionItem, SectionItemData, SectionType } from "@/l
 
 export type SectionLayout = "sidebar" | "main";
 
+const SIDEBAR_TYPES: ReadonlySet<SectionType> = new Set(["SKILLS", "LANGUAGES", "CERTIFICATIONS"]);
+
 export function getSectionLayout(type: SectionType): SectionLayout {
-  return type === "SKILLS" || type === "LANGUAGES" ? "sidebar" : "main";
+  return SIDEBAR_TYPES.has(type) ? "sidebar" : "main";
 }
 
 export function sortByOrder<T extends { order: number }>(xs: T[]): T[] {
@@ -86,6 +88,7 @@ const BLANK_SECTIONS: { type: SectionType; title: string }[] = [
   { type: "SKILLS", title: "Skills" },
   { type: "PROJECTS", title: "Projects" },
   { type: "LANGUAGES", title: "Languages" },
+  { type: "CERTIFICATIONS", title: "Certifications" },
 ];
 
 export function createBlankCV(presetId: string): CV {
