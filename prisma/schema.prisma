@@ -18,6 +18,7 @@ enum SectionType {
   SKILLS
   PROJECTS
   LANGUAGES
+  CERTIFICATIONS
 }
 
 model Preset {
