@@ -12,9 +12,9 @@ import type { CV, NewPresetCreateArgs, Preset } from "@/lib/schemas";
 import {
   ArrowFatLineDownIcon,
   CheckIcon,
-  DownloadSimpleIcon,
-  MinusIcon,
-  PlusIcon,
+  ExportIcon,
+  MagnifyingGlassMinusIcon,
+  MagnifyingGlassPlusIcon,
   WarningCircleIcon,
 } from "@phosphor-icons/react";
 import { usePDF } from "@react-pdf/renderer";
@@ -279,9 +279,9 @@ export default function PreviewPanelClient({
             className="cursor-pointer"
             onClick={handleDownload}
             disabled={isDirty || !instance.url}
-            aria-label="Download PDF"
+            aria-label="Export PDF"
           >
-            <DownloadSimpleIcon />
+            <ExportIcon />
           </Button>
         </div>
       </div>
@@ -366,7 +366,7 @@ function ZoomControls({ scale, onZoomOut, onZoomIn, onZoomReset }: ZoomControlsP
             disabled={scale <= MIN_SCALE}
             aria-label="Zoom out preview"
           >
-            <MinusIcon />
+            <MagnifyingGlassMinusIcon />
           </Button>
         </TooltipTrigger>
         <TooltipContent>
@@ -384,7 +384,7 @@ function ZoomControls({ scale, onZoomOut, onZoomIn, onZoomReset }: ZoomControlsP
             disabled={scale >= MAX_SCALE}
             aria-label="Zoom in preview"
           >
-            <PlusIcon />
+            <MagnifyingGlassPlusIcon />
           </Button>
         </TooltipTrigger>
         <TooltipContent>
