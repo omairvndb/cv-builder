@@ -41,14 +41,15 @@ This is a purpose-built personal tool: one layout, one workflow, built for one p
 
 Personal info is fixed at the top of the editor. All other sections can be toggled visible/hidden per preset and reordered via drag and drop, and their items can be reordered within each section:
 
-| Section       | Fields                                                                                                   |
-| ------------- | -------------------------------------------------------------------------------------------------------- |
-| Personal info | Name, title, email, phone, location, LinkedIn, GitHub, website, driver's license, date of birth, summary |
-| Experience    | Company, role, location, start/end date, description, bullet points, tech stack                          |
-| Education     | Institution, degree, location, start/end date, description, bullet points                                |
-| Skills        | Grouped by category (e.g. Languages, Frameworks, Tools)                                                  |
-| Projects      | Title, description, tech stack, link, bullet points                                                      |
-| Languages     | Language name and proficiency level                                                                      |
+| Section        | Fields                                                                                                   |
+| -------------- | -------------------------------------------------------------------------------------------------------- |
+| Personal info  | Name, title, email, phone, location, LinkedIn, GitHub, website, driver's license, date of birth, summary |
+| Experience     | Company, role, location, start/end date, description, bullet points, tech stack                          |
+| Education      | Institution, degree, location, start/end date, description, bullet points                                |
+| Skills         | Grouped by category (e.g. Languages, Frameworks, Tools)                                                  |
+| Projects       | Title, description, tech stack, link, bullet points                                                      |
+| Languages      | Language name and proficiency level                                                                      |
+| Certifications | Name, issuer, date                                                                                       |
 
 ### Drag and Drop
 
@@ -60,7 +61,7 @@ Personal info is fixed at the top of the editor. All other sections can be toggl
 
 A4 two-column layout:
 
-- **Left sidebar**: contact info with icons, skills by category, languages
+- **Left sidebar**: contact info with icons, skills by category, languages, certifications
 - **Right main area**: name and title at the top, followed by summary, education, experience, and projects
 
 ---
@@ -118,7 +119,7 @@ When CV data changes and the PDF regenerates, the preview panel captures the cur
 
 ### Drag and drop
 
-Sections are split into two independently sortable groups: Sidebar (Skills, Languages) and Main (Experience, Education, Projects). Each group uses `@dnd-kit/react` with a `useSortable` hook per item. The accordion for a section collapses during a drag to prevent visual jitter from height changes mid-gesture.
+Sections are split into two independently sortable groups: Sidebar (Skills, Languages, Certifications) and Main (Experience, Education, Projects). Each group uses `@dnd-kit/react` with a `useSortable` hook per item. The accordion for a section collapses during a drag to prevent visual jitter from height changes mid-gesture.
 
 Items within a section reuse the same pattern via a small `SortableItems` wrapper, with a grab handle on the left of each item card. The handle is hidden when the section only contains a single item (nothing to reorder).
 
