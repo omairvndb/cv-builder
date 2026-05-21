@@ -7,6 +7,7 @@ export const SectionTypeSchema = z.enum([
   "PROJECTS",
   "LANGUAGES",
   "CERTIFICATIONS",
+  "REFERENCES",
 ]);
 export type SectionType = z.infer<typeof SectionTypeSchema>;
 
@@ -55,6 +56,15 @@ export const CertificationsDataSchema = z.object({
   date: z.string().optional(),
 });
 
+export const ReferencesDataSchema = z.object({
+  name: z.string().optional(),
+  role: z.string().optional(),
+  company: z.string().optional(),
+  email: z.string().optional(),
+  phone: z.string().optional(),
+  quote: z.string().optional(),
+});
+
 export const SectionItemDataSchema = z.union([
   ExperienceDataSchema,
   EducationDataSchema,
@@ -62,6 +72,7 @@ export const SectionItemDataSchema = z.union([
   ProjectsDataSchema,
   LanguagesDataSchema,
   CertificationsDataSchema,
+  ReferencesDataSchema,
 ]);
 
 export const SectionItemSchema = z.object({
@@ -113,6 +124,7 @@ export type SkillsData = z.infer<typeof SkillsDataSchema>;
 export type ProjectsData = z.infer<typeof ProjectsDataSchema>;
 export type LanguagesData = z.infer<typeof LanguagesDataSchema>;
 export type CertificationsData = z.infer<typeof CertificationsDataSchema>;
+export type ReferencesData = z.infer<typeof ReferencesDataSchema>;
 export type SectionItemData = z.infer<typeof SectionItemDataSchema>;
 export type SectionItem = z.infer<typeof SectionItemSchema>;
 export type Section = z.infer<typeof SectionSchema>;
@@ -125,6 +137,7 @@ export const emptySkills: SkillsData = { items: [] };
 export const emptyProjects: ProjectsData = { techStack: [], bullets: [] };
 export const emptyLanguage: LanguagesData = {};
 export const emptyCertification: CertificationsData = {};
+export const emptyReference: ReferencesData = {};
 
 export type NewPresetCreateArgs =
   | { source: "blank"; name: string }

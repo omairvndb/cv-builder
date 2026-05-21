@@ -19,6 +19,7 @@ enum SectionType {
   PROJECTS
   LANGUAGES
   CERTIFICATIONS
+  REFERENCES
 }
 
 model Preset {
