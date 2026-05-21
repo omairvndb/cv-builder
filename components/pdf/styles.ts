@@ -130,7 +130,9 @@ export const styles = StyleSheet.create({
     ...sidebarSectionBoldHeading,
     marginBottom: 2,
   },
-  certSubtitle: mutedLabel,
+  certSubtitle: {
+    fontSize: FONT_SIZE_SMALL,
+  },
 
   // Main
   main: { marginLeft: SIDEBAR_WIDTH },
