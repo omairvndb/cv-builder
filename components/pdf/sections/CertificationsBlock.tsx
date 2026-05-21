@@ -14,15 +14,11 @@ export default function CertificationsBlock({ section }: { section: Section }) {
       <SectionTitle title={section.title} sidebar />
       {visibleItems.map((item) => {
         const data = item.data as CertificationsData;
+        const subtitle = [data.issuer, data.date].filter(Boolean).join(", ");
         return (
           <View key={item.id} style={styles.certEntry}>
             <Text style={styles.certName}>{data.name ?? ""}</Text>
-            {(data.issuer || data.date) && (
-              <View style={styles.certRow}>
-                <Text style={styles.certSubtitle}>{data.issuer ?? ""}</Text>
-                <Text style={styles.certSubtitle}>{data.date ?? ""}</Text>
-              </View>
-            )}
+            {subtitle && <Text style={styles.certSubtitle}>{subtitle}</Text>}
           </View>
         );
       })}

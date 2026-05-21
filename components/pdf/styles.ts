@@ -121,11 +121,6 @@ export const styles = StyleSheet.create({
 
   // Sidebar - Certifications
   certEntry: { marginBottom: 5 },
-  certRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "baseline",
-  },
   certName: {
     ...sidebarSectionBoldHeading,
     marginBottom: 2,
