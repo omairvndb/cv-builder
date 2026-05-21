@@ -134,6 +134,31 @@ export const styles = StyleSheet.create({
     fontSize: FONT_SIZE_SMALL,
   },
 
+  // Sidebar - References
+  refEntry: { marginBottom: 5 },
+  refName: {
+    ...sidebarSectionBoldHeading,
+    marginBottom: 2,
+  },
+  refSubtitle: {
+    fontSize: FONT_SIZE_SMALL,
+    marginBottom: 2,
+  },
+  refContactRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    columnGap: 4,
+  },
+  refContact: {
+    fontSize: FONT_SIZE_SMALL,
+  },
+  refQuote: {
+    ...mutedLabel,
+    fontFamily: "Helvetica-Oblique",
+    marginTop: 2,
+    lineHeight: 1.3,
+  },
+
   // Main
   main: { marginLeft: SIDEBAR_WIDTH },
   nameHeader: {

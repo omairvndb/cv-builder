@@ -4,6 +4,7 @@ import EducationBlock from "./EducationBlock";
 import ExperienceBlock from "./ExperienceBlock";
 import LanguagesBlock from "./LanguagesBlock";
 import ProjectsBlock from "./ProjectsBlock";
+import ReferencesBlock from "./ReferencesBlock";
 import SkillsBlock from "./SkillsBlock";
 
 const DUTCH_SECTION_TITLES = {
@@ -13,6 +14,7 @@ const DUTCH_SECTION_TITLES = {
   PROJECTS: "Projecten",
   LANGUAGES: "Talen",
   CERTIFICATIONS: "Certificaten",
+  REFERENCES: "Referenties",
 } as const;
 
 export default function SectionBlock({
@@ -36,5 +38,7 @@ export default function SectionBlock({
       return <LanguagesBlock section={localised} />;
     case "CERTIFICATIONS":
       return <CertificationsBlock section={localised} />;
+    case "REFERENCES":
+      return <ReferencesBlock section={localised} />;
   }
 }
