@@ -7,6 +7,7 @@ import SkillsSection from "./SkillsSection";
 import ProjectsSection from "./ProjectsSection";
 import LanguagesSection from "./LanguagesSection";
 import CertificationsSection from "./CertificationsSection";
+import ReferencesSection from "./ReferencesSection";
 
 export default function SectionEditor({
   cv,
@@ -63,6 +64,15 @@ export default function SectionEditor({
     case "CERTIFICATIONS":
       return (
         <CertificationsSection
+          cv={cv}
+          section={section}
+          savedSection={savedSection}
+          onUpdate={onUpdate}
+        />
+      );
+    case "REFERENCES":
+      return (
+        <ReferencesSection
           cv={cv}
           section={section}
           savedSection={savedSection}
