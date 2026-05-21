@@ -16,28 +16,30 @@ export default function ProjectsBlock({ section, first }: { section: Section; fi
   return (
     <View>
       <SectionTitle title={section.title} first={first} />
-      {visibleItems.map((item) => {
-        const data = item.data as ProjectsData;
-        return (
-          <Entry
-            key={item.id}
-            title={data.title ?? ""}
-            right={
-              data.link ? (
-                <Link src={ensureProtocol(data.link)} style={styles.entryDate}>
-                  {stripProtocol(data.link)}
-                </Link>
-              ) : undefined
-            }
-          >
-            {data.description && <Description text={data.description} />}
-            <Bullets bullets={data.bullets ?? []} />
-            {(data.techStack?.length ?? 0) > 0 && (
-              <Text style={styles.techText}>Technologieën: {data.techStack?.join(", ")}</Text>
-            )}
-          </Entry>
-        );
-      })}
+      <View style={styles.sectionWrapper}>
+        {visibleItems.map((item) => {
+          const data = item.data as ProjectsData;
+          return (
+            <Entry
+              key={item.id}
+              title={data.title ?? ""}
+              right={
+                data.link ? (
+                  <Link src={ensureProtocol(data.link)} style={styles.entryDate}>
+                    {stripProtocol(data.link)}
+                  </Link>
+                ) : undefined
+              }
+            >
+              {data.description && <Description text={data.description} />}
+              <Bullets bullets={data.bullets ?? []} />
+              {(data.techStack?.length ?? 0) > 0 && (
+                <Text style={styles.techText}>Technologieën: {data.techStack?.join(", ")}</Text>
+              )}
+            </Entry>
+          );
+        })}
+      </View>
     </View>
   );
 }

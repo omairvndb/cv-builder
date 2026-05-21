@@ -47,9 +47,11 @@ export const styles = StyleSheet.create({
   },
 
   // Sections
+  sectionWrapper: { rowGap: 7 },
+  sectionWrapperDense: { rowGap: 3 },
   sectionTitle: {
-    marginTop: 16,
-    marginBottom: 9,
+    marginTop: 18,
+    marginBottom: 8,
     paddingBottom: 3,
     borderBottomWidth: 0.5,
     borderBottomColor: BORDER,
@@ -85,7 +87,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     columnGap: 4,
-    marginBottom: 3,
   },
   infoText: {
     fontSize: FONT_SIZE,
@@ -101,7 +102,6 @@ export const styles = StyleSheet.create({
   skillVal: {
     fontSize: FONT_SIZE,
     color: TEXT,
-    marginBottom: 5,
   },
 
   // Sidebar - Languages
@@ -109,7 +109,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 3,
   },
   langName: {
     ...sidebarSectionBoldHeading,
@@ -120,7 +119,6 @@ export const styles = StyleSheet.create({
   },
 
   // Sidebar - Certifications
-  certEntry: { marginBottom: 5 },
   certName: {
     ...sidebarSectionBoldHeading,
     marginBottom: 2,
@@ -130,7 +128,6 @@ export const styles = StyleSheet.create({
   },
 
   // Sidebar - References
-  refEntry: { marginBottom: 5 },
   refName: {
     ...sidebarSectionBoldHeading,
     marginBottom: 2,
@@ -181,7 +178,6 @@ export const styles = StyleSheet.create({
   },
 
   // Entry
-  entry: { marginBottom: 9 },
   entryRow: {
     flexDirection: "row",
     justifyContent: "space-between",

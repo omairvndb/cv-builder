@@ -15,30 +15,32 @@ export default function EducationBlock({ section, first }: { section: Section; f
   return (
     <View>
       <SectionTitle title={section.title} first={first} />
-      {visibleItems.map((item) => {
-        const data = item.data as EducationData;
-        return (
-          <Entry
-            key={item.id}
-            title={data.degree ?? ""}
-            subtitle={
-              data.location
-                ? `${data.institution ?? ""} – ${data.location}`
-                : (data.institution ?? "")
-            }
-            right={
-              data.startDate || data.endDate ? (
-                <Text style={styles.entryDate}>
-                  {data.startDate ?? ""} – {data.endDate ?? ""}
-                </Text>
-              ) : undefined
-            }
-          >
-            {data.description && <Description text={data.description} />}
-            <Bullets bullets={data.bullets ?? []} />
-          </Entry>
-        );
-      })}
+      <View style={styles.sectionWrapper}>
+        {visibleItems.map((item) => {
+          const data = item.data as EducationData;
+          return (
+            <Entry
+              key={item.id}
+              title={data.degree ?? ""}
+              subtitle={
+                data.location
+                  ? `${data.institution ?? ""} – ${data.location}`
+                  : (data.institution ?? "")
+              }
+              right={
+                data.startDate || data.endDate ? (
+                  <Text style={styles.entryDate}>
+                    {data.startDate ?? ""} – {data.endDate ?? ""}
+                  </Text>
+                ) : undefined
+              }
+            >
+              {data.description && <Description text={data.description} />}
+              <Bullets bullets={data.bullets ?? []} />
+            </Entry>
+          );
+        })}
+      </View>
     </View>
   );
 }

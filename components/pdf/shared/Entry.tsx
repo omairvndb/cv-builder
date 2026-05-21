@@ -11,7 +11,7 @@ interface EntryProps {
 
 export default function Entry({ title, subtitle, right, children }: EntryProps) {
   return (
-    <View style={styles.entry}>
+    <View>
       <View style={styles.entryRow}>
         <Text style={styles.entryTitle}>{title}</Text>
         {right}

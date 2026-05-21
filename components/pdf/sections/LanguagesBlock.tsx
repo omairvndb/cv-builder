@@ -12,15 +12,17 @@ export default function LanguagesBlock({ section }: { section: Section }) {
   return (
     <View>
       <SectionTitle title={section.title} sidebar />
-      {visibleItems.map((item) => {
-        const data = item.data as LanguagesData;
-        return (
-          <View key={item.id} style={styles.langRow}>
-            <Text style={styles.langName}>{data.language ?? ""}</Text>
-            <Text style={styles.langProf}>{data.proficiency ?? ""}</Text>
-          </View>
-        );
-      })}
+      <View style={styles.sectionWrapperDense}>
+        {visibleItems.map((item) => {
+          const data = item.data as LanguagesData;
+          return (
+            <View key={item.id} style={styles.langRow}>
+              <Text style={styles.langName}>{data.language ?? ""}</Text>
+              <Text style={styles.langProf}>{data.proficiency ?? ""}</Text>
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 }

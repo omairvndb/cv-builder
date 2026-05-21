@@ -33,18 +33,20 @@ export default function PersonalInfoBlock({ cv }: { cv: CV }) {
   return (
     <View>
       <SectionTitle title="Persoonlijke Info" sidebar first />
-      {buildRows(cv).map((row, i) => (
-        <View key={i} style={styles.infoRow}>
-          <PdfIcon d={row.icon} />
-          {row.href ? (
-            <Link src={row.href} style={styles.infoText}>
-              {row.label}
-            </Link>
-          ) : (
-            <Text style={styles.infoText}>{row.label}</Text>
-          )}
-        </View>
-      ))}
+      <View style={styles.sectionWrapperDense}>
+        {buildRows(cv).map((row, i) => (
+          <View key={i} style={styles.infoRow}>
+            <PdfIcon d={row.icon} />
+            {row.href ? (
+              <Link src={row.href} style={styles.infoText}>
+                {row.label}
+              </Link>
+            ) : (
+              <Text style={styles.infoText}>{row.label}</Text>
+            )}
+          </View>
+        ))}
+      </View>
     </View>
   );
 }

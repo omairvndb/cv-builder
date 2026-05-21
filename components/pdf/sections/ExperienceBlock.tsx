@@ -15,31 +15,33 @@ export default function ExperienceBlock({ section, first }: { section: Section; 
   return (
     <View>
       <SectionTitle title={section.title} first={first} />
-      {visibleItems.map((item) => {
-        const data = item.data as ExperienceData;
-        return (
-          <Entry
-            key={item.id}
-            title={data.role ?? ""}
-            subtitle={
-              data.location ? `${data.company ?? ""} – ${data.location}` : (data.company ?? "")
-            }
-            right={
-              data.startDate || data.endDate ? (
-                <Text style={styles.entryDate}>
-                  {data.startDate ?? ""} – {data.endDate ?? ""}
-                </Text>
-              ) : undefined
-            }
-          >
-            {data.description && <Description text={data.description} />}
-            <Bullets bullets={data.bullets ?? []} />
-            {(data.techStack?.length ?? 0) > 0 && (
-              <Text style={styles.techText}>Technologieën: {data.techStack?.join(", ")}</Text>
-            )}
-          </Entry>
-        );
-      })}
+      <View style={styles.sectionWrapper}>
+        {visibleItems.map((item) => {
+          const data = item.data as ExperienceData;
+          return (
+            <Entry
+              key={item.id}
+              title={data.role ?? ""}
+              subtitle={
+                data.location ? `${data.company ?? ""} – ${data.location}` : (data.company ?? "")
+              }
+              right={
+                data.startDate || data.endDate ? (
+                  <Text style={styles.entryDate}>
+                    {data.startDate ?? ""} – {data.endDate ?? ""}
+                  </Text>
+                ) : undefined
+              }
+            >
+              {data.description && <Description text={data.description} />}
+              <Bullets bullets={data.bullets ?? []} />
+              {(data.techStack?.length ?? 0) > 0 && (
+                <Text style={styles.techText}>Technologieën: {data.techStack?.join(", ")}</Text>
+              )}
+            </Entry>
+          );
+        })}
+      </View>
     </View>
   );
 }

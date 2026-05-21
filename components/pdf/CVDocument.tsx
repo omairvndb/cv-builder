@@ -44,7 +44,9 @@ export default function CVDocument({ cv }: { cv: CV }) {
             {cv.summary && (
               <View>
                 <SectionTitle title="Profiel" first />
-                <Text style={styles.bodyText}>{cv.summary}</Text>
+                <View style={styles.sectionWrapper}>
+                  <Text style={styles.bodyText}>{cv.summary}</Text>
+                </View>
               </View>
             )}
 

@@ -14,29 +14,31 @@ export default function ReferencesBlock({ section }: { section: Section }) {
   return (
     <View>
       <SectionTitle title={section.title} sidebar />
-      {visibleItems.map((item) => {
-        const data = item.data as ReferencesData;
-        const subtitle = [data.role, data.company].filter(Boolean).join(", ");
-        return (
-          <View key={item.id} style={styles.refEntry}>
-            {data.name && <Text style={styles.refName}>{data.name}</Text>}
-            {subtitle && <Text style={styles.refSubtitle}>{subtitle}</Text>}
-            {data.email && (
-              <View style={styles.refContactRow}>
-                <PdfIcon d={PDF_ICONS.envelope} size={7} color={MUTED} />
-                <Text style={styles.refContact}>{data.email}</Text>
-              </View>
-            )}
-            {data.phone && (
-              <View style={styles.refContactRow}>
-                <PdfIcon d={PDF_ICONS.phone} size={7} color={MUTED} />
-                <Text style={styles.refContact}>{data.phone}</Text>
-              </View>
-            )}
-            {data.quote && <Text style={styles.refQuote}>&ldquo;{data.quote}&rdquo;</Text>}
-          </View>
-        );
-      })}
+      <View style={styles.sectionWrapper}>
+        {visibleItems.map((item) => {
+          const data = item.data as ReferencesData;
+          const subtitle = [data.role, data.company].filter(Boolean).join(", ");
+          return (
+            <View key={item.id}>
+              {data.name && <Text style={styles.refName}>{data.name}</Text>}
+              {subtitle && <Text style={styles.refSubtitle}>{subtitle}</Text>}
+              {data.email && (
+                <View style={styles.refContactRow}>
+                  <PdfIcon d={PDF_ICONS.envelope} size={7} color={MUTED} />
+                  <Text style={styles.refContact}>{data.email}</Text>
+                </View>
+              )}
+              {data.phone && (
+                <View style={styles.refContactRow}>
+                  <PdfIcon d={PDF_ICONS.phone} size={7} color={MUTED} />
+                  <Text style={styles.refContact}>{data.phone}</Text>
+                </View>
+              )}
+              {data.quote && <Text style={styles.refQuote}>&ldquo;{data.quote}&rdquo;</Text>}
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 }
