@@ -164,17 +164,17 @@ Switching presets replaces both `activeCV` and `previewCV` entirely, resetting d
 # Clone and install
 git clone https://github.com/your-username/cv-builder.git
 cd cv-builder
-npm install
+pnpm install
 
 # Configure environment
 cp .env.example .env
 # Add your DATABASE_URL to .env
 
 # Push the schema to your database
-npm run db:push
+pnpm db:push
 
 # Start the dev server
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
@@ -188,8 +188,8 @@ DATABASE_URL=   # PostgreSQL connection string
 ### Useful Scripts
 
 ```bash
-npm run dev         # Start dev server
-npm run build       # Production build
-npm run db:push     # Push Prisma schema changes to the database
-npm run db:studio   # Open Prisma Studio (database browser)
+pnpm dev            # Start dev server
+pnpm build          # Production build
+pnpm db:push        # Push Prisma schema changes to the database
+pnpm db:studio      # Open Prisma Studio (database browser)
 ```
