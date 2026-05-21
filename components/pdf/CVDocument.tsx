@@ -3,7 +3,7 @@ import type { CV } from "@/lib/schemas";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import PersonalInfoBlock from "./sections/PersonalInfoBlock";
 import SectionBlock from "./sections/SectionBlock";
-import SectionTitle from "./shared/SectionTitle";
+import Section from "./shared/Section";
 import { styles } from "./styles";
 
 export default function CVDocument({ cv }: { cv: CV }) {
@@ -42,12 +42,9 @@ export default function CVDocument({ cv }: { cv: CV }) {
           <View style={styles.content}>
             {/* Summary/profile section */}
             {cv.summary && (
-              <View>
-                <SectionTitle title="Profiel" first />
-                <View style={styles.sectionWrapper}>
-                  <Text style={styles.bodyText}>{cv.summary}</Text>
-                </View>
-              </View>
+              <Section title="Profiel" first>
+                <Text style={styles.bodyText}>{cv.summary}</Text>
+              </Section>
             )}
 
             {/* Main sections: education, experience, projects */}

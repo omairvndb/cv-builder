@@ -2,7 +2,7 @@ import { View, Text, Link } from "@react-pdf/renderer";
 import type { CV } from "@/lib/schemas";
 import { styles } from "../styles";
 import { stripProtocol } from "@/lib/utils";
-import SectionTitle from "../shared/SectionTitle";
+import Section from "../shared/Section";
 import { PdfIcon } from "../shared/PdfIcon";
 import { PDF_ICONS } from "@/lib/pdf-icons";
 
@@ -31,22 +31,19 @@ function buildRows(cv: CV): InfoRow[] {
 
 export default function PersonalInfoBlock({ cv }: { cv: CV }) {
   return (
-    <View>
-      <SectionTitle title="Persoonlijke Info" sidebar first />
-      <View style={styles.sectionWrapperDense}>
-        {buildRows(cv).map((row, i) => (
-          <View key={i} style={styles.infoRow}>
-            <PdfIcon d={row.icon} />
-            {row.href ? (
-              <Link src={row.href} style={styles.infoText}>
-                {row.label}
-              </Link>
-            ) : (
-              <Text style={styles.infoText}>{row.label}</Text>
-            )}
-          </View>
-        ))}
-      </View>
-    </View>
+    <Section title="Persoonlijke Info" sidebar first dense>
+      {buildRows(cv).map((row, i) => (
+        <View key={i} style={styles.infoRow}>
+          <PdfIcon d={row.icon} />
+          {row.href ? (
+            <Link src={row.href} style={styles.infoText}>
+              {row.label}
+            </Link>
+          ) : (
+            <Text style={styles.infoText}>{row.label}</Text>
+          )}
+        </View>
+      ))}
+    </Section>
   );
 }
