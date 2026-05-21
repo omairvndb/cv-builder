@@ -50,6 +50,7 @@ Personal info is fixed at the top of the editor. All other sections can be toggl
 | Projects       | Title, description, tech stack, link, bullet points                                                      |
 | Languages      | Language name and proficiency level                                                                      |
 | Certifications | Name, issuer, date                                                                                       |
+| References     | Name, role, company, email, phone, quote                                                                 |
 
 ### Drag and Drop
 
@@ -61,7 +62,7 @@ Personal info is fixed at the top of the editor. All other sections can be toggl
 
 A4 two-column layout:
 
-- **Left sidebar**: contact info with icons, skills by category, languages, certifications
+- **Left sidebar**: contact info with icons, skills by category, languages, certifications, references
 - **Right main area**: name and title at the top, followed by summary, education, experience, and projects
 
 ---
@@ -119,7 +120,7 @@ When CV data changes and the PDF regenerates, the preview panel captures the cur
 
 ### Drag and drop
 
-Sections are split into two independently sortable groups: Sidebar (Skills, Languages, Certifications) and Main (Experience, Education, Projects). Each group uses `@dnd-kit/react` with a `useSortable` hook per item. The accordion for a section collapses during a drag to prevent visual jitter from height changes mid-gesture.
+Sections are split into two independently sortable groups: Sidebar (Skills, Languages, Certifications, References) and Main (Experience, Education, Projects). Each group uses `@dnd-kit/react` with a `useSortable` hook per item. The accordion for a section collapses during a drag to prevent visual jitter from height changes mid-gesture.
 
 Items within a section reuse the same pattern via a small `SortableItems` wrapper, with a grab handle on the left of each item card. The handle is hidden when the section only contains a single item (nothing to reorder).
 
