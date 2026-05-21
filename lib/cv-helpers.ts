@@ -2,7 +2,12 @@ import type { CV, Section, SectionItem, SectionItemData, SectionType } from "@/l
 
 export type SectionLayout = "sidebar" | "main";
 
-const SIDEBAR_TYPES: ReadonlySet<SectionType> = new Set(["SKILLS", "LANGUAGES", "CERTIFICATIONS"]);
+const SIDEBAR_TYPES: ReadonlySet<SectionType> = new Set([
+  "SKILLS",
+  "LANGUAGES",
+  "CERTIFICATIONS",
+  "REFERENCES",
+]);
 
 export function getSectionLayout(type: SectionType): SectionLayout {
   return SIDEBAR_TYPES.has(type) ? "sidebar" : "main";
@@ -89,6 +94,7 @@ const BLANK_SECTIONS: { type: SectionType; title: string }[] = [
   { type: "PROJECTS", title: "Projects" },
   { type: "LANGUAGES", title: "Languages" },
   { type: "CERTIFICATIONS", title: "Certifications" },
+  { type: "REFERENCES", title: "References" },
 ];
 
 export function createBlankCV(presetId: string): CV {
