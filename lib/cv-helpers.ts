@@ -71,6 +71,20 @@ export function addSectionItem(cv: CV, sectionId: string, data: SectionItemData)
   });
 }
 
+export function addSectionItems(cv: CV, sectionId: string, datas: SectionItemData[]): CV {
+  if (datas.length === 0) return cv;
+  return updateSection(cv, sectionId, (s) => {
+    const normalized = normalizeSectionItems(s.items);
+    const appended = datas.map((data, idx) => ({
+      id: crypto.randomUUID(),
+      sectionId,
+      order: normalized.length + idx,
+      data,
+    }));
+    return { ...s, items: [...normalized, ...appended] };
+  });
+}
+
 export function removeSectionItem(cv: CV, sectionId: string, itemId: string): CV {
   return updateSection(cv, sectionId, (s) => {
     const remaining = s.items.filter((i) => i.id !== itemId);
