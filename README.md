@@ -26,7 +26,7 @@ This is a purpose-built personal tool: one layout, one workflow, built for one p
   - `Cmd+-` / `Ctrl+-` to zoom out, `Cmd+=` / `Ctrl+=` to zoom in, `Cmd+0` / `Ctrl+0` to reset zoom
 - **Zoom controls**: scale the PDF preview from 60% to 160%
 - **PDF export**: download the CV as a PDF
-- **Add item dialog**: new items in any section are created through a dialog; fill in the form first, then confirm to add, or cancel to discard
+- **Add item dialog**: new items in any section are created through a dialog with two tabs: **Blank** to fill in a new item from scratch, or **Copy from presets** to multi-select existing items from another preset (matched on section type) and copy them into the current one; new IDs are generated for the copies so the source preset stays untouched
 
 ### Presets
 
