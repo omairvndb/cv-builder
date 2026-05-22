@@ -1,9 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { emptyEducation, type CV, type Section, type EducationData } from "@/lib/schemas";
+import {
+  emptyEducation,
+  type CV,
+  type EducationData,
+  type Preset,
+  type Section,
+} from "@/lib/schemas";
 import {
   addSectionItem,
+  addSectionItems,
   isItemDirty,
   removeSectionItem,
   reorderSectionItems,
@@ -20,9 +27,23 @@ import BulletListEditor from "../shared/BulletListEditor";
 import AddItemDialog from "../shared/AddItemDialog";
 import SortableItems from "../shared/SortableItems";
 
-type Props = { cv: CV; section: Section; savedSection: Section | null; onUpdate: (cv: CV) => void };
+type Props = {
+  cv: CV;
+  section: Section;
+  savedSection: Section | null;
+  onUpdate: (cv: CV) => void;
+  presets: Preset[];
+  activePresetId: string;
+};
 
-export default function EducationSection({ cv, section, savedSection, onUpdate }: Props) {
+export default function EducationSection({
+  cv,
+  section,
+  savedSection,
+  onUpdate,
+  presets,
+  activePresetId,
+}: Props) {
   const items = sortByOrder(section.items);
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<EducationData>(emptyEducation);
@@ -66,6 +87,12 @@ export default function EducationSection({ cv, section, savedSection, onUpdate }
         open={open}
         onOpenChange={setOpen}
         onConfirm={() => onUpdate(addSectionItem(cv, section.id, draft))}
+        copy={{
+          presets,
+          currentPresetId: activePresetId,
+          sectionType: section.type,
+          onCopy: (datas) => onUpdate(addSectionItems(cv, section.id, datas)),
+        }}
       >
         <EducationFields data={draft} onChange={setDraft} />
       </AddItemDialog>

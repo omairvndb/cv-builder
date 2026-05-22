@@ -1,9 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { emptyExperience, type CV, type Section, type ExperienceData } from "@/lib/schemas";
+import {
+  emptyExperience,
+  type CV,
+  type ExperienceData,
+  type Preset,
+  type Section,
+} from "@/lib/schemas";
 import {
   addSectionItem,
+  addSectionItems,
   isItemDirty,
   removeSectionItem,
   reorderSectionItems,
@@ -21,9 +28,23 @@ import TagInput from "../shared/TagInput";
 import AddItemDialog from "../shared/AddItemDialog";
 import SortableItems from "../shared/SortableItems";
 
-type Props = { cv: CV; section: Section; savedSection: Section | null; onUpdate: (cv: CV) => void };
+type Props = {
+  cv: CV;
+  section: Section;
+  savedSection: Section | null;
+  onUpdate: (cv: CV) => void;
+  presets: Preset[];
+  activePresetId: string;
+};
 
-export default function ExperienceSection({ cv, section, savedSection, onUpdate }: Props) {
+export default function ExperienceSection({
+  cv,
+  section,
+  savedSection,
+  onUpdate,
+  presets,
+  activePresetId,
+}: Props) {
   const items = sortByOrder(section.items);
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<ExperienceData>(emptyExperience);
@@ -67,6 +88,12 @@ export default function ExperienceSection({ cv, section, savedSection, onUpdate 
         open={open}
         onOpenChange={setOpen}
         onConfirm={() => onUpdate(addSectionItem(cv, section.id, draft))}
+        copy={{
+          presets,
+          currentPresetId: activePresetId,
+          sectionType: section.type,
+          onCopy: (datas) => onUpdate(addSectionItems(cv, section.id, datas)),
+        }}
       >
         <ExperienceFields data={draft} onChange={setDraft} />
       </AddItemDialog>

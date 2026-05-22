@@ -1,6 +1,6 @@
 "use client";
 
-import type { CV, Section } from "@/lib/schemas";
+import type { CV, Preset, Section } from "@/lib/schemas";
 import ExperienceSection from "./ExperienceSection";
 import EducationSection from "./EducationSection";
 import SkillsSection from "./SkillsSection";
@@ -9,75 +9,30 @@ import LanguagesSection from "./LanguagesSection";
 import CertificationsSection from "./CertificationsSection";
 import ReferencesSection from "./ReferencesSection";
 
-export default function SectionEditor({
-  cv,
-  section,
-  savedSection,
-  onUpdate,
-}: {
+type Props = {
   cv: CV;
   section: Section;
   savedSection: Section | null;
   onUpdate: (cv: CV) => void;
-}) {
-  switch (section.type) {
+  presets: Preset[];
+  activePresetId: string;
+};
+
+export default function SectionEditor(props: Props) {
+  switch (props.section.type) {
     case "EXPERIENCE":
-      return (
-        <ExperienceSection
-          cv={cv}
-          section={section}
-          savedSection={savedSection}
-          onUpdate={onUpdate}
-        />
-      );
+      return <ExperienceSection {...props} />;
     case "EDUCATION":
-      return (
-        <EducationSection
-          cv={cv}
-          section={section}
-          savedSection={savedSection}
-          onUpdate={onUpdate}
-        />
-      );
+      return <EducationSection {...props} />;
     case "SKILLS":
-      return (
-        <SkillsSection cv={cv} section={section} savedSection={savedSection} onUpdate={onUpdate} />
-      );
+      return <SkillsSection {...props} />;
     case "PROJECTS":
-      return (
-        <ProjectsSection
-          cv={cv}
-          section={section}
-          savedSection={savedSection}
-          onUpdate={onUpdate}
-        />
-      );
+      return <ProjectsSection {...props} />;
     case "LANGUAGES":
-      return (
-        <LanguagesSection
-          cv={cv}
-          section={section}
-          savedSection={savedSection}
-          onUpdate={onUpdate}
-        />
-      );
+      return <LanguagesSection {...props} />;
     case "CERTIFICATIONS":
-      return (
-        <CertificationsSection
-          cv={cv}
-          section={section}
-          savedSection={savedSection}
-          onUpdate={onUpdate}
-        />
-      );
+      return <CertificationsSection {...props} />;
     case "REFERENCES":
-      return (
-        <ReferencesSection
-          cv={cv}
-          section={section}
-          savedSection={savedSection}
-          onUpdate={onUpdate}
-        />
-      );
+      return <ReferencesSection {...props} />;
   }
 }

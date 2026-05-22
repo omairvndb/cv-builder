@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { reorderSections, updateSection } from "@/lib/cv-helpers";
-import type { CV, Section } from "@/lib/schemas";
+import type { CV, Preset, Section } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import { move } from "@dnd-kit/helpers";
 import { DragDropProvider, DragOverlay, useDragOperation, type DragEndEvent } from "@dnd-kit/react";
@@ -22,6 +22,8 @@ type SectionGroupProps = {
   cv: CV;
   savedCV: CV | null;
   onUpdate: (cv: CV) => void;
+  presets: Preset[];
+  activePresetId: string;
 };
 
 type SortableSectionItemProps = {
@@ -30,6 +32,8 @@ type SortableSectionItemProps = {
   index: number;
   savedCV: CV | null;
   onUpdate: (cv: CV) => void;
+  presets: Preset[];
+  activePresetId: string;
 };
 
 export default function SectionGroup({
@@ -38,6 +42,8 @@ export default function SectionGroup({
   cv,
   savedCV,
   onUpdate,
+  presets,
+  activePresetId,
 }: SectionGroupProps) {
   const sectionIds = sections.map((s) => s.id);
   const [isDragging, setIsDragging] = useState(false);
@@ -65,6 +71,8 @@ export default function SectionGroup({
               index={index}
               savedCV={savedCV}
               onUpdate={onUpdate}
+              presets={presets}
+              activePresetId={activePresetId}
             />
           ))}
         </Accordion>
@@ -81,7 +89,15 @@ export default function SectionGroup({
   );
 }
 
-function SortableSectionItem({ cv, section, index, savedCV, onUpdate }: SortableSectionItemProps) {
+function SortableSectionItem({
+  cv,
+  section,
+  index,
+  savedCV,
+  onUpdate,
+  presets,
+  activePresetId,
+}: SortableSectionItemProps) {
   const { ref, handleRef, isDragSource } = useSortable({
     id: section.id,
     index,
@@ -145,6 +161,8 @@ function SortableSectionItem({ cv, section, index, savedCV, onUpdate }: Sortable
               section={section}
               savedSection={savedSection}
               onUpdate={onUpdate}
+              presets={presets}
+              activePresetId={activePresetId}
             />
           </AccordionContent>
         )}

@@ -200,7 +200,13 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
   return (
     <>
       <div className="flex flex-1 overflow-hidden">
-        <EditorPanel cv={activeCV} savedCV={previewCV} onUpdate={handleUpdateCV} />
+        <EditorPanel
+          cv={activeCV}
+          savedCV={previewCV}
+          onUpdate={handleUpdateCV}
+          presets={presets}
+          activePresetId={activePresetId}
+        />
         <PreviewPanel
           cv={previewCV}
           presets={presets}

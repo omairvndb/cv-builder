@@ -1,6 +1,6 @@
 "use client";
 
-import type { CV } from "@/lib/schemas";
+import type { CV, Preset } from "@/lib/schemas";
 import { getSectionLayout, sortByOrder } from "@/lib/cv-helpers";
 import {
   Accordion,
@@ -21,10 +21,14 @@ export default function EditorPanel({
   cv,
   savedCV,
   onUpdate,
+  presets,
+  activePresetId,
 }: {
   cv: CV;
   savedCV: CV | null;
   onUpdate: (cv: CV) => void;
+  presets: Preset[];
+  activePresetId: string;
 }) {
   const { resolvedTheme, setTheme } = useTheme();
 
@@ -77,6 +81,8 @@ export default function EditorPanel({
           cv={cv}
           savedCV={savedCV}
           onUpdate={onUpdate}
+          presets={presets}
+          activePresetId={activePresetId}
         />
         <SectionGroup
           label="Main"
@@ -84,6 +90,8 @@ export default function EditorPanel({
           cv={cv}
           savedCV={savedCV}
           onUpdate={onUpdate}
+          presets={presets}
+          activePresetId={activePresetId}
         />
       </div>
     </div>

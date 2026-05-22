@@ -5,13 +5,20 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
   addSectionItem,
+  addSectionItems,
   isItemDirty,
   removeSectionItem,
   reorderSectionItems,
   sortByOrder,
   updateSectionItem,
 } from "@/lib/cv-helpers";
-import { emptyReference, type CV, type ReferencesData, type Section } from "@/lib/schemas";
+import {
+  emptyReference,
+  type CV,
+  type Preset,
+  type ReferencesData,
+  type Section,
+} from "@/lib/schemas";
 import { PlusIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import AddItemDialog from "../shared/AddItemDialog";
@@ -19,9 +26,23 @@ import FormField from "../shared/FormField";
 import ItemBlock from "../shared/ItemBlock";
 import SortableItems from "../shared/SortableItems";
 
-type Props = { cv: CV; section: Section; savedSection: Section | null; onUpdate: (cv: CV) => void };
+type Props = {
+  cv: CV;
+  section: Section;
+  savedSection: Section | null;
+  onUpdate: (cv: CV) => void;
+  presets: Preset[];
+  activePresetId: string;
+};
 
-export default function ReferencesSection({ cv, section, savedSection, onUpdate }: Props) {
+export default function ReferencesSection({
+  cv,
+  section,
+  savedSection,
+  onUpdate,
+  presets,
+  activePresetId,
+}: Props) {
   const items = sortByOrder(section.items);
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<ReferencesData>(emptyReference);
@@ -65,6 +86,12 @@ export default function ReferencesSection({ cv, section, savedSection, onUpdate 
         open={open}
         onOpenChange={setOpen}
         onConfirm={() => onUpdate(addSectionItem(cv, section.id, draft))}
+        copy={{
+          presets,
+          currentPresetId: activePresetId,
+          sectionType: section.type,
+          onCopy: (datas) => onUpdate(addSectionItems(cv, section.id, datas)),
+        }}
       >
         <ReferenceFields data={draft} onChange={setDraft} />
       </AddItemDialog>
