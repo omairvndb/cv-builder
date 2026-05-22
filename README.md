@@ -148,6 +148,7 @@ Switching presets replaces both `activeCV` and `previewCV` entirely, resetting d
 - **Click-to-jump from preview to editor**: clicking a section, item, or bullet in the PDF preview scrolls the editor panel to that section and opens its accordion, so editing the thing you're looking at takes one click instead of a hunt
 - **Custom sections**: add freeform sections with a custom title for anything not covered by the built-in types
 - **One-click translation**: translate the active CV from Dutch to English via the DeepL API, saved automatically as a new preset with a language suffix
+- **Switch PDF layout**: pick from multiple visual templates per preset (the data shape stays the same, only the PDF tree under `/components/pdf/` swaps); today there is one template
 
 ---
 
