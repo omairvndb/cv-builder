@@ -27,6 +27,7 @@ This is a purpose-built personal tool: one layout, one workflow, built for one p
 - **Zoom controls**: scale the PDF preview from 60% to 160%
 - **PDF export**: download the CV as a PDF
 - **Add item dialog**: new items in any section are created through a dialog with two tabs: **Blank** to fill in a new item from scratch, or **Copy from presets** to multi-select existing items from another preset (matched on section type) and copy them into the current one; new IDs are generated for the copies so the source preset stays untouched
+- **Inline bold**: wrap words in `**double asterisks**` inside the summary, any description (experience, education, projects), or any bullet to render them bold in the PDF, useful for emphasising a key technology or achievement mid-sentence
 
 ### Presets
 

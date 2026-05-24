@@ -3,6 +3,7 @@ import type { CV } from "@/lib/schemas";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import PersonalInfoBlock from "./sections/PersonalInfoBlock";
 import SectionBlock from "./sections/SectionBlock";
+import { renderInlineBold } from "./shared/RichText";
 import Section from "./shared/Section";
 import { styles } from "./styles";
 
@@ -43,7 +44,7 @@ export default function CVDocument({ cv }: { cv: CV }) {
             {/* Summary/profile section */}
             {cv.summary && (
               <Section title="Profiel" first>
-                <Text style={styles.bodyText}>{cv.summary}</Text>
+                <Text style={styles.bodyText}>{renderInlineBold(cv.summary)}</Text>
               </Section>
             )}
 
