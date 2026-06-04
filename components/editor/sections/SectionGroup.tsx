@@ -24,6 +24,8 @@ type SectionGroupProps = {
   onUpdate: (cv: CV) => void;
   presets: Preset[];
   activePresetId: string;
+  openItems: string[];
+  onOpenItemsChange: (v: string[]) => void;
 };
 
 type SortableSectionItemProps = {
@@ -44,10 +46,11 @@ export default function SectionGroup({
   onUpdate,
   presets,
   activePresetId,
+  openItems,
+  onOpenItemsChange,
 }: SectionGroupProps) {
   const sectionIds = sections.map((s) => s.id);
   const [isDragging, setIsDragging] = useState(false);
-  const [openItems, setOpenItems] = useState<string[]>([]);
   const accordionValue = isDragging ? [] : openItems;
 
   function handleDragEnd(event: DragEndEvent) {
@@ -62,7 +65,7 @@ export default function SectionGroup({
     <div className="space-y-2">
       <h2 className="text-xs font-medium uppercase tracking-wide">{label}</h2>
       <DragDropProvider onDragStart={() => setIsDragging(true)} onDragEnd={handleDragEnd}>
-        <Accordion type="multiple" value={accordionValue} onValueChange={setOpenItems}>
+        <Accordion type="multiple" value={accordionValue} onValueChange={onOpenItemsChange}>
           {sections.map((section, index) => (
             <SortableSectionItem
               key={section.id}

@@ -8,8 +8,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { MoonIcon, SunIcon } from "@phosphor-icons/react";
+import { ArrowsInSimpleIcon, MoonIcon, SunIcon } from "@phosphor-icons/react";
 import { useTheme } from "next-themes";
+import { useState } from "react";
 import PersonalInfoSection from "./sections/PersonalInfoSection";
 import SectionGroup from "./sections/SectionGroup";
 import { Button } from "../ui/button";
@@ -31,6 +32,9 @@ export default function EditorPanel({
   activePresetId: string;
 }) {
   const { resolvedTheme, setTheme } = useTheme();
+  const [personalInfoOpen, setPersonalInfoOpen] = useState<string[]>([]);
+  const [sidebarOpen, setSidebarOpen] = useState<string[]>([]);
+  const [mainOpen, setMainOpen] = useState<string[]>([]);
 
   const sortedSections = sortByOrder(cv.sections);
   const sidebarSections = sortedSections.filter((s) => getSectionLayout(s.type) === "sidebar");
@@ -43,22 +47,39 @@ export default function EditorPanel({
     <div className="w-105 shrink-0 border-r flex flex-col">
       {/* Header Bar */}
       <div className="border-b p-3">
-        {/* Theme toggle */}
-        <Button
-          variant="outline"
-          size="icon"
-          type="button"
-          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-        >
-          <SunIcon className="hidden dark:block" />
-          <MoonIcon className="block dark:hidden" />
-        </Button>
+        <div className="flex gap-2">
+          {/* Theme toggle */}
+          <Button
+            variant="outline"
+            size="icon"
+            type="button"
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+          >
+            <SunIcon className="hidden dark:block" />
+            <MoonIcon className="block dark:hidden" />
+          </Button>
+
+          {/* Collapse all dropdowns */}
+          <Button
+            variant="outline"
+            size="icon"
+            type="button"
+            aria-label="Collapse all sections"
+            onClick={() => {
+              setPersonalInfoOpen([]);
+              setSidebarOpen([]);
+              setMainOpen([]);
+            }}
+          >
+            <ArrowsInSimpleIcon />
+          </Button>
+        </div>
       </div>
 
       {/* Editor Content */}
       <div className="p-4 space-y-6 overflow-y-auto flex-1">
         {/* Personal Info */}
-        <Accordion type="multiple">
+        <Accordion type="multiple" value={personalInfoOpen} onValueChange={setPersonalInfoOpen}>
           <AccordionItem value="personal-info">
             <AccordionTrigger>
               <span className="flex items-center gap-2">
@@ -83,6 +104,8 @@ export default function EditorPanel({
           onUpdate={onUpdate}
           presets={presets}
           activePresetId={activePresetId}
+          openItems={sidebarOpen}
+          onOpenItemsChange={setSidebarOpen}
         />
         <SectionGroup
           label="Main"
@@ -92,6 +115,8 @@ export default function EditorPanel({
           onUpdate={onUpdate}
           presets={presets}
           activePresetId={activePresetId}
+          openItems={mainOpen}
+          onOpenItemsChange={setMainOpen}
         />
       </div>
     </div>
