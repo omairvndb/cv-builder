@@ -40,7 +40,7 @@ export default function EditorPanel({
     JSON.stringify(metaFields(cv)) !== JSON.stringify(metaFields(savedCV ?? cv));
 
   return (
-    <div className="w-105 shrink-0 border-r overflow-y-auto">
+    <div className="w-105 shrink-0 border-r flex flex-col">
       {/* Header Bar */}
       <div className="border-b p-3">
         {/* Theme toggle */}
@@ -56,7 +56,7 @@ export default function EditorPanel({
       </div>
 
       {/* Editor Content */}
-      <div className="p-4 space-y-6">
+      <div className="p-4 space-y-6 overflow-y-auto flex-1">
         {/* Personal Info */}
         <Accordion type="multiple">
           <AccordionItem value="personal-info">
