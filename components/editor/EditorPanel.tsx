@@ -14,6 +14,7 @@ import { useState } from "react";
 import PersonalInfoSection from "./sections/PersonalInfoSection";
 import SectionGroup from "./sections/SectionGroup";
 import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const metaFields = (cv: CV) =>
   Object.fromEntries(Object.entries(cv).filter(([k]) => k !== "sections"));
@@ -49,30 +50,41 @@ export default function EditorPanel({
       <div className="border-b p-3">
         <div className="flex gap-2">
           {/* Theme toggle */}
-          <Button
-            variant="outline"
-            size="icon"
-            type="button"
-            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-          >
-            <SunIcon className="hidden dark:block" />
-            <MoonIcon className="block dark:hidden" />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                type="button"
+                aria-label="Toggle theme"
+                onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+              >
+                <SunIcon className="hidden dark:block" />
+                <MoonIcon className="block dark:hidden" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Toggle theme</TooltipContent>
+          </Tooltip>
 
-          {/* Collapse all dropdowns */}
-          <Button
-            variant="outline"
-            size="icon"
-            type="button"
-            aria-label="Collapse all sections"
-            onClick={() => {
-              setPersonalInfoOpen([]);
-              setSidebarOpen([]);
-              setMainOpen([]);
-            }}
-          >
-            <ArrowsInSimpleIcon />
-          </Button>
+          {/* Collapse all */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                type="button"
+                aria-label="Collapse all sections"
+                onClick={() => {
+                  setPersonalInfoOpen([]);
+                  setSidebarOpen([]);
+                  setMainOpen([]);
+                }}
+              >
+                <ArrowsInSimpleIcon />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Collapse all sections</TooltipContent>
+          </Tooltip>
         </div>
       </div>
 
