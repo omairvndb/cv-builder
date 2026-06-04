@@ -165,6 +165,7 @@ export default function PresetDropdownMenu({
         title={`Delete “${activePreset?.name}”?`}
         description="This action cannot be undone."
         confirmLabel="Delete"
+        loadingLabel="Deleting"
         onConfirm={onDelete}
         loading={isDeleting}
       />
@@ -176,6 +177,7 @@ export default function PresetDropdownMenu({
         title={`Duplicate “${activePreset?.name}”?`}
         description={`A copy will be created as “${copyName}”.`}
         confirmLabel="Duplicate"
+        loadingLabel="Duplicating"
         confirmVariant="default"
         onConfirm={duplicatePreset}
         loading={isDuplicating}

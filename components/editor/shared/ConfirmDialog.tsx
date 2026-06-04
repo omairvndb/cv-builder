@@ -18,6 +18,8 @@ export type ConfirmDialogProps = {
   title: string;
   description?: string;
   confirmLabel: string;
+  /** Label shown on the confirm button while `loading`. Defaults to `confirmLabel`. */
+  loadingLabel?: string;
   confirmVariant?: React.ComponentProps<typeof AlertDialogAction>["variant"];
   loading?: boolean;
 };
@@ -30,6 +32,7 @@ export default function ConfirmDialog({
   title,
   description,
   confirmLabel,
+  loadingLabel,
   confirmVariant = "destructive",
   loading,
 }: ConfirmDialogProps) {
@@ -58,7 +61,7 @@ export default function ConfirmDialog({
               }
             }}
           >
-            {loading ? `${confirmLabel}…` : confirmLabel}
+            {loading ? `${loadingLabel ?? confirmLabel}…` : confirmLabel}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
