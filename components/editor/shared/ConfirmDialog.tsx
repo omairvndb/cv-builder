@@ -14,7 +14,7 @@ export type ConfirmDialogProps = {
   trigger?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
   title: string;
   description?: string;
   confirmLabel: string;
@@ -51,7 +51,11 @@ export default function ConfirmDialog({
                 e.preventDefault();
                 return;
               }
-              onConfirm();
+              const result = onConfirm();
+              if (result instanceof Promise) {
+                e.preventDefault(); // stay open until the async action settles
+                result.finally(() => onOpenChange?.(false));
+              }
             }}
           >
             {loading ? `${confirmLabel}…` : confirmLabel}

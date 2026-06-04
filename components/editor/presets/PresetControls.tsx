@@ -33,6 +33,7 @@ export default function PresetControls({
         presets={presets}
         activePresetId={activePresetId}
         onSwitch={onSwitch}
+        onCreate={onCreate}
         onRename={onRename}
         onToggleDefault={onToggleDefault}
         onDelete={onDelete}
