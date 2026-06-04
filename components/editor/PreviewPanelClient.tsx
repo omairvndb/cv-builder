@@ -13,8 +13,8 @@ import {
   ArrowFatLineDownIcon,
   CheckIcon,
   ExportIcon,
-  MagnifyingGlassMinusIcon,
-  MagnifyingGlassPlusIcon,
+  MinusIcon,
+  PlusIcon,
   WarningCircleIcon,
 } from "@phosphor-icons/react";
 import { usePDF } from "@react-pdf/renderer";
@@ -366,7 +366,7 @@ function ZoomControls({ scale, onZoomOut, onZoomIn, onZoomReset }: ZoomControlsP
             disabled={scale <= MIN_SCALE}
             aria-label="Zoom out preview"
           >
-            <MagnifyingGlassMinusIcon />
+            <MinusIcon />
           </Button>
         </TooltipTrigger>
         <TooltipContent>
@@ -384,7 +384,7 @@ function ZoomControls({ scale, onZoomOut, onZoomIn, onZoomReset }: ZoomControlsP
             disabled={scale >= MAX_SCALE}
             aria-label="Zoom in preview"
           >
-            <MagnifyingGlassPlusIcon />
+            <PlusIcon />
           </Button>
         </TooltipTrigger>
         <TooltipContent>
