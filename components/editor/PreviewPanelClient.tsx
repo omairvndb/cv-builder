@@ -10,6 +10,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { getOrderSignature } from "@/lib/cv-helpers";
 import type { CV, NewPresetCreateArgs, Preset } from "@/lib/schemas";
 import {
+  ArrowCounterClockwiseIcon,
   ArrowFatLineDownIcon,
   CheckIcon,
   ExportIcon,
@@ -41,6 +42,7 @@ export type PreviewPanelClientProps = {
   saveStatus: SaveStatus;
   isDirty: boolean;
   onSave: () => Promise<boolean>;
+  onRevert: () => void;
   onSwitchPreset: (presetId: string) => void;
   onCreatePreset: (args: NewPresetCreateArgs) => Promise<void>;
   onRenamePreset: (name: string) => void;
@@ -56,6 +58,7 @@ export default function PreviewPanelClient({
   saveStatus,
   isDirty,
   onSave,
+  onRevert,
   onSwitchPreset,
   onCreatePreset,
   onRenamePreset,
@@ -243,6 +246,24 @@ export default function PreviewPanelClient({
               <CheckIcon />
               Saved
             </Badge>
+          )}
+
+          {isDirty && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="outline"
+                  onClick={onRevert}
+                  disabled={saveStatus === "saving"}
+                  aria-label="Revert to saved"
+                >
+                  <ArrowCounterClockwiseIcon />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Revert to saved</TooltipContent>
+            </Tooltip>
           )}
 
           {isDirty && (

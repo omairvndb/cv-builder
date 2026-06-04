@@ -214,6 +214,7 @@ export default function EditorClient({ initialPresets }: { initialPresets: Prese
           saveStatus={saveStatus}
           isDirty={isDirty}
           onSave={handleSave}
+          onRevert={() => handleUpdateCV(previewCV)}
           onSwitchPreset={handleSwitchPreset}
           onCreatePreset={handleCreatePreset}
           onRenamePreset={handleRenamePreset}
