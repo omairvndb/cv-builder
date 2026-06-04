@@ -94,14 +94,16 @@ export default function PresetDropdownMenu({
         <DropdownMenuContent className="min-w-56">
           <DropdownMenuGroup>
             <DropdownMenuLabel>Select preset</DropdownMenuLabel>
-            <DropdownMenuRadioGroup value={activePresetId} onValueChange={onSwitch}>
-              {presets.map((preset) => (
-                <DropdownMenuRadioItem key={preset.id} value={preset.id}>
-                  <span className="truncate">{preset.name}</span>
-                  {preset.isDefault && <AsteriskSimpleIcon weight="fill" />}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
+            <div className="max-h-64 overflow-y-auto">
+              <DropdownMenuRadioGroup value={activePresetId} onValueChange={onSwitch}>
+                {presets.map((preset) => (
+                  <DropdownMenuRadioItem key={preset.id} value={preset.id}>
+                    <span className="truncate">{preset.name}</span>
+                    {preset.isDefault && <AsteriskSimpleIcon weight="fill" />}
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </div>
           </DropdownMenuGroup>
 
           <DropdownMenuSeparator />
