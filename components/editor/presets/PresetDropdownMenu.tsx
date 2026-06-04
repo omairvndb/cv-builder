@@ -152,7 +152,7 @@ export default function PresetDropdownMenu({
 
           <DropdownMenuGroup>
             <DropdownMenuItem variant="destructive" onSelect={() => setDeleteDialogOpen(true)}>
-              Delete
+              Delete Preset
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
