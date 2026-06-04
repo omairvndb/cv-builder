@@ -123,7 +123,7 @@ export default function PresetDropdownMenu({
         <DropdownMenuContent className="min-w-56">
           <DropdownMenuGroup>
             <DropdownMenuLabel>Select preset</DropdownMenuLabel>
-            <div className="max-h-64 overflow-y-auto">
+            <div className="max-h-48 overflow-y-auto">
               <DropdownMenuRadioGroup value={activePresetId} onValueChange={onSwitch}>
                 {presets.map((preset) => (
                   <DropdownMenuRadioItem key={preset.id} value={preset.id}>
