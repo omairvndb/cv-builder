@@ -40,7 +40,7 @@ export default function ExperienceBlock({
             {data.description && <Description text={data.description} />}
             <Bullets bullets={data.bullets ?? []} />
             {(data.techStack?.length ?? 0) > 0 && (
-              <Text style={styles.techText}>Technologieën: {data.techStack?.join(", ")}</Text>
+              <Text style={styles.techText}>Tech Stack: {data.techStack?.join(", ")}</Text>
             )}
           </Entry>
         );
