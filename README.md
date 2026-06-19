@@ -30,6 +30,7 @@ This is a purpose-built personal tool: one layout, one workflow, built for one p
 - **PDF export**: download the CV as a PDF
 - **Add item dialog**: new items in any section are created through a dialog with two tabs: **Blank** to fill in a new item from scratch, or **Copy from presets** to multi-select existing items from another preset (matched on section type) and copy them into the current one; new IDs are generated for the copies so the source preset stays untouched
 - **Inline bold**: wrap words in `**double asterisks**` inside the summary, any description (experience, education, projects), or any bullet to render them bold in the PDF, useful for emphasising a key technology or achievement mid-sentence
+- **Header language toggle**: a button in the editor header switches the PDF's structural labels (section titles, plus the Profile / Personal Info / driver's licence headings) between Dutch and English; the choice is saved per preset. Only the fixed labels translate, your typed content stays exactly as written
 
 ### Presets
 
@@ -150,7 +151,7 @@ Switching presets replaces both `activeCV` and `previewCV` entirely, resetting d
 
 - **Click-to-jump from preview to editor**: clicking a section, item, or bullet in the PDF preview scrolls the editor panel to that section and opens its accordion, so editing the thing you're looking at takes one click instead of a hunt
 - **Custom sections**: add freeform sections with a custom title for anything not covered by the built-in types
-- **One-click translation**: translate the active CV from Dutch to English via the DeepL API, saved automatically as a new preset with a language suffix
+- **One-click content translation**: the structural labels already switch language via the header toggle; this would also translate the free-text content (summary, descriptions, bullets) from Dutch to English via the DeepL API, saved automatically as a new preset with a language suffix
 - **Switch PDF layout**: pick from multiple visual templates per preset (the data shape stays the same, only the PDF tree under `/components/pdf/` swaps); today there is one template
 
 ---
