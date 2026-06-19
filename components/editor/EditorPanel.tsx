@@ -85,6 +85,22 @@ export default function EditorPanel({
             </TooltipTrigger>
             <TooltipContent>Collapse all sections</TooltipContent>
           </Tooltip>
+
+          {/* Translate button */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                type="button"
+                aria-label="Translate headers and labels"
+                onClick={() => onUpdate({ ...cv, language: cv.language === "NL" ? "EN" : "NL" })}
+              >
+                {cv.language}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Translate headers and labels</TooltipContent>
+          </Tooltip>
         </div>
       </div>
 

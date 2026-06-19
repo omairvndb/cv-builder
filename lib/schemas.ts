@@ -11,6 +11,9 @@ export const SectionTypeSchema = z.enum([
 ]);
 export type SectionType = z.infer<typeof SectionTypeSchema>;
 
+export const LanguageSchema = z.enum(["NL", "EN"]);
+export type Language = z.infer<typeof LanguageSchema>;
+
 export const ExperienceDataSchema = z.object({
   company: z.string().optional(),
   location: z.string().optional(),
@@ -106,6 +109,7 @@ export const CVSchema = z.object({
   driverLicense: z.string().optional(),
   dateOfBirth: z.string().optional(),
   summary: z.string().optional(),
+  language: LanguageSchema,
   sections: z.array(SectionSchema),
 });
 

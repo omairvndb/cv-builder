@@ -1,4 +1,5 @@
 import { getSectionLayout, sortByOrder } from "@/lib/cv-helpers";
+import { PDF_LABELS } from "@/lib/pdf-labels";
 import type { CV } from "@/lib/schemas";
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import PersonalInfoBlock from "./sections/PersonalInfoBlock";
@@ -18,6 +19,8 @@ export default function CVDocument({ cv }: { cv: CV }) {
     visibleSections.filter((s) => getSectionLayout(s.type) === "main")
   );
 
+  const lang = cv.language;
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -26,9 +29,9 @@ export default function CVDocument({ cv }: { cv: CV }) {
 
         {/* Sidebar content */}
         <View style={styles.sidebarContent}>
-          <PersonalInfoBlock cv={cv} />
+          <PersonalInfoBlock cv={cv} language={lang} />
           {sidebarSections.map((section) => (
-            <SectionBlock key={section.id} section={section} />
+            <SectionBlock key={section.id} section={section} language={lang} />
           ))}
         </View>
 
@@ -43,14 +46,19 @@ export default function CVDocument({ cv }: { cv: CV }) {
           <View style={styles.content}>
             {/* Summary/profile section */}
             {cv.summary && (
-              <Section title="Profiel" first>
+              <Section title={PDF_LABELS[lang].profile} first>
                 <Text style={styles.bodyText}>{renderInlineBold(cv.summary)}</Text>
               </Section>
             )}
 
             {/* Main sections: education, experience, projects */}
             {mainSections.map((section, idx) => (
-              <SectionBlock key={section.id} section={section} first={idx === 0 && !cv.summary} />
+              <SectionBlock
+                key={section.id}
+                section={section}
+                first={idx === 0 && !cv.summary}
+                language={lang}
+              />
             ))}
           </View>
         </View>

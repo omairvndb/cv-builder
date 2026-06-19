@@ -1,10 +1,11 @@
 import { View, Text, Link } from "@react-pdf/renderer";
-import type { CV } from "@/lib/schemas";
+import type { CV, Language } from "@/lib/schemas";
 import { styles } from "../styles";
 import { stripProtocol } from "@/lib/utils";
 import Section from "../shared/Section";
 import { PdfIcon } from "../shared/PdfIcon";
 import { PDF_ICONS } from "@/lib/pdf-icons";
+import { PDF_LABELS } from "@/lib/pdf-labels";
 
 type InfoRow = {
   icon: string;
@@ -12,7 +13,7 @@ type InfoRow = {
   href?: string;
 };
 
-function buildRows(cv: CV): InfoRow[] {
+function buildRows(cv: CV, language: Language): InfoRow[] {
   return [
     cv.email && { icon: PDF_ICONS.envelope, label: cv.email },
     cv.phone && { icon: PDF_ICONS.phone, label: cv.phone },
@@ -24,15 +25,18 @@ function buildRows(cv: CV): InfoRow[] {
     },
     cv.github && { icon: PDF_ICONS.github, label: stripProtocol(cv.github), href: cv.github },
     cv.website && { icon: PDF_ICONS.globe, label: stripProtocol(cv.website), href: cv.website },
-    cv.driverLicense && { icon: PDF_ICONS.car, label: `Rijbewijs: ${cv.driverLicense}` },
+    cv.driverLicense && {
+      icon: PDF_ICONS.car,
+      label: `${PDF_LABELS[language].driverLicense}: ${cv.driverLicense}`,
+    },
     cv.dateOfBirth && { icon: PDF_ICONS.calendar, label: cv.dateOfBirth },
   ].filter(Boolean) as InfoRow[];
 }
 
-export default function PersonalInfoBlock({ cv }: { cv: CV }) {
+export default function PersonalInfoBlock({ cv, language }: { cv: CV; language: Language }) {
   return (
-    <Section title="Persoonlijke Info" sidebar first dense>
-      {buildRows(cv).map((row, i) => (
+    <Section title={PDF_LABELS[language].personalInfo} sidebar first dense>
+      {buildRows(cv, language).map((row, i) => (
         <View key={i} style={styles.infoRow}>
           <PdfIcon d={row.icon} />
           {row.href ? (

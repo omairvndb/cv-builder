@@ -120,6 +120,7 @@ export function createBlankCV(presetId: string): CV {
     email: "",
     phone: "",
     location: "",
+    language: "NL",
     sections: BLANK_SECTIONS.map((s, order) => ({
       id: crypto.randomUUID(),
       cvId,

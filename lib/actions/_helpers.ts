@@ -25,6 +25,7 @@ export function mapCV(db: CVWithSections): CV {
     driverLicense: db.driverLicense ?? undefined,
     dateOfBirth: db.dateOfBirth ?? undefined,
     summary: db.summary ?? undefined,
+    language: db.language,
     sections: db.sections.map((s) => ({
       id: s.id,
       cvId: s.cvId,

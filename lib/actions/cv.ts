@@ -19,6 +19,7 @@ export async function saveCV(cv: CV): Promise<CV> {
     driverLicense: toNullable(cv.driverLicense),
     dateOfBirth: toNullable(cv.dateOfBirth),
     summary: toNullable(cv.summary),
+    language: cv.language,
   };
 
   const saved = await prisma.$transaction(async (tx) => {

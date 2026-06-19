@@ -1,4 +1,5 @@
-import type { Section } from "@/lib/schemas";
+import { PDF_LABELS } from "@/lib/pdf-labels";
+import type { Language, Section } from "@/lib/schemas";
 import CertificationsBlock from "./CertificationsBlock";
 import EducationBlock from "./EducationBlock";
 import ExperienceBlock from "./ExperienceBlock";
@@ -7,24 +8,16 @@ import ProjectsBlock from "./ProjectsBlock";
 import ReferencesBlock from "./ReferencesBlock";
 import SkillsBlock from "./SkillsBlock";
 
-const DUTCH_SECTION_TITLES = {
-  EDUCATION: "Opleiding",
-  EXPERIENCE: "Werkervaring",
-  SKILLS: "Technische vaardigheden",
-  PROJECTS: "Projecten",
-  LANGUAGES: "Talen",
-  CERTIFICATIONS: "Certificaten",
-  REFERENCES: "Referenties",
-} as const;
-
 export default function SectionBlock({
   section,
+  language,
   first = false,
 }: {
   section: Section;
+  language: Language;
   first?: boolean;
 }) {
-  const localised = { ...section, title: DUTCH_SECTION_TITLES[section.type] };
+  const localised = { ...section, title: PDF_LABELS[language].sectionTitles[section.type] };
   switch (section.type) {
     case "EXPERIENCE":
       return <ExperienceBlock section={localised} first={first} />;

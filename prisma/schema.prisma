@@ -22,6 +22,11 @@ enum SectionType {
   REFERENCES
 }
 
+enum Language {
+  NL
+  EN
+}
+
 model Preset {
   id        String   @id @default(cuid())
   name      String
@@ -46,6 +51,7 @@ model CV {
   driverLicense String?
   dateOfBirth   String?
   summary       String?
+  language      Language  @default(NL)
   sections      Section[]
 }
 
