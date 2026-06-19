@@ -10,8 +10,13 @@ import type {
   SkillsData,
 } from "@/lib/schemas";
 
+// Turns a section item into a short label.
+// Used by the "Copy from presets" tab to show a one-line preview of each item.
+
+/** A short label: primary line always set, secondary line optional. */
 export type ItemSummary = { primary: string; secondary?: string };
 
+/** Section type names shown in the UI. */
 export const FRIENDLY_TYPE: Record<SectionType, string> = {
   EXPERIENCE: "Experience",
   EDUCATION: "Education",
@@ -41,6 +46,10 @@ function fallbackPrimary(type: SectionType, primary: string): string {
   return primary || `Untitled ${FRIENDLY_TYPE[type].toLowerCase()}`;
 }
 
+/**
+ * Builds the label for one item, picking the right fields per type.
+ * Primary falls back to "Untitled <type>"; secondary is left out if empty.
+ */
 export function summarizeItem(type: SectionType, data: SectionItemData): ItemSummary {
   switch (type) {
     case "EXPERIENCE": {
